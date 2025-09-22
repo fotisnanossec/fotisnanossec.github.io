@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Response - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Incident Response</h1>
+            <p class="text-gray-600">Essential IR processes and procedures for SOC analysts</p>
+        </div>
+
+        <!-- IR Phases -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Incident Response Phases</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">NIST IR Framework</h3>
+                    <div class="space-y-3">
+                        <div class="bg-blue-100 p-3 rounded">
+                            <h4 class="font-semibold">1. Preparation</h4>
+                            <p class="text-sm">Tools, procedures, training</p>
+                        </div>
+                        <div class="bg-red-100 p-3 rounded">
+                            <h4 class="font-semibold">2. Detection & Analysis</h4>
+                            <p class="text-sm">Identify and classify incidents</p>
+                        </div>
+                        <div class="bg-orange-100 p-3 rounded">
+                            <h4 class="font-semibold">3. Containment, Eradication & Recovery</h4>
+                            <p class="text-sm">Stop, remove, restore</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded">
+                            <h4 class="font-semibold">4. Post-Incident Activity</h4>
+                            <p class="text-sm">Lessons learned, improvements</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Key Activities</h3>
+                    <div class="code-block">
+# Preparation
+- IR team formation
+- Playbook development
+- Tool deployment
+- Training & exercises
+
+# Detection
+- SIEM monitoring
+- Alert triage
+- Initial assessment
+- Classification
+
+# Containment
+- Isolate affected systems
+- Preserve evidence
+- Short/long-term containment
+
+# Recovery
+- System restoration
+- Monitoring validation
+- Business continuity
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Classification & Priority -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Incident Classification & Priority</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold text-red-600 mb-2">High Priority</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Data breach with PII</li>
+                            <li>• Critical system compromise</li>
+                            <li>• Active data exfiltration</li>
+                            <li>• Ransomware deployment</li>
+                            <li>• APT indicators</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-orange-600 mb-2">Medium Priority</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Malware detection</li>
+                            <li>• Unauthorized access</li>
+                            <li>• Policy violations</li>
+                            <li>• Phishing campaigns</li>
+                            <li>• DDoS attempts</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-yellow-600 mb-2">Low Priority</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Failed login attempts</li>
+                            <li>• Port scans</li>
+                            <li>• Spam emails</li>
+                            <li>• Minor policy violations</li>
+                            <li>• False positives</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h4 class="font-bold mb-2">Classification Factors:</h4>
+                    <div class="code-block">
+# Impact Assessment
+- Data sensitivity (PII, PHI, financial)
+- System criticality (production, DR)
+- Business impact (revenue, operations)
+- Regulatory requirements (GDPR, HIPAA)
+
+# Urgency Factors
+- Active exploitation
+- Lateral movement
+- Data at risk
+- Public exposure
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Initial Response -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Initial Response Steps</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">First Steps</h3>
+                    <ol class="text-sm space-y-2">
+                        <li><strong>1. Stay Calm</strong> - Don't panic or rush</li>
+                        <li><strong>2. Document Everything</strong> - Time, actions, observations</li>
+                        <li><strong>3. Assess Scope</strong> - What systems affected?</li>
+                        <li><strong>4. Preserve Evidence</strong> - Don't contaminate</li>
+                        <li><strong>5. Notify IR Team</strong> - Escalate appropriately</li>
+                        <li><strong>6. Begin Containment</strong> - Stop the bleeding</li>
+                    </ol>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Critical Questions</h3>
+                    <div class="code-block">
+# Initial Assessment
+- What type of incident?
+- When did it start?
+- How was it discovered?
+- What systems affected?
+- Any data involved?
+- Is it still active?
+
+# Immediate Actions
+- Can we contain it?
+- Who needs to know?
+- What evidence exists?
+- Legal implications?
+- Media concerns?
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Containment -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Containment Strategies</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Short-term Containment</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• Network isolation</li>
+                        <li>• Disable user accounts</li>
+                        <li>• Block malicious IPs</li>
+                        <li>• Quarantine systems</li>
+                        <li>• Stop malicious processes</li>
+                    </ul>
+                    <div class="code-block text-sm">
+# Network Isolation
+iptables -A INPUT -s malicious_ip -j DROP
+netsh advfirewall firewall add rule ...
+
+# Account Management  
+net user username /active:no
+passwd -l username
+
+# Process Management
+taskkill /f /im malware.exe
+kill -9 PID
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">Long-term Containment</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• Patch vulnerabilities</li>
+                        <li>• Deploy security updates</li>
+                        <li>• Harden configurations</li>
+                        <li>• Implement additional monitoring</li>
+                        <li>• Update security controls</li>
+                    </ul>
+                    <div class="bg-orange-50 p-3 rounded text-sm">
+                        <strong>Goal:</strong> Prevent reoccurrence while maintaining business operations
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evidence Preservation -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Digital Evidence Preservation</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Evidence Types</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Disk images</li>
+                            <li>• Memory dumps</li>
+                            <li>• Network captures</li>
+                            <li>• Log files</li>
+                            <li>• System snapshots</li>
+                            <li>• Database records</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Chain of Custody</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Who collected it?</li>
+                            <li>• When was it collected?</li>
+                            <li>• How was it collected?</li>
+                            <li>• Where is it stored?</li>
+                            <li>• Who has access?</li>
+                            <li>• Any modifications?</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="code-block">
+# Evidence Collection
+dd if=/dev/sda of=/evidence/disk.img bs=4096 conv=noerror,sync
+memdump -p PID -o memory.dump
+tcpdump -i eth0 -w capture.pcap
+
+# Hash Verification
+md5sum disk.img > disk.img.md5
+sha256sum memory.dump > memory.dump.sha256
+
+# Timestamps
+date; command; date
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forensic Analysis -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Forensic Analysis</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">When Needed</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Criminal activity suspected</li>
+                        <li>• Legal action anticipated</li>
+                        <li>• Regulatory requirements</li>
+                        <li>• Insurance claims</li>
+                        <li>• Root cause analysis</li>
+                        <li>• Attribution needed</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Analysis Types</h3>
+                    <div class="code-block text-sm">
+# Network Forensics
+- Packet analysis
+- Flow analysis  
+- Protocol reconstruction
+- Communication patterns
+
+# Host Forensics
+- File system analysis
+- Registry examination
+- Process analysis
+- Timeline reconstruction
+
+# Memory Forensics
+- Process dumps
+- Network connections
+- Encryption keys
+- Malware artifacts
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Communication -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Incident Communication</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-blue-600 mb-2">Internal</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• IR team</li>
+                        <li>• Management</li>
+                        <li>• IT operations</li>
+                        <li>• Business units</li>
+                        <li>• Legal team</li>
+                        <li>• HR department</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-green-600 mb-2">External</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Law enforcement</li>
+                        <li>• Regulators</li>
+                        <li>• Customers</li>
+                        <li>• Partners</li>
+                        <li>• Media</li>
+                        <li>• Public</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-orange-600 mb-2">Key Principles</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Accuracy first</li>
+                        <li>• Timely updates</li>
+                        <li>• Consistent messaging</li>
+                        <li>• Legal review</li>
+                        <li>• Clear channels</li>
+                        <li>• Document all</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recovery vs Lessons Learned -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Recovery vs Lessons Learned</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Recovery Phase</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• Restore systems from clean backups</li>
+                        <li>• Apply security patches</li>
+                        <li>• Implement additional controls</li>
+                        <li>• Monitor for reoccurrence</li>
+                        <li>• Validate system integrity</li>
+                        <li>• Resume normal operations</li>
+                    </ul>
+                    <div class="bg-blue-50 p-3 rounded text-sm">
+                        <strong>Goal:</strong> Return to normal business operations safely
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Lessons Learned</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• What happened and why?</li>
+                        <li>• What worked well?</li>
+                        <li>• What could be improved?</li>
+                        <li>• Update procedures</li>
+                        <li>• Implement new controls</li>
+                        <li>• Train staff on changes</li>
+                    </ul>
+                    <div class="bg-green-50 p-3 rounded text-sm">
+                        <strong>Goal:</strong> Prevent similar incidents and improve response
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legal Considerations -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Legal & Regulatory Considerations</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Legal Requirements</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• GDPR breach notifications (72 hours)</li>
+                            <li>• State breach notification laws</li>
+                            <li>• SEC reporting requirements</li>
+                            <li>• HIPAA breach notifications</li>
+                            <li>• Industry-specific regulations</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Law Enforcement</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• When to involve: Criminal activity</li>
+                            <li>• FBI IC3 for cyber crimes</li>
+                            <li>• Local law enforcement</li>
+                            <li>• Evidence preservation</li>
+                            <li>• Legal privilege considerations</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                    <h4 class="font-bold mb-2">External Party Incidents</h4>
+                    <p class="text-sm">Coordinate with vendors, cloud providers, or partners. Establish communication channels, share relevant information while protecting confidentiality, and align response efforts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Incident Documentation</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Required Documentation</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Incident timeline</li>
+                            <li>• Actions taken</li>
+                            <li>• Evidence collected</li>
+                            <li>• Communications log</li>
+                            <li>• Impact assessment</li>
+                            <li>• Root cause analysis</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Post-Incident Report</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Executive summary</li>
+                            <li>• Incident details</li>
+                            <li>• Response effectiveness</li>
+                            <li>• Lessons learned</li>
+                            <li>• Recommendations</li>
+                            <li>• Metrics and KPIs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h4 class="font-bold mb-2">Continuous Improvement</h4>
+                    <div class="code-block">
+# Process Improvement
+- Update IR playbooks
+- Revise escalation procedures  
+- Enhance detection capabilities
+- Improve response tools
+- Conduct tabletop exercises
+- Train staff on new procedures
+
+# Metrics Tracking
+- Mean time to detection (MTTD)
+- Mean time to containment (MTTC)
+- False positive rates
+- Incident recurrence
+- Response effectiveness
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Security Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">CIA triad, authentication, access controls</p>
+                    <a href="security-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Network Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">OSI model, protocols, network analysis</p>
+                    <a href="network-fundamentals.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Digital Forensics</h3>
+                    <p class="text-sm text-gray-600 mb-2">Evidence collection and analysis</p>
+                    <a href="digital-forensics.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Incident Response Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

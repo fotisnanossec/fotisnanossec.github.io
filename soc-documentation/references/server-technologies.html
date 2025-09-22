@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Technologies - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Server Technologies</h1>
+            <p class="text-gray-600">Essential server infrastructure and services</p>
+        </div>
+
+        <!-- Web Servers -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Web Servers</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">How Web Servers Work</h3>
+                    <ol class="text-sm space-y-1">
+                        <li>1. Client requests resource via HTTP</li>
+                        <li>2. Server processes request</li>
+                        <li>3. Retrieves/generates content</li>
+                        <li>4. Returns HTTP response</li>
+                        <li>5. Client renders content</li>
+                    </ol>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Apache vs Nginx</h3>
+                    <div class="code-block text-sm">
+# Apache
+- Process-based architecture
+- .htaccess configuration
+- Module system
+- Better for dynamic content
+
+# Nginx  
+- Event-driven architecture
+- Better performance/concurrency
+- Reverse proxy capabilities
+- Better for static content
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Database Servers -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Database Servers</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Relational (SQL)</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• MySQL</li>
+                            <li>• PostgreSQL</li>
+                            <li>• SQL Server</li>
+                            <li>• Oracle</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">NoSQL</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• MongoDB</li>
+                            <li>• Redis</li>
+                            <li>• Cassandra</li>
+                            <li>• DynamoDB</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Common Uses</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• User data storage</li>
+                            <li>• Application state</li>
+                            <li>• Transaction logs</li>
+                            <li>• Analytics data</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DNS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">DNS Infrastructure</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">DNS Resolution</h3>
+                    <ol class="text-sm space-y-1">
+                        <li>1. Query local cache</li>
+                        <li>2. Contact recursive resolver</li>
+                        <li>3. Query root servers</li>
+                        <li>4. Query TLD servers</li>
+                        <li>5. Query authoritative servers</li>
+                        <li>6. Return IP address</li>
+                    </ol>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">DNS Records</h3>
+                    <div class="code-block text-sm">
+A      - IPv4 address
+AAAA   - IPv6 address  
+CNAME  - Canonical name
+MX     - Mail exchange
+NS     - Name server
+TXT    - Text data
+PTR    - Reverse lookup
+SOA    - Start of authority
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DHCP -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">DHCP Service</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">DORA Process</h4>
+                        <div class="space-y-2">
+                            <div class="bg-blue-100 p-2 rounded text-sm">
+                                <strong>Discover:</strong> Client broadcasts request
+                            </div>
+                            <div class="bg-green-100 p-2 rounded text-sm">
+                                <strong>Offer:</strong> Server offers configuration
+                            </div>
+                            <div class="bg-yellow-100 p-2 rounded text-sm">
+                                <strong>Request:</strong> Client accepts offer
+                            </div>
+                            <div class="bg-purple-100 p-2 rounded text-sm">
+                                <strong>Acknowledge:</strong> Server confirms
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Configuration Options</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• IP address assignment</li>
+                            <li>• Subnet mask</li>
+                            <li>• Default gateway</li>
+                            <li>• DNS servers</li>
+                            <li>• Lease duration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Active Directory -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Active Directory & Domain Controllers</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Domain Controller Role</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Authenticates users/computers</li>
+                        <li>• Stores directory database</li>
+                        <li>• Manages security policies</li>
+                        <li>• Provides LDAP services</li>
+                        <li>• Handles Kerberos tickets</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">AD Components</h3>
+                    <div class="code-block text-sm">
+# AD Structure
+Forest > Domain > OU > Objects
+
+# Key Services
+- LDAP (389/636)
+- Kerberos (88)
+- DNS (53)
+- Global Catalog (3268/3269)
+
+# Object Types
+Users, Computers, Groups, GPOs
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Email Infrastructure -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Email Server Infrastructure</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-red-600 mb-2">SMTP (25/587)</h4>
+                    <p class="text-sm mb-2">Sends/routes email</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Mail transfer agent</li>
+                        <li>• Relay authentication</li>
+                        <li>• Queue management</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-blue-600 mb-2">POP3 (110/995)</h4>
+                    <p class="text-sm mb-2">Downloads email</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Single device access</li>
+                        <li>• Deletes from server</li>
+                        <li>• Offline reading</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-green-600 mb-2">IMAP (143/993)</h4>
+                    <p class="text-sm mb-2">Syncs email</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Multi-device access</li>
+                        <li>• Server-side storage</li>
+                        <li>• Folder synchronization</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Servers -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">File Servers & Security</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">File Server Types</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• SMB/CIFS (Windows shares)</li>
+                            <li>• NFS (Unix/Linux)</li>
+                            <li>• FTP/SFTP servers</li>
+                            <li>• WebDAV</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Security Controls</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Access control lists (ACLs)</li>
+                            <li>• Share permissions</li>
+                            <li>• Encryption in transit</li>
+                            <li>• Audit logging</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Load Balancing -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Load Balancing & High Availability</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">Load Balancing</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Distributes traffic across servers</li>
+                        <li>• Improves performance/availability</li>
+                        <li>• Health checking</li>
+                        <li>• Session persistence</li>
+                    </ul>
+                    <div class="code-block text-sm mt-3">
+# Algorithms
+Round Robin
+Least Connections
+IP Hash
+Geographic
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Server Clustering</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Active-passive failover</li>
+                        <li>• Active-active load sharing</li>
+                        <li>• Shared storage</li>
+                        <li>• Heartbeat monitoring</li>
+                        <li>• Automatic failover</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Proxy Servers -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Proxy Servers</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Forward Proxy</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Client-side proxy</li>
+                            <li>• Internet access control</li>
+                            <li>• Content filtering</li>
+                            <li>• Caching</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Reverse Proxy</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Server-side proxy</li>
+                            <li>• Load balancing</li>
+                            <li>• SSL termination</li>
+                            <li>• Web acceleration</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Security Benefits</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Hide internal servers</li>
+                            <li>• DDoS protection</li>
+                            <li>• Content inspection</li>
+                            <li>• Access logging</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Virtual vs Physical -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Physical vs Virtual Servers</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Physical Servers</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Dedicated hardware</li>
+                        <li>• Maximum performance</li>
+                        <li>• Higher cost</li>
+                        <li>• Less flexibility</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Virtual Servers</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Shared hardware</li>
+                        <li>• Resource efficiency</li>
+                        <li>• Easy scaling</li>
+                        <li>• Snapshot/backup</li>
+                        <li>• Live migration</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Network Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Protocols and networking basics</p>
+                    <a href="network-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Windows Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Windows server administration</p>
+                    <a href="windows-fundamentals.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Linux Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Linux server management</p>
+                    <a href="linux-fundamentals.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Server Technologies Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

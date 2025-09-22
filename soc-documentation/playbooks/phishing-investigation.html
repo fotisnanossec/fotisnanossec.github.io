@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Investigation Procedure | SOC Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-snippet {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+        .training-note {
+            background: #e0f2fe;
+            border-left: 4px solid #0284c7;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.875rem;
+        }
+        .mitre-tag {
+            background: #dc2626;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+            <div class="space-x-4">
+                <a href="../index.html" class="text-blue-600 hover:text-blue-700 font-semibold">← SOC Documentation</a>
+                <a href="./index.html" class="text-gray-600 hover:text-gray-700">Investigation Procedures</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        <div class="bg-white p-8 rounded-lg shadow-xl">
+            
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">🎣 Phishing Investigation Procedure</h1>
+                <h2 class="text-xl text-gray-600 mb-6">Training-Based Email Threat Analysis Methodology</h2>
+                
+                <!-- Training Foundation -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-6 rounded-lg mb-6">
+                    <h3 class="text-lg font-bold text-blue-800 mb-3">📚 Training Foundation & Development</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p><strong>Primary Training Source:</strong></p>
+                            <ul class="list-disc ml-6 text-blue-700">
+                                <li>TryHackMe SOC Level 1 Path - Email Analysis Module</li>
+                                <li>Boogeyman Incident Response Series (1, 2, 3)</li>
+                                <li>Phishing Investigation practical exercises</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Framework Integration:</strong></p>
+                            <ul class="list-disc ml-6 text-blue-700">
+                                <li>MITRE ATT&CK: <span class="mitre-tag">T1566</span> Phishing techniques</li>
+                                <li>Email forensics industry best practices</li>
+                                <li>Threat intelligence integration methodology</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Systematic Investigation Approach -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">🔍 Systematic Investigation Approach</h2>
+                
+                <!-- Phase 1: Initial Assessment -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                        <span class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                        Initial Email Assessment
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">📧 Email Header Analysis</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> Learned through Boogeyman incident analysis - identifying spoofed domains, relay services, and authentication failures
+                            </div>
+                            <p class="text-gray-700 mb-3">Systematically examine email headers for authentication and routing anomalies:</p>
+                            <div class="code-snippet">
+# Key header fields to examine:
+Return-Path: [Check if matches From field]
+Authentication-Results: [SPF, DKIM, DMARC status]
+Received: [Trace email routing path]
+Message-ID: [Verify against sender domain]
+X-Originating-IP: [Source IP investigation]
+
+# Example analysis from training:
+From: agriffin@bpakcaging.xyz  [Suspicious domain]
+DKIM-Signature: elasticemail.com  [Third-party relay service]
+Authentication-Results: spf=fail  [Authentication failure]
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">🎯 Sender Verification</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> TryHackMe email forensics + practical domain analysis techniques
+                            </div>
+                            <p class="text-gray-700 mb-3">Verify sender legitimacy through domain and reputation analysis:</p>
+                            <div class="code-snippet">
+# Domain analysis commands:
+whois suspicious-domain.com
+nslookup suspicious-domain.com
+dig TXT suspicious-domain.com  # Check SPF records
+
+# Reputation checking:
+# - VirusTotal domain analysis
+# - URLVoid reputation check
+# - Known phishing domain databases
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">📎 Attachment Identification</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> Boogeyman series - learned safe handling of malicious attachments including password-protected archives
+                            </div>
+                            <p class="text-gray-700 mb-3">Safe identification and initial analysis of email attachments:</p>
+                            <div class="code-snippet">
+# Safe attachment analysis:
+file suspicious_attachment.doc
+md5sum suspicious_attachment.doc
+strings suspicious_attachment.doc | head -20
+
+# For password-protected archives (learned from Boogeyman):
+# - Extract in isolated environment only
+# - Document password source from email content
+# - Use specialized tools: lnkparse, olevba, etc.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2: Deep Analysis -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                        <span class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">2</span>
+                        Payload & Content Analysis
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">🔗 URL Analysis</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> SOC Level 1 training - safe URL investigation without triggering malicious content
+                            </div>
+                            <div class="code-snippet">
+# URL investigation approach:
+# 1. Extract URLs without clicking
+# 2. Use URL analysis services (URLVoid, VirusTotal)
+# 3. Check domain registration and reputation
+# 4. Analyze URL structure for social engineering patterns
+
+# Example from training:
+http://files.bpakcaging.xyz/update  [Suspicious file hosting]
+# - Domain analysis: Recently registered
+# - Hosting: Suspicious file serving infrastructure
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-808 mb-2">🦠 Malicious Document Analysis</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> Boogeyman series - comprehensive LNK file analysis and VBA macro extraction techniques
+                            </div>
+                            <div class="code-snippet">
+# Document analysis tools learned through training:
+
+# For LNK files (from Boogeyman experience):
+lnkparse malicious.lnk
+# - Extract command line arguments
+# - Identify encoded PowerShell commands
+# - Decode base64 payloads
+
+# For Office documents:
+olevba document.doc
+# - Extract VBA macros
+# - Identify auto-execution methods (AutoOpen, Document_Open)
+# - Analyze obfuscation techniques
+
+# For PDFs:
+peepdf suspicious.pdf
+pdf-parser suspicious.pdf
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">📊 Social Engineering Analysis</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> TryHackMe social engineering modules + practical phishing campaign analysis
+                            </div>
+                            <p class="text-gray-700 mb-3">Identify social engineering techniques and target selection:</p>
+                            <div class="code-snippet">
+# Social engineering indicators checklist:
+# 1. Urgency language ("Immediate action required")
+# 2. Authority impersonation (C-level executives, IT department)
+# 3. Curiosity triggers ("Important document attached")
+# 4. Fear tactics ("Account will be suspended")
+# 5. Target specificity (spear phishing vs mass campaigns)
+
+# Example from Boogeyman training:
+Subject: "Resume - Application for Junior IT Analyst Role"
+# - Targets HR department specifically
+# - Uses legitimate business process (job applications)
+# - Professional language to build trust
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3: Investigation & Response -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                        <span class="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">3</span>
+                        Investigation & Response Coordination
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">🕵️ Threat Intelligence Integration</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> SOC Level 1 threat intelligence module + practical IOC analysis
+                            </div>
+                            <div class="code-snippet">
+# IOC extraction and analysis:
+# 1. Extract indicators from email and attachments
+#    - Email addresses, domains, IP addresses
+#    - File hashes (MD5, SHA1, SHA256)
+#    - URLs and file paths
+
+# 2. Threat intelligence lookup:
+#    - VirusTotal analysis
+#    - MISP platform integration
+#    - Known APT campaign attribution
+
+# Example IOC documentation:
+Malicious Domain: bpakcaging.xyz
+File Hash: 52c4384a0b9e248b95804352ebec6c5b
+C2 Server: 128.199.95.189:8080
+MITRE ATT&CK: T1566.001 (Spearphishing Attachment)
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">📋 Incident Documentation</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> SOC incident response training + structured analysis methodology
+                            </div>
+                            <p class="text-gray-700 mb-3">Systematic documentation for incident response and threat hunting:</p>
+                            <div class="code-snippet">
+# Investigation summary template:
+INCIDENT: Phishing Investigation
+DATE: [Investigation date]
+ANALYST: [Analyst name]
+
+EXECUTIVE SUMMARY:
+- Attack Vector: [Spear phishing/Mass phishing]
+- Target: [Affected users/departments]
+- Payload Type: [Malicious attachment/URL]
+- Campaign Attribution: [If known]
+
+TECHNICAL ANALYSIS:
+- Email Headers: [Authentication results]
+- Sender Analysis: [Domain reputation, registration]
+- Payload Analysis: [Attachment/URL analysis results]
+- IOCs Identified: [List of indicators]
+
+RECOMMENDED ACTIONS:
+- Immediate: [Block IOCs, quarantine emails]
+- Short-term: [User training, security controls]
+- Long-term: [Policy updates, monitoring improvements]
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">🚨 Escalation & Response</h4>
+                            <div class="training-note">
+                                <strong>Training Source:</strong> SOC Level 1 incident response procedures + escalation matrix training
+                            </div>
+                            <p class="text-gray-700 mb-3">Structured escalation and response coordination:</p>
+                            <div class="code-snippet">
+# Escalation criteria (learned through training):
+LOW: Blocked phishing attempt, no user interaction
+MEDIUM: User clicked link but no credential entry
+HIGH: Credentials entered or attachment executed
+CRITICAL: Confirmed system compromise or data exfiltration
+
+# Response actions by severity:
+# 1. IOC blocking and email quarantine
+# 2. User notification and credential reset
+# 3. Endpoint investigation and isolation
+# 4. Network monitoring and threat hunting
+# 5. Management notification and external reporting
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools & Commands Reference -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">🛠️ Essential Tools & Commands</h2>
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Training-Validated Tool Set</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-blue-600 mb-3">Email Analysis Tools</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-blue-100 text-blue-800 px-3 py-2 rounded">Thunderbird (Email client)</div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-2 rounded">emlAnalyzer (Header analysis)</div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-2 rounded">MHA (Message Header Analyzer)</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-green-600 mb-3">Attachment Analysis</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-green-100 text-green-800 px-3 py-2 rounded">lnkparse (LNK file analysis)</div>
+                                <div class="bg-green-100 text-green-800 px-3 py-2 rounded">olevba (VBA macro extraction)</div>
+                                <div class="bg-green-100 text-green-800 px-3 py-2 rounded">peepdf (PDF analysis)</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-purple-600 mb-3">Threat Intelligence</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-purple-100 text-purple-800 px-3 py-2 rounded">VirusTotal</div>
+                                <div class="bg-purple-100 text-purple-800 px-3 py-2 rounded">URLVoid</div>
+                                <div class="bg-purple-100 text-purple-800 px-3 py-2 rounded">MISP Platform</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-orange-600 mb-3">Network Analysis</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-orange-100 text-orange-800 px-3 py-2 rounded">whois / nslookup</div>
+                                <div class="bg-orange-100 text-orange-800 px-3 py-2 rounded">dig (DNS analysis)</div>
+                                <div class="bg-orange-100 text-orange-800 px-3 py-2 rounded">curl (Safe URL analysis)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Resources -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">📚 Continuous Learning & Development</h2>
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-orange-800 mb-3">Training Progress & Next Steps</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="font-semibold text-orange-700 mb-2">Completed Training:</p>
+                            <ul class="list-disc ml-6 text-orange-600 space-y-1">
+                                <li>TryHackMe SOC Level 1 Path (100% Complete)</li>
+                                <li>Boogeyman Incident Response Series (1, 2, 3)</li>
+                                <li>Email Forensics practical exercises</li>
+                                <li>MITRE ATT&CK framework application</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-orange-700 mb-2">Planned Development:</p>
+                            <ul class="list-disc ml-6 text-orange-600 space-y-1">
+                                <li>Advanced malware analysis techniques</li>
+                                <li>SOAR platform integration</li>
+                                <li>Threat hunting methodologies</li>
+                                <li>Security+ certification preparation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="border-t pt-6">
+                <div class="flex justify-between items-center">
+                    <a href="./index.html" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center">
+                        ← Back to Investigation Procedures
+                    </a>
+                    <div class="text-sm text-gray-500">
+                        Part of SOC Investigation Framework | Training-Based Methodology
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center mt-12">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security - Training-Based SOC Documentation. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

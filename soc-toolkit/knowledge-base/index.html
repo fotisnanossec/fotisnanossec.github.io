@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base | SOC Analyst Toolkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-gradient {
+            background: linear-gradient(to right, #e5e7eb, #d1d5db);
+        }
+        .mobile-menu-transition {
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu-transition.open {
+            max-height: 500px;
+        }
+        .reference-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .reference-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="../../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+                
+                <div class="hidden lg:flex space-x-6">
+                    <a href="../../index.html#home" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Home</a>
+                    <a href="../../index.html#cybersecurity" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Cybersecurity</a>
+                    <a href="../../index.html#projects" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Projects</a>
+                    <a href="../../blog/index.html" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Insights</a>
+                    <a href="../index.html" class="text-blue-600 hover:text-blue-700 font-semibold transition duration-300 px-3 py-2 rounded-md">SOC Toolkit</a>
+                    <a href="../../index.html#music" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Music</a>
+                    <a href="../../index.html#about" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">About</a>
+                </div>
+
+                <button id="mobile-menu-button" class="lg:hidden text-gray-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="mobile-menu" class="lg:hidden custom-gradient px-6 mobile-menu-transition">
+                <a href="../../index.html#home" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Home</a>
+                <a href="../../index.html#cybersecurity" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Cybersecurity</a>
+                <a href="../../index.html#projects" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Projects</a>
+                <a href="../../blog/index.html" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Insights</a>
+                <a href="../index.html" class="block py-2 text-blue-600 hover:text-blue-700 font-semibold transition duration-300 border-b border-gray-300">SOC Toolkit</a>
+                <a href="../../index.html#music" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Music</a>
+                <a href="../../index.html#about" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b py-3">
+        <div class="container mx-auto px-6">
+            <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                <a href="../../index.html" class="hover:text-gray-800">Portfolio</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <a href="../index.html" class="hover:text-gray-800">SOC Toolkit</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-gray-800 font-medium">Knowledge Base</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Quick Access -->
+    <div class="bg-purple-50 border-b border-purple-200 py-3">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                <a href="../procedures/index.html" class="flex items-center text-blue-600 hover:text-blue-700 transition duration-300">
+                    📋 Investigation Procedures
+                </a>
+                <span class="text-gray-400">•</span>
+                <a href="../../soc-documentation/references/windows-fundamentals.html" class="flex items-center text-green-600 hover:text-green-700 transition duration-300">
+                    💻 Windows Fundamentals
+                </a>
+                <span class="text-gray-400">•</span>
+                <a href="../../blog/index.html" class="flex items-center text-orange-600 hover:text-orange-700 transition duration-300">
+                    📝 TryHackMe Writeups
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <section class="min-h-screen p-6 bg-gray-100">
+            <div class="container mx-auto py-16">
+                
+                <!-- Header -->
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">📖 Knowledge Base</h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                        Technical references, analysis frameworks, and systematic knowledge foundation for SOC operations. 
+                        Quick-access documentation for investigation support and continuous learning.
+                    </p>
+                </div>
+
+                <!-- Knowledge Categories -->
+                <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+                    
+                    <!-- Core Fundamentals -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl">
+                        <div class="text-center mb-6">
+                            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl">🔍</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Core Fundamentals</h2>
+                            <p class="text-sm text-gray-600">Essential security knowledge and system foundations</p>
+                        </div>
+                        
+                        <!-- Security Fundamentals -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/security-fundamentals.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🔐</span>
+                                <h3 class="font-semibold text-gray-800">Security Fundamentals</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">CIA Triad, authentication, encryption principles</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">CIA Triad</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Authentication</span>
+                            </div>
+                        </div>
+
+                        <!-- Windows Fundamentals -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/windows-fundamentals.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">💻</span>
+                                <h3 class="font-semibold text-gray-800">Windows Fundamentals</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Registry, processes, services, UAC, and event logs</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Windows Security</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs">Command Line</span>
+                            </div>
+                        </div>
+
+                        <!-- Linux Fundamentals -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/linux-fundamentals.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🐧</span>
+                                <h3 class="font-semibold text-gray-800">Linux Fundamentals</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Command line, file systems, user management</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Command Line</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">File Systems</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Network & Infrastructure -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl">
+                        <div class="text-center mb-6">
+                            <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl">🌐</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Network & Infrastructure</h2>
+                            <p class="text-sm text-gray-600">Traffic analysis and network security frameworks</p>
+                        </div>
+                        
+                        <!-- Network Fundamentals -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/network-fundamentals.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🔗</span>
+                                <h3 class="font-semibold text-gray-800">Network Fundamentals</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">TCP/IP, routing, switching, protocols</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">TCP/IP</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Protocols</span>
+                            </div>
+                        </div>
+
+                        <!-- OSI Security Model -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/osi-security-model.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🏗️</span>
+                                <h3 class="font-semibold text-gray-800">OSI Security Model</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Layer-by-layer security analysis and tool mapping</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">OSI Model</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Tool Mapping</span>
+                            </div>
+                        </div>
+
+                        <!-- PCAP Analysis -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/pcap-methodology.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🔍</span>
+                                <h3 class="font-semibold text-gray-800">PCAP Analysis Framework</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">4-phase network forensics methodology</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-cyan-100 text-cyan-800 px-2 py-1 rounded text-xs">Wireshark</span>
+                                <span class="bg-teal-100 text-teal-800 px-2 py-1 rounded text-xs">TShark</span>
+                            </div>
+                        </div>
+
+                        <!-- Network Security -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/network-security.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🛡️</span>
+                                <h3 class="font-semibold text-gray-800">Network Security</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Firewalls, IDS/IPS, network monitoring</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Firewalls</span>
+                                <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs">IDS/IPS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Topics -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl">
+                        <div class="text-center mb-6">
+                            <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl">⚡</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Advanced Topics</h2>
+                            <p class="text-sm text-gray-600">Specialized security domains and methodologies</p>
+                        </div>
+                        
+                        <!-- Incident Response -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/incident-response.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🚨</span>
+                                <h3 class="font-semibold text-gray-800">Incident Response</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">NIST framework, containment, eradication</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">NIST Framework</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Response</span>
+                            </div>
+                        </div>
+
+                        <!-- Cloud Security -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/cloud-computing.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">☁️</span>
+                                <h3 class="font-semibold text-gray-800">Cloud Security</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">AWS, Azure, cloud-native security</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Cloud Native</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Multi-Cloud</span>
+                            </div>
+                        </div>
+
+                        <!-- Virtualization -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 mb-3 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/virtualization-containers.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">📦</span>
+                                <h3 class="font-semibold text-gray-800">Virtualization & Containers</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Docker, Kubernetes, VM security</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Containers</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs">Orchestration</span>
+                            </div>
+                        </div>
+
+                        <!-- Cross-Platform Concepts -->
+                        <div class="reference-card border border-gray-200 rounded-lg p-4 hover:bg-gray-50" onclick="window.location.href='../../soc-documentation/references/cross-platform-concepts.html'">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-3">🔄</span>
+                                <h3 class="font-semibold text-gray-800">Cross-Platform Security</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Multi-OS environments, compatibility</p>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">Multi-Platform</span>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Integration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Experience -->
+                <div class="bg-white p-8 rounded-lg shadow-xl mb-12 max-w-4xl mx-auto">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">🛠️ Tools & Technologies</h2>
+                    <p class="text-center text-gray-600 mb-6">Hands-on experience across security tool categories</p>
+                    
+                    <div class="grid md:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <h3 class="font-semibold text-blue-600 mb-3">Network Analysis</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded">Wireshark</div>
+                                <div class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded">TShark</div>
+                                <div class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded">Zeek</div>
+                                <div class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded">NetworkMiner</div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="font-semibold text-green-600 mb-3">Digital Forensics</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded">Volatility</div>
+                                <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded">KAPE</div>
+                                <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded">Redline</div>
+                                <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded">Autopsy</div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="font-semibold text-purple-600 mb-3">Log Analysis</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded">Sysmon</div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded">Windows Events</div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded">PowerShell Logs</div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded">Event Correlation</div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="font-semibold text-orange-600 mb-3">Threat Intelligence</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded">MISP</div>
+                                <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded">OpenCTI</div>
+                                <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded">YARA</div>
+                                <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded">VirusTotal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Framework Integration -->
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-8 rounded-lg shadow-xl max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🎯 Knowledge Integration</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Systematic knowledge organization aligned with industry frameworks and practical SOC operations.
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">MITRE ATT&CK</h4>
+                                <p class="text-sm text-gray-600">Technique mapping and adversary behavior analysis</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">NIST Framework</h4>
+                                <p class="text-sm text-gray-600">Cybersecurity lifecycle and incident response</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Practical Application</h4>
+                                <p class="text-sm text-gray-600">Real-world SOC scenarios and case studies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security - Knowledge Base. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        };
+    </script>
+</body>
+</html>

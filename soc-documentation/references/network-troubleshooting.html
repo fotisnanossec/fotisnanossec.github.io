@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Troubleshooting & Monitoring - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Network Troubleshooting</h1>
+            <p class="text-gray-600">Essential tools and techniques for network analysis</p>
+        </div>
+
+        <!-- Core Tools -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Essential Troubleshooting Tools</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Connectivity</h3>
+                    <div class="code-block text-sm">
+ping 8.8.8.8
+traceroute google.com
+mtr google.com
+nslookup domain.com
+dig domain.com
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Network State</h3>
+                    <div class="code-block text-sm">
+netstat -tuln
+ss -tuln
+ip route show
+arp -a
+ifconfig / ip addr
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Traffic Analysis</h3>
+                    <div class="code-block text-sm">
+wireshark
+tcpdump -i eth0
+nmap -sS target
+iftop -i eth0
+netstat -i
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ping & Traceroute -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Ping & Traceroute</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Ping Analysis</h3>
+                    <div class="code-block">
+# Basic connectivity
+ping 8.8.8.8
+
+# Output interpretation
+64 bytes from 8.8.8.8: icmp_seq=1 time=15.2 ms
+- Reachable, 15.2ms latency
+- TTL shows hop count
+- Packet loss percentage
+
+# Advanced ping
+ping -c 10 -i 0.2 target  # 10 packets, 0.2s interval
+ping -s 1472 target       # Large packet size
+ping6 target              # IPv6
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Traceroute Path Analysis</h3>
+                    <div class="code-block">
+# Trace network path
+traceroute google.com
+
+# Output shows each hop:
+1  192.168.1.1    1.2ms
+2  10.0.0.1       5.3ms  
+3  203.0.113.1    12.1ms
+4  * * *          (timeout)
+5  8.8.8.8        15.2ms
+
+# Continuous monitoring
+mtr google.com
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Netstat & SS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Connections</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Netstat Options</h4>
+                        <div class="code-block text-sm">
+netstat -tuln     # TCP/UDP listening
+netstat -an       # All connections
+netstat -r        # Routing table
+netstat -i        # Interface stats
+netstat -s        # Protocol stats
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Modern SS Command</h4>
+                        <div class="code-block text-sm">
+ss -tuln          # Listening ports
+ss -tulpn         # With process info
+ss -o state established  # Established only
+ss dst 192.168.1.0/24   # Specific network
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wireshark -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Wireshark Analysis</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Capture Filters</h4>
+                        <div class="code-block text-sm">
+host 192.168.1.1
+port 80
+tcp and port 443
+not arp
+net 192.168.0.0/16
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Display Filters</h4>
+                        <div class="code-block text-sm">
+http.request.method == "GET"
+tcp.flags.syn == 1
+dns.qry.name contains "evil"
+ip.addr == 192.168.1.1
+tcp.analysis.retransmission
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h4 class="font-bold mb-2">Analysis Features</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Protocol hierarchy statistics</li>
+                        <li>• Flow graph visualization</li>
+                        <li>• Expert analysis warnings</li>
+                        <li>• TCP stream following</li>
+                        <li>• IO graphs for performance</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Monitoring -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Performance Monitoring</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">Bandwidth Monitoring</h3>
+                    <div class="code-block">
+# Real-time monitoring
+iftop -i eth0     # Interface traffic
+nload eth0        # Network load
+bmon              # Bandwidth monitor
+vnstat -l         # Live stats
+
+# Interface statistics
+cat /proc/net/dev
+ip -s link show eth0
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Latency Causes</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Network congestion</li>
+                        <li>• Hardware limitations</li>
+                        <li>• Distance/propagation delay</li>
+                        <li>• Processing delays</li>
+                        <li>• Queuing in devices</li>
+                        <li>• Application processing</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DNS Troubleshooting -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">DNS Troubleshooting</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">DNS Tools</h4>
+                        <div class="code-block">
+# Basic lookup
+nslookup google.com
+
+# Detailed query
+dig google.com
+dig @8.8.8.8 google.com MX
+dig +trace google.com
+
+# Reverse lookup
+dig -x 8.8.8.8
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Common Issues</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Incorrect DNS servers</li>
+                            <li>• DNS cache poisoning</li>
+                            <li>• Recursive query failures</li>
+                            <li>• Zone configuration errors</li>
+                            <li>• Network connectivity to DNS</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Systematic Troubleshooting -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Systematic Approach</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-bold mb-3">Layer-by-Layer Troubleshooting</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <ol class="text-sm space-y-2">
+                            <li><strong>1. Physical:</strong> Cable, interface status</li>
+                            <li><strong>2. Data Link:</strong> Switch ports, VLANs</li>
+                            <li><strong>3. Network:</strong> IP config, routing</li>
+                            <li><strong>4. Transport:</strong> Port connectivity</li>
+                            <li><strong>5. Application:</strong> Service status</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <div class="code-block text-sm">
+# Quick checks
+ip link show           # Interface status
+ping gateway          # Layer 3
+telnet host port      # Layer 4
+curl -I http://site   # Layer 7
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottleneck Identification -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Bottleneck Analysis</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-blue-600 mb-2">Bandwidth</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Interface utilization >80%</li>
+                        <li>• Dropped packets</li>
+                        <li>• Queue depths</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-green-600 mb-2">Latency</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• High RTT times</li>
+                        <li>• TCP retransmissions</li>
+                        <li>• Processing delays</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-purple-600 mb-2">Errors</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• CRC errors</li>
+                        <li>• Collisions</li>
+                        <li>• Buffer overruns</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SNMP Monitoring -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">SNMP Monitoring</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">SNMP Commands</h4>
+                        <div class="code-block">
+# Get system info
+snmpget -v2c -c public router 1.3.6.1.2.1.1.1.0
+
+# Walk interface table
+snmpwalk -v2c -c public router 1.3.6.1.2.1.2.2.1.2
+
+# Bandwidth utilization
+snmpget -v2c -c public router 1.3.6.1.2.1.2.2.1.10.1
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Key OIDs</h4>
+                        <div class="code-block text-sm">
+1.3.6.1.2.1.1.1.0    - System description
+1.3.6.1.2.1.1.3.0    - System uptime
+1.3.6.1.2.1.2.2.1.10 - Interface octets in
+1.3.6.1.2.1.2.2.1.16 - Interface octets out
+1.3.6.1.2.1.2.2.1.8  - Interface status
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Baselines & Anomalies -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Baselines & Anomaly Detection</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Network Baselines</h3>
+                    <p class="text-sm mb-3">Establish normal patterns for comparison</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Bandwidth utilization patterns</li>
+                        <li>• Protocol distribution</li>
+                        <li>• Connection counts</li>
+                        <li>• Error rates</li>
+                        <li>• Response times</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Unusual Activity</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Traffic spikes outside business hours</li>
+                        <li>• Unusual protocol usage</li>
+                        <li>• Connections to unknown IPs</li>
+                        <li>• High error rates</li>
+                        <li>• Abnormal data volumes</li>
+                        <li>• Geographic anomalies</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Monitoring -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Security Monitoring Tools</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Network Analysis</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Wireshark</li>
+                            <li>• tshark</li>
+                            <li>• tcpdump</li>
+                            <li>• NetworkMiner</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Flow Analysis</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• nfcapd (NetFlow)</li>
+                            <li>• SiLK</li>
+                            <li>• ntopng</li>
+                            <li>• Plixer Scrutinizer</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Security Platforms</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Snort/Suricata</li>
+                            <li>• Zeek (Bro)</li>
+                            <li>• Security Onion</li>
+                            <li>• SIEM platforms</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Reference -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Command Reference</h2>
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6">
+                <div class="code-block">
+# Network basics
+ping 8.8.8.8                    # Connectivity test
+traceroute google.com           # Path tracing
+nslookup google.com             # DNS lookup
+netstat -tuln                   # Listening ports
+
+# Traffic capture
+tcpdump -i eth0 -w capture.pcap # Packet capture
+wireshark capture.pcap          # Analysis
+
+# Performance
+iftop -i eth0                   # Bandwidth usage
+mtr google.com                  # Continuous traceroute
+ss -tulpn                       # Socket statistics
+
+# Security
+nmap -sS target                 # Port scan
+arp -a                          # ARP table
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Network Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">OSI model, protocols, addressing</p>
+                    <a href="network-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Network Security</h3>
+                    <p class="text-sm text-gray-600 mb-2">Firewalls, IDS/IPS, monitoring</p>
+                    <a href="network-security.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Incident Response</h3>
+                    <p class="text-sm text-gray-600 mb-2">Network forensics procedures</p>
+                    <a href="incident-response.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Network Troubleshooting Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtualization & Containers - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Virtualization & Containers</h1>
+            <p class="text-gray-600">Virtual machines, containers, and orchestration</p>
+        </div>
+
+        <!-- Virtualization Basics -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Virtualization Fundamentals</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">How It Works</h3>
+                    <p class="text-sm mb-3">Hypervisor creates virtual machines by abstracting physical hardware resources</p>
+                    <div class="code-block text-sm">
+Physical Hardware
+    ↓
+Hypervisor Layer
+    ↓
+Virtual Machines (Guest OS)
+    ↓
+Applications
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Key Benefits</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Server consolidation</li>
+                        <li>• Resource efficiency</li>
+                        <li>• Isolation between workloads</li>
+                        <li>• Easy backup/migration</li>
+                        <li>• Reduced hardware costs</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hypervisor Types -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Hypervisor Types</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Type 1 (Bare Metal)</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Runs directly on hardware</li>
+                        <li>• Better performance</li>
+                        <li>• Enterprise environments</li>
+                        <li>• Examples: VMware ESXi, Hyper-V</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">Type 2 (Hosted)</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Runs on host OS</li>
+                        <li>• Easier to install</li>
+                        <li>• Desktop virtualization</li>
+                        <li>• Examples: VirtualBox, VMware Workstation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- VM vs Containers -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">VMs vs Containers</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-blue-600 mb-2">Virtual Machines</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Full OS per VM</li>
+                            <li>• Hardware virtualization</li>
+                            <li>• Strong isolation</li>
+                            <li>• Higher resource overhead</li>
+                            <li>• Slower startup</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-green-600 mb-2">Containers</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Shared OS kernel</li>
+                            <li>• OS-level virtualization</li>
+                            <li>• Process isolation</li>
+                            <li>• Lower resource usage</li>
+                            <li>• Fast startup</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Docker -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Docker Containers</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Core Concepts</h3>
+                    <div class="code-block text-sm">
+# Docker Components
+Image - Application template
+Container - Running instance
+Dockerfile - Build instructions
+Registry - Image repository
+
+# Basic Commands
+docker build -t app:v1 .
+docker run -d -p 80:80 app:v1
+docker ps
+docker logs container_id
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Container Security</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Run as non-root user</li>
+                        <li>• Scan images for vulnerabilities</li>
+                        <li>• Use minimal base images</li>
+                        <li>• Implement resource limits</li>
+                        <li>• Network segmentation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- VMware -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">VMware Environment</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">vSphere Components</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• ESXi hypervisor</li>
+                            <li>• vCenter Server</li>
+                            <li>• vSphere Client</li>
+                            <li>• VMFS datastore</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Resource Management</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• CPU/Memory allocation</li>
+                            <li>• Storage provisioning</li>
+                            <li>• Network configuration</li>
+                            <li>• Resource pools</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">High Availability</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• vMotion (live migration)</li>
+                            <li>• HA clusters</li>
+                            <li>• DRS (load balancing)</li>
+                            <li>• Fault tolerance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Virtualization Security -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Virtualization Security</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Security Risks</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• VM escape attacks</li>
+                        <li>• Hypervisor vulnerabilities</li>
+                        <li>• VM sprawl</li>
+                        <li>• Shared resource conflicts</li>
+                        <li>• Network complexity</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Security Controls</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Hypervisor hardening</li>
+                        <li>• VM isolation</li>
+                        <li>• Network microsegmentation</li>
+                        <li>• Regular patching</li>
+                        <li>• Access control</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kubernetes -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Container Orchestration</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Kubernetes Components</h4>
+                        <div class="code-block text-sm">
+# Control Plane
+API Server
+etcd (cluster state)
+Scheduler
+Controller Manager
+
+# Worker Nodes
+kubelet
+kube-proxy
+Container runtime
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Key Objects</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Pods - Container groups</li>
+                            <li>• Services - Network access</li>
+                            <li>• Deployments - App management</li>
+                            <li>• ConfigMaps - Configuration</li>
+                            <li>• Secrets - Sensitive data</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Storage & Networking -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Storage & Networking</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Storage Options</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Thick provisioning (pre-allocated)</li>
+                        <li>• Thin provisioning (on-demand)</li>
+                        <li>• Shared storage (SAN/NAS)</li>
+                        <li>• Local storage</li>
+                        <li>• Storage vMotion</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Virtual Networking</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Virtual switches</li>
+                        <li>• VLANs and port groups</li>
+                        <li>• Distributed switches</li>
+                        <li>• Network security policies</li>
+                        <li>• Load balancing</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring & Backup -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Monitoring & Backup</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Monitoring Tools</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• vCenter performance charts</li>
+                            <li>• vRealize Operations</li>
+                            <li>• Docker stats/logs</li>
+                            <li>• Kubernetes metrics</li>
+                            <li>• Third-party solutions</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Backup Strategies</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• VM snapshots</li>
+                            <li>• Image-level backups</li>
+                            <li>• Application-consistent backups</li>
+                            <li>• Replication</li>
+                            <li>• Disaster recovery sites</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Cloud Computing</h3>
+                    <p class="text-sm text-gray-600 mb-2">Cloud infrastructure and services</p>
+                    <a href="cloud-computing.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Server Technologies</h3>
+                    <p class="text-sm text-gray-600 mb-2">Infrastructure fundamentals</p>
+                    <a href="server-technologies.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Network Security</h3>
+                    <p class="text-sm text-gray-600 mb-2">Virtual network protection</p>
+                    <a href="network-security.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Virtualization & Containers Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

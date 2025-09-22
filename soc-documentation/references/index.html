@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Reference Library | Tuned for Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">SOC Reference Library</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+                Comprehensive technical reference collection compiled during SOC Level 1 certification training and hands-on cybersecurity practice
+            </p>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto">
+                <p class="text-sm text-blue-800">
+                    <strong>Training Foundation:</strong> TryHackMe SOC Level 1 Path (100% Complete) | Global Ranking: Top 2% | Personal study collection for ongoing professional development
+                </p>
+            </div>
+        </div>
+
+        <!-- Core References Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            
+            <!-- Operating Systems -->
+            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold text-blue-600 mb-3">Operating Systems</h3>
+                <p class="text-sm text-gray-600 mb-4">Windows and Linux security fundamentals for SOC analysts</p>
+                <div class="space-y-2">
+                    <a href="./windows-fundamentals.html" class="block text-blue-600 hover:underline text-sm">Windows Fundamentals →</a>
+                    <a href="./linux-fundamentals.html" class="block text-blue-600 hover:underline text-sm">Linux Fundamentals →</a>
+                    <a href="./os-security-analysis.html" class="block text-blue-600 hover:underline text-sm">OS Security Analysis →</a>
+                </div>
+            </div>
+
+            <!-- Network Security -->
+            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold text-green-600 mb-3">Network Security</h3>
+                <p class="text-sm text-gray-600 mb-4">Network analysis, protocols, and security monitoring</p>
+                <div class="space-y-2">
+                    <a href="./network-fundamentals.html" class="block text-green-600 hover:underline text-sm">Network Fundamentals →</a>
+                    <a href="./network-protocols.html" class="block text-green-600 hover:underline text-sm">Network Protocols →</a>
+                    <a href="./network-security.html" class="block text-green-600 hover:underline text-sm">Network Security →</a>
+                    <a href="./network-troubleshooting.html" class="block text-green-600 hover:underline text-sm">Network Troubleshooting →</a>
+                    <a href="./network-security-analysis.html" class="block text-green-600 hover:underline text-sm">Security Analysis →</a>
+                </div>
+            </div>
+
+            <!-- Infrastructure -->
+            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold text-purple-600 mb-3">Infrastructure</h3>
+                <p class="text-sm text-gray-600 mb-4">Servers, cloud, and enterprise infrastructure security</p>
+                <div class="space-y-2">
+                    <a href="./server-technologies.html" class="block text-purple-600 hover:underline text-sm">Server Technologies →</a>
+                    <a href="./cloud-computing.html" class="block text-purple-600 hover:underline text-sm">Cloud Computing →</a>
+                    <a href="./virtualization-containers.html" class="block text-purple-600 hover:underline text-sm">Virtualization & Containers →</a>
+                    <a href="./infrastructure-security.html" class="block text-purple-600 hover:underline text-sm">Infrastructure Security →</a>
+                </div>
+            </div>
+
+            <!-- Security Operations -->
+            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold text-red-600 mb-3">Security Operations</h3>
+                <p class="text-sm text-gray-600 mb-4">SOC processes, incident response, and threat hunting</p>
+                <div class="space-y-2">
+                    <a href="./security-fundamentals.html" class="block text-red-600 hover:underline text-sm">Security Fundamentals →</a>
+                    <a href="./incident-response.html" class="block text-red-600 hover:underline text-sm">Incident Response →</a>
+                    <a href="./os-security-analysis.html" class="block text-red-600 hover:underline text-sm">OS Security Analysis →</a>
+                    <a href="./pcap-methodology.html" class="block text-red-600 hover:underline text-sm">PCAP Analysis →</a>
+                </div>
+            </div>
+
+            <!-- Web Technologies -->
+            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold text-orange-600 mb-3">Protocol Analysis</h3>
+                <p class="text-sm text-gray-600 mb-4">Application protocols, OSI model, and cross-platform concepts</p>
+                <div class="space-y-2">
+                    <a href="./network-protocols.html" class="block text-orange-600 hover:underline text-sm">Web & Application Protocols →</a>
+                    <a href="./osi-security-model.html" class="block text-orange-600 hover:underline text-sm">OSI Security Model →</a>
+                    <a href="./cross-platform-concepts.html" class="block text-orange-600 hover:underline text-sm">Cross-Platform Concepts →</a>
+                </div>
+            </div>
+
+            <!-- Advanced Networking -->
+            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold text-cyan-600 mb-3">Advanced Topics</h3>
+                <p class="text-sm text-gray-600 mb-4">Advanced networking, forensics, and enterprise security</p>
+                <div class="space-y-2">
+                    <a href="./advanced-networking.html" class="block text-cyan-600 hover:underline text-sm">Advanced Networking →</a>
+                    <a href="./network-security-analysis.html" class="block text-cyan-600 hover:underline text-sm">Security Analysis Techniques →</a>
+                    <p class="text-xs text-gray-500 italic">Additional forensics modules in development</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Navigation -->
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Quick Navigation</h2>
+            <div class="grid md:grid-cols-4 gap-4 text-sm">
+                <div>
+                    <h4 class="font-semibold text-blue-600 mb-2">Core Systems</h4>
+                    <ul class="space-y-1">
+                        <li><a href="./windows-fundamentals.html" class="text-blue-600 hover:underline">Windows</a></li>
+                        <li><a href="./linux-fundamentals.html" class="text-blue-600 hover:underline">Linux</a></li>
+                        <li><a href="./security-fundamentals.html" class="text-blue-600 hover:underline">Security Basics</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-green-600 mb-2">Network Analysis</h4>
+                    <ul class="space-y-1">
+                        <li><a href="./network-fundamentals.html" class="text-green-600 hover:underline">Fundamentals</a></li>
+                        <li><a href="./network-troubleshooting.html" class="text-green-600 hover:underline">Troubleshooting</a></li>
+                        <li><a href="./pcap-methodology.html" class="text-green-600 hover:underline">PCAP Analysis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-purple-600 mb-2">Infrastructure</h4>
+                    <ul class="space-y-1">
+                        <li><a href="./server-technologies.html" class="text-purple-600 hover:underline">Servers</a></li>
+                        <li><a href="./cloud-computing.html" class="text-purple-600 hover:underline">Cloud</a></li>
+                        <li><a href="./infrastructure-security.html" class="text-purple-600 hover:underline">Security</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-red-600 mb-2">SOC Operations</h4>
+                    <ul class="space-y-1">
+                        <li><a href="./incident-response.html" class="text-red-600 hover:underline">Incident Response</a></li>
+                        <li><a href="./os-security-analysis.html" class="text-red-600 hover:underline">OS Analysis</a></li>
+                        <li><a href="./network-security-analysis.html" class="text-red-600 hover:underline">Network Analysis</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div class="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-2xl font-bold mb-6 text-center">SOC Analyst Quick Access</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-300 mb-3">Daily Operations</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>• Windows event log analysis</li>
+                        <li>• Network traffic investigation</li>
+                        <li>• Malware identification</li>
+                        <li>• Incident documentation</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-green-300 mb-3">Investigation Tools</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>• Wireshark packet analysis</li>
+                        <li>• PowerShell log examination</li>
+                        <li>• Registry forensics</li>
+                        <li>• Network scanning techniques</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-purple-300 mb-3">European Compliance</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>• GDPR incident reporting</li>
+                        <li>• NIS2 requirements</li>
+                        <li>• DORA compliance (2025)</li>
+                        <li>• EU cybersecurity frameworks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. SOC Reference Library.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>

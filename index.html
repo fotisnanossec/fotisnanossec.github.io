@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuned for Security Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-gradient {
+            background: linear-gradient(to right, #e5e7eb, #d1d5db);
+        }
+        .mobile-menu-transition {
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu-transition.open {
+            max-height: 500px;
+        }
+        .code-snippet {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+        
+        /* Enhanced dropdown navigation */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            top: 100%;
+            left: 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-content a {
+            color: #374151;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-radius: 6px;
+            margin: 4px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .dropdown-content .section-header {
+            color: #6b7280;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 8px 16px 4px;
+            margin: 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        /* Search box styling */
+        .search-box {
+            position: relative;
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .search-result-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .search-result-item:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Mobile responsive adjustments */        
+        @media (max-width: 768px) {
+            .dropdown-content {
+                position: fixed;
+                left: 20px;
+                right: 20px;
+                width: auto;
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="./" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+                
+                <!-- Main Navigation with Dropdowns -->
+                <div class="hidden lg:flex space-x-6">
+                    <!-- Home -->
+                    <a href="#home" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">
+                        Home
+                    </a>
+                    
+                    <!-- TryHackMe Writeups Dropdown -->
+                    <div class="dropdown">
+                        <button class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md flex items-center">
+                            Writeups
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="dropdown-content">
+                            <div class="section-header">SOC Level 1 Complete</div>
+                            <a href="./blog/boogeyman-1-writeup.html">
+                                <div class="font-semibold">Boogeyman 1</div>
+                                <div class="text-xs text-gray-500">Complete Incident Analysis</div>
+                            </a>
+                            <a href="./blog/boogeyman-2-writeup.html">
+                                <div class="font-semibold">Boogeyman 2</div>
+                                <div class="text-xs text-gray-500">Advanced Spear Phishing</div>
+                            </a>
+                            <a href="./blog/boogeyman-3-writeup.html">
+                                <div class="font-semibold">Boogeyman 3</div>
+                                <div class="text-xs text-gray-500">Multi-Stage Attack</div>
+                            </a>
+                            <div class="section-header">Additional Content</div>
+                            <a href="./blog/insights.html">
+                                <div class="font-semibold">The Analyst as a Musician</div>
+                                <div class="text-xs text-gray-500">Methodology & Approach</div>
+                            </a>
+                            <a href="./blog/index.html">View All Insights →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- SOC Toolkit Dropdown -->
+                    <div class="dropdown">
+                        <button class="text-blue-600 hover:text-blue-700 font-semibold transition duration-300 px-3 py-2 rounded-md flex items-center">
+                            SOC Toolkit
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="dropdown-content">
+                            <div class="section-header">SOC Analyst Toolkit</div>
+                            <a href="./soc-toolkit/index.html">
+                                <div class="font-semibold">🛠️ Toolkit Overview</div>
+                                <div class="text-xs text-gray-500">Ready-to-Deploy Capabilities</div>
+                            </a>
+                            <div class="section-header">Core Components</div>
+                            <a href="./soc-toolkit/procedures/index.html">
+                                <div class="font-semibold">📋 Investigation Procedures</div>
+                                <div class="text-xs text-gray-500">✅ Phishing Analysis Complete</div>
+                            </a>
+                            <a href="./soc-toolkit/knowledge-base/index.html">
+                                <div class="font-semibold">📖 Knowledge Base</div>
+                                <div class="text-xs text-gray-500">Technical References & Frameworks</div>
+                            </a>
+                            <div class="section-header">Quick Access</div>
+                            <a href="./soc-documentation/playbooks/phishing-investigation.html">
+                                <div class="font-semibold">🎣 Phishing Investigation</div>
+                                <div class="text-xs text-gray-500">Complete Procedure (Ready)</div>
+                            </a>
+                            <a href="./soc-documentation/references/windows-fundamentals.html">
+                                <div class="font-semibold">🪟 Windows Fundamentals</div>
+                                <div class="text-xs text-gray-500">Security Essentials</div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Projects -->
+                    <a href="#projects" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">
+                        Projects
+                    </a>
+                    
+                    <!-- Music -->
+                    <a href="#music" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">
+                        Music
+                    </a>
+                </div>
+
+                <!-- Search Box -->
+                <div class="hidden md:block search-box">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="Search documentation..." 
+                            class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        >
+                        <svg class="absolute right-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <div id="search-results" class="search-results">
+                        <!-- Search results will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden text-gray-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="lg:hidden custom-gradient px-6 mobile-menu-transition">
+                <a href="#home" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Home</a>
+                <a href="#cybersecurity" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Cybersecurity</a>
+                <a href="#projects" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Projects</a>
+                <a href="./blog/index.html" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Writeups</a>
+                <a href="./soc-toolkit/index.html" class="block py-2 text-blue-600 hover:text-blue-700 font-semibold transition duration-300 border-b border-gray-300">SOC Toolkit</a>
+                <a href="#music" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300">Music</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="home" class="min-h-screen p-6 bg-gray-50">
+            <div class="container mx-auto py-16">
+                <div class="flex flex-col lg:flex-row gap-12 items-start">
+                    
+                    <!-- Left Column - Profile Info -->
+                    <div class="lg:w-1/3">
+                        <div class="text-center lg:sticky lg:top-8">
+                            <!-- Profile Image -->
+                            <img class="w-64 h-64 md:w-80 md:h-80 rounded-full mx-auto mb-6 shadow-lg object-cover" 
+                                 src="./Fotios.jpg" 
+                                 alt="Fotis Nanos">
+                            
+                            <!-- Name & Title -->
+                            <h1 class="text-3xl font-bold text-gray-900 mb-2">Fotis Nanos</h1>
+                            <h2 class="text-xl text-blue-600 font-semibold mb-1">Cybersecurity Analyst</h2>
+                            <h3 class="text-lg text-gray-600 mb-6">Ready to Deploy</h3>
+                            
+                            <!-- Quick Status Badges -->
+                            <div class="mb-6 space-y-2">
+                                <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                                    EU Citizen
+                                </div>
+                                <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium inline-block mt-2">
+                                    SOC Level 1 Complete
+                                </div>
+                            </div>
+                            
+                            <!-- Network Icons -->
+                            <div class="flex justify-center flex-wrap mb-8 space-x-2">
+                                <a href="mailto:fotis.nanos.sec@gmail.com" class="bg-gray-100 p-3 rounded-full text-gray-600 hover:bg-blue-600 hover:text-white transition duration-300" title="Email">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                    </svg>
+                                </a>
+                                <a href="https://www.linkedin.com/in/fotisnanos" class="bg-gray-100 p-3 rounded-full text-gray-600 hover:bg-blue-600 hover:text-white transition duration-300" title="LinkedIn" target="_blank">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-5 13h2v-4.6c0-2.2-.9-3.7-3.1-3.7-1.3 0-2.1.8-2.5 1.5h-.1v-1.3H9.4v8.1h2V13c0-1 .4-1.7 1.3-1.7.9 0 1.3.6 1.3 1.7v3h2v-4.6zM8 8a1 1 0 001-1.1A1 1 0 008 6a1 1 0 00-1 1.1 1 1 0 001 1zm-1 9h2v-8h-2v8z"/>
+                                    </svg>
+                                </a>
+                                <a href="https://github.com/fotisnanossec" class="bg-gray-100 p-3 rounded-full text-gray-600 hover:bg-blue-600 hover:text-white transition duration-300" title="GitHub" target="_blank">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                                    </svg>
+                                </a>
+                                <a href="https://tryhackme.com/p/StygianR00t" class="bg-gray-100 p-3 rounded-full text-gray-600 hover:bg-blue-600 hover:text-white transition duration-300" title="TryHackMe" target="_blank">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.82-3.14L10.5 13.5l-3.32-.42L12 7.7l5.82 5.38-3.32.42.82 2.38-5.82-1.36z"/>
+                                    </svg>
+                                </a>
+                            </div>
+            
+                            <!-- Quick Action Buttons -->
+                            <div class="space-y-3">
+                                <a href="./soc-toolkit/index.html" 
+                                   class="block bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 text-center">
+                                    View SOC Toolkit
+                                </a>
+                                <div class="relative group">
+                                    <button class="block w-full border-2 border-blue-600 text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition duration-300">
+                                        Download Resume
+                                    </button>
+                                    <div class="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 w-full">
+                                        <a href="./resume-greece-soc.pdf" target="_blank" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Greece SOC Focus</a>
+                                        <a href="./resume-austria-de.pdf" target="_blank" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Austria (German)</a>
+                                        <a href="./resume-updated.pdf" target="_blank" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">International</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column - Main Content -->
+                    <div class="lg:w-2/3">
+                        <!-- Biography -->
+                        <div class="mb-12">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-4 border-b-2 border-gray-200 pb-2">Biography</h2>
+                            <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                                <p class="text-lg mb-6">
+                                    Born in Greece in 1984, my journey began with dual interests that would later prove complementary. At age seven, I started classical guitar studies, eventually graduating with excellence from the National Conservatory of Athens at eighteen. Simultaneously, I pursued technical education at TEE Athens (1998-2002), earning a diploma in Electronics, Computer, and Network Technology—an early foundation that sparked my lasting fascination with cybersecurity.
+                                </p>
+                                <p class="mb-6">
+                                    Seeking to deepen my musical expertise, I completed advanced studies at the prestigious Universität Mozarteum in Salzburg, leading to an international performance career spanning Austria, Germany, France, and Argentina. For over fifteen years, I performed as a soloist with orchestras, appeared at major venues and taught across diverse educational institutions.
+                                </p>
+                                <p class="mb-6">
+                                    Throughout my musical career, I maintained my technical curiosity, continuously learning about network security, system administration, and emerging cyber threats. This parallel interest evolved into serious study as I recognized how the analytical skills from music—pattern recognition, problem-solving, and attention to detail—directly applied to cybersecurity investigation.
+                                </p>
+                                <p class="mb-6">
+                                    Now I'm channeling this combination of artistic discipline and technical foundation into cybersecurity. Through comprehensive SOC training, I've achieved top 2% global ranking on TryHackMe, completed the full SOC Level 1 path, and earned official recognition as a Cybersecurity Specialist ("Datensicherheitsspezialist") from BEST Institut Vienna. I'm currently preparing for CompTIA Security+ certification while building practical experience in incident response, digital forensics, and threat analysis.
+                                </p>
+                                <p class="mb-4">
+                                    My multilingual abilities (Greek native, English fluent, German proficient) and international experience position me well for European cybersecurity roles.
+                                </p>
+                                <p class="mb-4">
+                                    <strong>Languages:</strong> Greek (Native), English (Fluent), German (Good)
+                                </p>
+                            </div>
+                        </div>
+            
+                        <!-- Two Column Layout for Certifications/Skills -->
+                        <div class="grid md:grid-cols-2 gap-8 mb-12">
+                            <!-- Certifications & Training - FIRST -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Certifications & Training</h3>
+                                <ul class="space-y-3">
+                                    <li class="border-l-4 border-green-500 pl-4">
+                                        <div class="font-semibold text-green-700">SOC Level 1 Path - 100% Complete</div>
+                                        <div class="text-gray-600 text-sm">TryHackMe - Top 2% Global Ranking</div>
+                                    </li>
+                                    <li class="border-l-4 border-blue-500 pl-4">
+                                        <div class="font-semibold text-blue-700">Professional IT Assessment</div>
+                                        <div class="text-gray-600 text-sm">BEST Institut Vienna - "Sehr gute Kenntnisse"</div>
+                                    </li>
+                                    <li class="border-l-4 border-purple-500 pl-4">
+                                        <div class="font-semibold text-purple-700">CompTIA Security+ Preparation</div>
+                                        <div class="text-gray-600 text-sm">Target: December 2025</div>
+                                    </li>
+                                    <li class="border-l-4 border-orange-500 pl-4">
+                                        <div class="font-semibold text-orange-700">Technical Education</div>
+                                        <div class="text-gray-600 text-sm">Electronics & Computer Networks (Athens TEE)</div>
+                                    </li>
+                                </ul>
+                            </div>
+            
+                            <!-- Technical Skills -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Core Technical Skills</h3>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-center">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                                        Incident Response & Investigation
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                                        Network Traffic Analysis (PCAP)
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                                        Malware Analysis & PowerShell Forensics
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                                        Memory & File System Forensics
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                                        Phishing Analysis & Email Investigation
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
+                                        SIEM Operations & Log Analysis
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+            
+                        <!-- Key Achievements -->
+                        <div class="mb-12">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Key Achievements</h3>
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div class="bg-blue-50 p-6 rounded-lg text-center">
+                                    <div class="text-3xl font-bold text-blue-600 mb-2">Top 2%</div>
+                                    <div class="text-sm text-gray-600">TryHackMe Global Ranking</div>
+                                </div>
+                                <div class="bg-green-50 p-6 rounded-lg text-center">
+                                    <div class="text-3xl font-bold text-green-600 mb-2">100%</div>
+                                    <div class="text-sm text-gray-600">SOC Level 1 Complete</div>
+                                </div>
+                                <div class="bg-purple-50 p-6 rounded-lg text-center">
+                                    <div class="text-3xl font-bold text-purple-600 mb-2">25+</div>
+                                    <div class="text-sm text-gray-600">Badges Earned</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Stats Bar for Mobile Visibility -->
+        <div class="bg-white shadow-md">
+            <div class="container mx-auto px-6 py-4">
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <a href="#cybersecurity" class="flex items-center text-green-600 hover:text-green-700 transition duration-300">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        ✓ SOC Level 1 Complete
+                    </a>
+                    <a href="./soc-toolkit/index.html" class="flex items-center text-blue-600 hover:text-blue-700 font-semibold transition duration-300">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 2a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                        </svg>
+                        🛠️ SOC Toolkit
+                    </a>
+                    <a href="#cybersecurity" class="flex items-center text-purple-600 hover:text-purple-700 transition duration-300">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"></path>
+                        </svg>
+                        Top 2% TryHackMe
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <section id="cybersecurity" class="p-6 bg-gray-100">
+            <div class="container mx-auto py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Cybersecurity Expertise</h2>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                        <strong>SOC Level 1 Certified Track Complete!</strong> Ready for SAL1 Professional Certification and CompTIA Security+ (Target: December 2025). Specialized in incident response, digital forensics, and threat analysis through comprehensive hands-on practice.
+                    </p>
+                </div>
+                
+                <!-- SOC Level 1 Completion Achievement -->
+                <div class="bg-gradient-to-r from-green-100 to-blue-100 border-l-4 border-green-500 p-6 rounded-lg shadow-xl mb-8">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-500 text-white p-2 rounded-full mr-3">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-800">🎯 SOC Level 1 Path - COMPLETED!</h3>
+                    </div>
+                    <p class="text-green-700 leading-relaxed mb-2">
+                        <strong>TryHackMe SOC Level 1 Learning Path</strong> - Successfully completed comprehensive 
+                        Security Operations Center training covering incident response, digital forensics, 
+                        network security analysis, threat intelligence, and SIEM operations.
+                    </p>
+                    <p class="text-sm text-green-600">
+                        🏆 100% Completion • Ready for SAL1 Professional Certification • September 2025
+                    </p>
+                </div>
+
+                <!-- Progress Metrics -->
+                <div class="bg-white p-6 rounded-lg shadow-xl mb-8">
+                    <h3 class="text-2xl font-bold text-gray-600 mb-4 text-center">Current Progress</h3>
+                    <div class="grid md:grid-cols-4 gap-6 text-center">
+                        <div>
+                            <h4 class="text-xl font-semibold text-gray-800">TryHackMe Ranking</h4>
+                            <p class="text-3xl font-bold text-blue-600">Top 2%</p>
+                            <p class="text-gray-600">Global Position: ~19,000</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-gray-800">SOC Level 1</h4>
+                            <p class="text-3xl font-bold text-green-600">100%</p>
+                            <p class="text-gray-600">Complete ✓</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-gray-800">SAL1 Certification</h4>
+                            <p class="text-3xl font-bold text-purple-600">Ready</p>
+                            <p class="text-gray-600">Eligible for Exam</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-gray-800">Completed Rooms</h4>
+                            <p class="text-3xl font-bold text-orange-600">150+</p>
+                            <p class="text-gray-600">25+ Badges Earned</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Official Assessment -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 border-l-4 border-green-500 p-6 rounded-lg shadow-xl mb-8">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 p-2 rounded-full mr-3">
+                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-800">🏛️ Official IT Competency Assessment</h3>
+                    </div>
+                    <p class="text-green-700 leading-relaxed mb-2">
+                        <strong>BEST Institut Vienna</strong> - Officially assessed as <em>"Datensicherheitsspezialist"</em> 
+                        (Cybersecurity Specialist) with <strong>"sehr gute Kenntnisse"</strong> rating through 
+                        comprehensive skills evaluation and technical competency review.
+                    </p>
+                    <p class="text-sm text-green-600">
+                        📍 Professional Assessment Institute • Vienna, Austria • September 2025
+                    </p>
+                </div>
+
+                <div class="flex justify-center my-8">
+                    <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=4159956" style="border:none; width:100%; max-width: 500px; height: 180px;"></iframe>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">Incident Response</h3>
+                        <p class="text-gray-700">
+                            Hands-on experience with complete incident investigation workflows through TryHackMe SOC scenarios. Practiced email analysis, malware investigation, and network-based data recovery techniques.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">Network Analysis</h3>
+                        <p class="text-gray-700">
+                            Practical experience with <strong>Wireshark, TShark, Zeek</strong>, and <strong>Nmap</strong> through training scenarios. Demonstrated PCAP analysis, traffic filtering, and network forensics techniques.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">Malware Analysis</h3>
+                        <p class="text-gray-700">
+                            Training-based experience analyzing malicious documents, PowerShell logs, and attack vectors. Familiar with macro analysis, fileless malware techniques, and persistence mechanisms.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">Web Security</h3>
+                        <p class="text-gray-700">
+                            Foundational knowledge of web vulnerabilities through OWASP Top 10 study and TryHackMe web security rooms. Basic familiarity with Burp Suite and common attack vectors.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">Memory & File Forensics</h3>
+                        <p class="text-gray-700">
+                            Training experience with <strong>Volatility 3, KAPE, Redline</strong> through SOC Level 1 scenarios. Demonstrated memory dump analysis, Windows artifact investigation, and evidence timeline construction.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">Certifications & Assessments</h3>
+                        <p class="text-gray-700">
+                            <strong>Ready for Exam:</strong> Security Analyst Level 1 (SAL1) Professional Certification<br>
+                            <strong>In Progress:</strong> CompTIA Security+ (Dec 2025)<br>
+                            <strong>Official Assessment:</strong> BEST Institut Vienna - "Datensicherheitsspezialist" with "sehr gute Kenntnisse" rating<br>
+                            <strong>TryHackMe:</strong> SOC Level 1 Path ✅ <em>100% Complete</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="p-6 bg-gray-200">
+            <div class="container mx-auto py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Featured Projects</h2>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                        Practical applications demonstrating cybersecurity skills through automated tools, vulnerability assessments, and incident response capabilities.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Domain Analyzer</h3>
+                        <p class="text-gray-700 mb-4">
+                            Automated cybersecurity reconnaissance tool that integrates multiple intelligence sources with local LLM analysis to generate professional security reports. Demonstrates automation, API integration, and report generation skills.
+                        </p>
+                        <div class="flex space-x-2">
+                            <a href="https://github.com/fotisnanossec/domain-analyzer" target="_blank" class="text-blue-500 hover:underline font-semibold">GitHub Repository</a>
+                            <span>•</span>
+                            <a href="https://github.com/fotisnanossec/domain-analyzer/blob/main/README.md" target="_blank" class="text-blue-500 hover:underline font-semibold">Documentation</a>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Vuln-Report-AI</h3>
+                        <p class="text-gray-700 mb-4">
+                            Integrates popular open-source security scanners (Nmap, Nikto, SQLMap) with LLM processing to produce structured, professional security reports from raw scan data.
+                        </p>
+                        <div class="flex space-x-2">
+                            <a href="https://github.com/fotisnanossec/Vuln-Report-AI" target="_blank" class="text-blue-500 hover:underline font-semibold">GitHub Repository</a>
+                            <span>•</span>
+                            <a href="https://github.com/fotisnanossec/Vuln-Report-AI/tree/main/examples" target="_blank" class="text-blue-500 hover:underline font-semibold">Sample Reports</a>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">PCAP Analysis Projects</h3>
+                        <p class="text-gray-700 mb-4">
+                            Portfolio of network traffic analysis projects showcasing forensics, threat hunting, and incident response skills through structured analysis of publicly available PCAP files.
+                        </p>
+                        <div class="flex space-x-2">
+                            <a href="https://github.com/fotisnanossec/pcap-analysis-projects" target="_blank" class="text-blue-500 hover:underline font-semibold">GitHub Repository</a>
+                            <span>•</span>
+                            <a href="https://github.com/fotisnanossec/pcap-analysis-projects/blob/main/README.md" target="_blank" class="text-blue-500 hover:underline font-semibold">Analysis Reports</a>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Brute-Force Detector</h3>
+                        <p class="text-gray-700 mb-4">
+                            Real-time security monitoring system that detects unauthorized login attempts and provides immediate notifications. Demonstrates log analysis and alerting capabilities.
+                        </p>
+                        <div class="flex space-x-2">
+                            <a href="https://github.com/fotisnanossec/brute-force-detector" target="_blank" class="text-blue-500 hover:underline font-semibold">GitHub Repository</a>
+                            <span>•</span>
+                            <a href="https://github.com/fotisnanossec/brute-force-detector/blob/main/README.md" target="_blank" class="text-blue-500 hover:underline font-semibold">Documentation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="insights" class="p-6 bg-gray-100">
+            <div class="container mx-auto py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Latest Insights</h2>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                        Technical writeups, threat analysis, and cybersecurity tutorials based on hands-on experience and continuous learning.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300 border-2 border-blue-200">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold mb-2 w-fit">NEW</div>
+                        <img src="./assets/images/blog/boogeyman-3-analysis.jpg" alt="Boogeyman 3 Analysis" class="w-full h-32 object-cover rounded mb-4">
+                        <h3 class="text-xl font-bold text-gray-600 mb-2">Boogeyman 3 - Multi-Stage Attack Investigation</h3>
+                        <p class="text-sm text-gray-500 mb-3">Published: September 2025 • 25 min read</p>
+                        <p class="text-gray-700 mb-4">
+                            Comprehensive investigation of sophisticated multi-stage attack covering phishing analysis, macro deobfuscation, PowerShell investigation, and advanced persistence techniques. Demonstrates enterprise-level incident response capabilities.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Advanced Investigation</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">PowerShell Forensics</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Persistence Analysis</span>
+                        </div>
+                        <a href="./blog/boogeyman-3-writeup.html" class="text-blue-500 hover:underline font-semibold">Read Full Analysis →</a>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <img src="./assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 2 Analysis" class="w-full h-32 object-cover rounded mb-4">
+                        <h3 class="text-xl font-bold text-gray-600 mb-2">Boogeyman 2 - Advanced Spear Phishing Analysis</h3>
+                        <p class="text-sm text-gray-500 mb-3">Published: September 2025 • 20 min read</p>
+                        <p class="text-gray-700 mb-4">
+                            Advanced memory forensics and spear phishing investigation targeting HR departments. Demonstrates Volatility 3 analysis, multi-stage payload tracing, and sophisticated persistence mechanisms.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Memory Forensics</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Macro Analysis</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Process Investigation</span>
+                        </div>
+                        <a href="./blog/boogeyman-2-writeup.html" class="text-blue-500 hover:underline font-semibold">Read Full Analysis →</a>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <img src="./assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 1 Analysis" class="w-full h-32 object-cover rounded mb-4">
+                        <h3 class="text-xl font-bold text-gray-600 mb-2">Boogeyman 1 - Complete Incident Analysis</h3>
+                        <p class="text-sm text-gray-500 mb-3">Published: September 2025 • 15 min read</p>
+                        <p class="text-gray-700 mb-4">
+                            End-to-end incident response walkthrough covering email analysis, malware investigation, PowerShell forensics, and DNS exfiltration recovery. Demonstrates SOC analyst methodology and technical proficiency.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Incident Response</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Malware Analysis</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Network Forensics</span>
+                        </div>
+                        <a href="./blog/boogeyman-1-writeup.html" class="text-blue-500 hover:underline font-semibold">Read Full Analysis →</a>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300">
+                        <img src="https://storage.googleapis.com/my-portfolio-images-2025/MusicSec.png" alt="Music and Security Methodology" class="w-full h-32 object-cover rounded mb-4">
+                        <h3 class="text-xl font-bold text-gray-600 mb-2">The Analyst as a Musician</h3>
+                        <p class="text-sm text-gray-500 mb-3">Published: September 2025 • 8 min read</p>
+                        <p class="text-gray-700 mb-4">
+                            How classical music training informs cybersecurity methodology: pattern recognition, systematic analysis, and disciplined practice applied to digital defense.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Methodology</span>
+                            <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs">Career Development</span>
+                        </div>
+                        <a href="./blog/insights.html" class="text-blue-500 hover:underline font-semibold">Read Article →</a>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-xl hover:bg-gray-50 transition-colors duration-300 border-2 border-dashed border-gray-300">
+                        <div class="text-center py-8">
+                            <h3 class="text-xl font-bold text-gray-400 mb-2">More Content Coming Soon</h3>
+                            <p class="text-gray-500">
+                                Additional TryHackMe writeups, threat analysis, and technical tutorials in development.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="./blog/index.html" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300">View All Insights</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rest of sections remain the same (music, about, contact) -->
+        <section id="music" class="p-6 bg-gray-200">
+            <div class="container mx-auto py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Music Career</h2>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                        International classical guitarist with 15+ years of professional performance and education experience.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                    <!-- Performance Highlights -->
+                    <div class="bg-white p-8 rounded-lg shadow-xl">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Performance Highlights</h3>
+                        <div class="space-y-4 text-gray-700">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Orchestral Soloist</h4>
+                                <p class="text-sm">Orquesta Sinfónica UNT (Concierto de Aranjuez, Argentina)</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">International Venues</h4>
+                                <p class="text-sm">Musikverein Wien, Gasteig München, Stadttheater Baden, Jazzit Salzburg, Porgy and Bess Wien</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">International Festivals</h4>
+                                <p class="text-sm">Forum Gitarre Wien, Festival Nord Pays de Calais (France)</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Geographic Reach</h4>
+                                <p class="text-sm">Austria, Germany, Greece, France, Croatia, Serbia, Argentina</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education & Teaching -->
+                    <div class="bg-white p-8 rounded-lg shadow-xl">
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Education & Teaching</h3>
+                        <div class="space-y-4 text-gray-700">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Academic Credentials</h4>
+                                <ul class="text-sm space-y-1 mt-2">
+                                    <li>• Master of Arts - Guitar Performance (Universität Mozarteum Salzburg)</li>
+                                    <li>• Classical Guitar Diploma (National Conservatory of Athens)</li>
+                                    <li>• IGP Pedagogy Certification (Vienna Konservatorium)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Teaching Experience</h4>
+                                <p class="text-sm mt-2">15+ years across diverse educational institutions, from elementary pedagogy to adult education centers, developing curriculum and coaching performance skills.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Transferable Skills</h4>
+                                <p class="text-sm mt-2">Discipline, analytical thinking, pattern recognition, and composure under pressure - directly applicable to cybersecurity operations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Performance -->
+                <div class="mt-12 text-center">
+                    <h3 class="text-3xl font-bold text-gray-900 mb-6">Featured Performance</h3>
+                    <div class="max-w-2xl mx-auto">
+                        <div class="bg-white p-6 rounded-lg shadow-xl">
+                            <h4 class="text-xl font-semibold text-gray-600 mb-4">Concierto de Aranjuez - Argentina</h4>
+                            <div class="aspect-video rounded overflow-hidden">
+                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/ysAEJB68PPo?si=89K_xNgj8108_THd" title="Concierto de Aranjuez Performance" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <p class="mt-4 text-gray-600 text-sm">Soloist with Orquesta Sinfónica UNT, Tucumán, Argentina</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <p class="text-gray-600">
+                            <a href="https://fotisnanos.eu" target="_blank" class="text-blue-600 hover:underline font-medium">
+                                View Complete Musical Portfolio →
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="p-6 bg-gray-200">
+            <div class="container mx-auto py-16 text-center">
+                <div class="max-w-xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Let's Connect</h2>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8">
+                        Interested in cybersecurity collaboration and SOC analyst opportunities? I'd love to hear from you.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-center space-x-4">
+                            <a href="mailto:fotis.nanos.sec@gmail.com" class="text-gray-600 hover:text-gray-800 transition duration-300 flex items-center">
+                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+                                <span class="text-xl font-semibold">fotis.nanos.sec@gmail.com</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-center space-x-4">
+                            <a href="https://www.linkedin.com/in/fotisnanos" target="_blank" class="text-gray-600 hover:text-gray-800 transition duration-300 flex items-center">
+                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-5 13h2v-4.6c0-2.2-.9-3.7-3.1-3.7-1.3 0-2.1.8-2.5 1.5h-.1v-1.3H9.4v8.1h2V13c0-1 .4-1.7 1.3-1.7.9 0 1.3.6 1.3 1.7v3h2v-4.6zM8 8a1 1 0 001-1.1A1 1 0 008 6a1 1 0 00-1 1.1 1 1 0 001 1zm-1 9h2v-8h-2v8z"></path></svg>
+                                <span class="text-xl font-semibold">LinkedIn</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-center space-x-4">
+                            <a href="https://tryhackme.com/p/StygianR00t" target="_blank" class="text-gray-600 hover:text-gray-800 transition duration-300 flex items-center">
+                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.82-3.14L10.5 13.5l-3.32-.42L12 7.7l5.82 5.38-3.32.42.82 2.38-5.82-1.36z"></path></svg>
+                                <span class="text-xl font-semibold">TryHackMe</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        };
+        
+        // Enhanced Search functionality
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        
+        // Sample search data for portfolio content
+        const searchData = [
+            { title: 'Security Fundamentals', url: './soc-documentation/references/security-fundamentals.html', description: 'CIA Triad, Authentication, Encryption' },
+            { title: 'Windows Fundamentals', url: './soc-documentation/references/windows-fundamentals.html', description: 'System Administration & Security' },
+            { title: 'Linux Fundamentals', url: './soc-documentation/references/linux-fundamentals.html', description: 'Command Line & Security' },
+            { title: 'Boogeyman 1 Writeup', url: './blog/boogeyman-1-writeup.html', description: 'Complete Incident Response Analysis' },
+            { title: 'Boogeyman 2 Writeup', url: './blog/boogeyman-2-writeup.html', description: 'Advanced Spear Phishing & Memory Forensics' },
+            { title: 'Boogeyman 3 Writeup', url: './blog/boogeyman-3-writeup.html', description: 'Multi-Stage Attack Investigation' },
+            { title: 'OSI Security Model', url: './soc-documentation/references/osi-security-model.html', description: 'Network Layer Security Analysis' },
+            { title: 'PCAP Analysis Methodology', url: './soc-documentation/references/pcap-methodology.html', description: 'Network Forensics & Traffic Analysis' },
+            { title: 'Phishing Investigation Procedure', url: './soc-documentation/playbooks/phishing-investigation.html', description: 'Training-Based Email Threat Analysis' },
+            { title: 'SOC Investigation Procedures', url: './soc-documentation/playbooks/index.html', description: 'Training-Based Analysis Methodologies' },
+            { title: 'The Analyst as a Musician', url: './blog/insights.html', description: 'Methodology & Approach Philosophy' },
+            { title: 'Domain Analyzer Tool', url: 'https://github.com/fotisnanossec/domain-analyzer', description: 'Automated reconnaissance tool' },
+            { title: 'Vuln-Report-AI', url: 'https://github.com/fotisnanossec/Vuln-Report-AI', description: 'Vulnerability scanning with AI reports' }
+        ];
+        
+        if (searchInput && searchResults) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                
+                if (query.length === 0) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                const filteredResults = searchData.filter(item => 
+                    item.title.toLowerCase().includes(query) || 
+                    item.description.toLowerCase().includes(query)
+                );
+                
+                if (filteredResults.length > 0) {
+                    searchResults.innerHTML = filteredResults.map(item => `
+                        <div class="search-result-item" onclick="window.location.href='${item.url}'">
+                            <div class="font-semibold text-gray-800">${item.title}</div>
+                            <div class="text-sm text-gray-600">${item.description}</div>
+                        </div>
+                    `).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+                    searchResults.style.display = 'block';
+                }
+            });
+            
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-box')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

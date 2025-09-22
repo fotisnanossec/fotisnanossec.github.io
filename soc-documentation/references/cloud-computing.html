@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Computing - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Cloud Computing</h1>
+            <p class="text-gray-600">Cloud services, security, and infrastructure</p>
+        </div>
+
+        <!-- Service Models -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cloud Service Models</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">IaaS</h3>
+                    <p class="text-sm mb-2">Infrastructure as a Service</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Virtual machines</li>
+                        <li>• Storage</li>
+                        <li>• Networking</li>
+                        <li>• Example: AWS EC2</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">PaaS</h3>
+                    <p class="text-sm mb-2">Platform as a Service</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Development platform</li>
+                        <li>• Runtime environment</li>
+                        <li>• Databases</li>
+                        <li>• Example: Heroku</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">SaaS</h3>
+                    <p class="text-sm mb-2">Software as a Service</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Complete applications</li>
+                        <li>• Web-based access</li>
+                        <li>• No infrastructure management</li>
+                        <li>• Example: Office 365</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deployment Models -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Deployment Models</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-blue-600 mb-2">Public Cloud</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Shared infrastructure</li>
+                        <li>• Cost-effective</li>
+                        <li>• High scalability</li>
+                        <li>• Provider managed</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-green-600 mb-2">Private Cloud</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Dedicated infrastructure</li>
+                        <li>• Enhanced security</li>
+                        <li>• Full control</li>
+                        <li>• Higher cost</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-purple-600 mb-2">Hybrid Cloud</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Mix of public/private</li>
+                        <li>• Flexible deployment</li>
+                        <li>• Data locality</li>
+                        <li>• Complex management</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- AWS Services -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">AWS Core Services</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Compute</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• EC2 - Virtual servers</li>
+                            <li>• Lambda - Serverless</li>
+                            <li>• ECS - Containers</li>
+                            <li>• Auto Scaling</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Storage</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• S3 - Object storage</li>
+                            <li>• EBS - Block storage</li>
+                            <li>• EFS - File system</li>
+                            <li>• Glacier - Archive</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Networking</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• VPC - Virtual network</li>
+                            <li>• CloudFront - CDN</li>
+                            <li>• Route 53 - DNS</li>
+                            <li>• Load Balancer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Azure Services -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Azure Core Services</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Compute</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Virtual Machines</li>
+                            <li>• App Service</li>
+                            <li>• Functions</li>
+                            <li>• Container Instances</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Storage</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Blob Storage</li>
+                            <li>• Disk Storage</li>
+                            <li>• File Storage</li>
+                            <li>• Archive Storage</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Networking</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Virtual Network</li>
+                            <li>• Load Balancer</li>
+                            <li>• CDN</li>
+                            <li>• DNS</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Implications -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cloud Security</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Security Challenges</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Data location uncertainty</li>
+                        <li>• Shared responsibility model</li>
+                        <li>• Identity management complexity</li>
+                        <li>• Compliance requirements</li>
+                        <li>• Multi-tenancy risks</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Security Benefits</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Professional security teams</li>
+                        <li>• Advanced threat detection</li>
+                        <li>• Automated patching</li>
+                        <li>• Security certifications</li>
+                        <li>• Built-in security services</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shared Responsibility -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Shared Responsibility Model</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-blue-600 mb-2">Cloud Provider</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Physical infrastructure</li>
+                            <li>• Host OS and hypervisor</li>
+                            <li>• Network controls</li>
+                            <li>• Service availability</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-orange-600 mb-2">Customer</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Data encryption</li>
+                            <li>• Identity and access</li>
+                            <li>• OS and application patches</li>
+                            <li>• Network traffic protection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cloud Storage -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cloud Storage & Data Management</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-blue-600 mb-2">Object Storage</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Web-scale storage</li>
+                        <li>• REST API access</li>
+                        <li>• Metadata support</li>
+                        <li>• Global accessibility</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-green-600 mb-2">Block Storage</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• High-performance</li>
+                        <li>• Database storage</li>
+                        <li>• File system support</li>
+                        <li>• Snapshots</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-purple-600 mb-2">File Storage</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Network file systems</li>
+                        <li>• Shared access</li>
+                        <li>• POSIX compliance</li>
+                        <li>• Legacy app support</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scalability -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scalability & Elasticity</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Scalability Types</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Vertical (scale up/down)</li>
+                            <li>• Horizontal (scale out/in)</li>
+                            <li>• Manual scaling</li>
+                            <li>• Auto scaling</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Elasticity Benefits</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Cost optimization</li>
+                            <li>• Performance matching</li>
+                            <li>• Resource efficiency</li>
+                            <li>• Demand handling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cloud Networking -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cloud Networking</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="code-block">
+# Virtual Private Cloud (VPC)
+- Isolated network environment
+- Subnets for segmentation
+- Route tables for traffic control
+- Security groups (firewall rules)
+
+# Connectivity Options
+- Internet Gateway (public access)
+- NAT Gateway (outbound only)
+- VPN Gateway (site-to-site)
+- Direct Connect (dedicated line)
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cloud Monitoring</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">AWS CloudWatch</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Metrics collection</li>
+                        <li>• Log aggregation</li>
+                        <li>• Alarms and notifications</li>
+                        <li>• Custom dashboards</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Azure Monitor</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Application insights</li>
+                        <li>• Log analytics</li>
+                        <li>• Metrics explorer</li>
+                        <li>• Action groups</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cost Comparison -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cloud vs On-Premises Costs</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Cloud Benefits</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Pay-as-you-use model</li>
+                        <li>• No upfront hardware costs</li>
+                        <li>• Reduced operational overhead</li>
+                        <li>• Automatic scaling</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">On-Premises Benefits</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Predictable long-term costs</li>
+                        <li>• Full control over resources</li>
+                        <li>• No data transfer fees</li>
+                        <li>• Compliance certainty</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Security Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Core security principles</p>
+                    <a href="security-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Network Security</h3>
+                    <p class="text-sm text-gray-600 mb-2">Network protection strategies</p>
+                    <a href="network-security.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Server Technologies</h3>
+                    <p class="text-sm text-gray-600 mb-2">Infrastructure fundamentals</p>
+                    <a href="server-technologies.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Cloud Computing Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

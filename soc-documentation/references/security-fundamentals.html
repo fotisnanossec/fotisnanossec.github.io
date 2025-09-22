@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Fundamentals - SOC Analyst Essentials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+        .highlight {
+            background: #fef3c7;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+        .section-nav {
+            position: sticky;
+            top: 1rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">← Back to Portfolio</a>
+            <div class="space-x-4">
+                <a href="../index.html" class="text-gray-600 hover:text-gray-800 transition duration-300">SOC Documentation</a>
+                <a href="index.html" class="text-gray-600 hover:text-gray-800 transition duration-300">References</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Security Fundamentals</h1>
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-600 mb-6">Core Cybersecurity Concepts for SOC Analysts</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    Essential cybersecurity principles covering the CIA triad, authentication, authorization, encryption, and access control models. Foundation knowledge required for effective security operations and incident response.
+                </p>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="section-nav">
+                <h3 class="font-bold text-gray-800 mb-3">Quick Navigation</h3>
+                <div class="grid md:grid-cols-3 gap-2 text-sm">
+                    <a href="#cia-triad" class="text-blue-600 hover:underline">CIA Triad</a>
+                    <a href="#authentication" class="text-blue-600 hover:underline">Authentication</a>
+                    <a href="#authorization" class="text-blue-600 hover:underline">Authorization</a>
+                    <a href="#access-control" class="text-blue-600 hover:underline">Access Control Models</a>
+                    <a href="#encryption" class="text-blue-600 hover:underline">Cryptography</a>
+                    <a href="#password-security" class="text-blue-600 hover:underline">Password Security</a>
+                    <a href="#soc-applications" class="text-blue-600 hover:underline">SOC Applications</a>
+                </div>
+            </div>
+
+            <!-- CIA Triad -->
+            <section id="cia-triad" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">CIA Triad - Foundation of Information Security</h2>
+                
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">The Three Pillars of Information Security</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        The CIA Triad forms the foundation of information security, providing a framework for evaluating and implementing security controls. Every security decision should consider how it impacts Confidentiality, Integrity, and Availability.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-600 mb-4 text-center">Confidentiality</h3>
+                        <p class="text-gray-700 mb-4">
+                            Information is accessible only to authorized users. Prevents unauthorized disclosure of sensitive data through access controls, encryption, and classification.
+                        </p>
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h4 class="font-semibold text-blue-800 mb-2">SOC Implementation:</h4>
+                            <ul class="text-blue-700 text-sm space-y-1">
+                                <li>• Data classification policies</li>
+                                <li>• Encryption at rest and in transit</li>
+                                <li>• Access controls and permissions</li>
+                                <li>• Data loss prevention (DLP)</li>
+                                <li>• Network segmentation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-600 mb-4 text-center">Integrity</h3>
+                        <p class="text-gray-700 mb-4">
+                            Information remains accurate and unaltered. Ensures data hasn't been modified by unauthorized parties through checksums, digital signatures, and version control.
+                        </p>
+                        <div class="bg-green-50 p-3 rounded">
+                            <h4 class="font-semibold text-green-800 mb-2">SOC Implementation:</h4>
+                            <ul class="text-green-700 text-sm space-y-1">
+                                <li>• File integrity monitoring (FIM)</li>
+                                <li>• Digital signatures and hashing</li>
+                                <li>• Version control systems</li>
+                                <li>• Change management processes</li>
+                                <li>• Database transaction logs</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.75 9.25a.75.75 0 000 1.5h4.59l-2.1 1.95a.75.75 0 001.02 1.1l3.5-3.25a.75.75 0 000-1.1l-3.5-3.25a.75.75 0 10-1.02 1.1l2.1 1.95H6.75z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-purple-600 mb-4 text-center">Availability</h3>
+                        <p class="text-gray-700 mb-4">
+                            Information and systems are accessible when needed by authorized users. Prevents service disruption through redundancy, monitoring, and disaster recovery.
+                        </p>
+                        <div class="bg-purple-50 p-3 rounded">
+                            <h4 class="font-semibold text-purple-800 mb-2">SOC Implementation:</h4>
+                            <ul class="text-purple-700 text-sm space-y-1">
+                                <li>• Redundancy and failover systems</li>
+                                <li>• DDoS protection and monitoring</li>
+                                <li>• Backup and disaster recovery</li>
+                                <li>• Performance monitoring</li>
+                                <li>• Incident response procedures</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat vs CIA Mapping -->
+                <div class="bg-gray-100 p-6 rounded-lg mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Common Threats Against CIA Triad</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="text-left py-2 font-semibold">CIA Element</th>
+                                    <th class="text-left py-2 font-semibold">Common Threats</th>
+                                    <th class="text-left py-2 font-semibold">SOC Detection Methods</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-2 font-medium text-blue-600">Confidentiality</td>
+                                    <td class="py-2">Data breaches, eavesdropping, insider threats</td>
+                                    <td class="py-2">DLP alerts, access anomalies, encryption monitoring</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-2 font-medium text-green-600">Integrity</td>
+                                    <td class="py-2">Malware, unauthorized modifications, tampering</td>
+                                    <td class="py-2">FIM alerts, hash verification, change detection</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 font-medium text-purple-600">Availability</td>
+                                    <td class="py-2">DDoS, ransomware, system failures</td>
+                                    <td class="py-2">Performance monitoring, service health checks</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Authentication -->
+            <section id="authentication" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Authentication Mechanisms</h2>
+                
+                <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-lg mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Authentication vs Authorization</h3>
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-indigo-700 mb-2">Authentication</h4>
+                            <p class="text-indigo-600 text-sm mb-2"><em>"Who are you?"</em></p>
+                            <ul class="text-indigo-600 text-sm space-y-1">
+                                <li>• Verifies identity</li>
+                                <li>• Proves you are who you claim to be</li>
+                                <li>• Uses credentials (password, token, biometric)</li>
+                                <li>• Happens first in access control</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-blue-700 mb-2">Authorization</h4>
+                            <p class="text-blue-600 text-sm mb-2"><em>"What can you access?"</em></p>
+                            <ul class="text-blue-600 text-sm space-y-1">
+                                <li>• Determines permissions</li>
+                                <li>• Controls what you can do</li>
+                                <li>• Based on roles, policies, attributes</li>
+                                <li>• Happens after authentication</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-indigo-600 mb-4">Authentication Factors</h3>
+                        <div class="space-y-4">
+                            <div class="bg-indigo-50 p-4 rounded">
+                                <h4 class="font-semibold text-indigo-800 mb-2">Something You Know</h4>
+                                <ul class="text-indigo-700 text-sm space-y-1">
+                                    <li>• Passwords and passphrases</li>
+                                    <li>• PINs and security questions</li>
+                                    <li>• Knowledge-based authentication</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded">
+                                <h4 class="font-semibold text-green-800 mb-2">Something You Have</h4>
+                                <ul class="text-green-700 text-sm space-y-1">
+                                    <li>• Hardware tokens and smart cards</li>
+                                    <li>• Mobile devices and SMS</li>
+                                    <li>• Software tokens and authenticator apps</li>
+                                </ul>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded">
+                                <h4 class="font-semibold text-purple-800 mb-2">Something You Are</h4>
+                                <ul class="text-purple-700 text-sm space-y-1">
+                                    <li>• Fingerprints and facial recognition</li>
+                                    <li>• Iris and retina scans</li>
+                                    <li>• Voice and behavioral biometrics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-600 mb-4">Multi-Factor Authentication (MFA)</h3>
+                        <div class="code-block">
+# Common MFA implementations
+# TOTP (Time-based One-Time Password)
+Google Authenticator, Authy, Microsoft Authenticator
+
+# Hardware tokens
+RSA SecurID, YubiKey
+
+# Push notifications
+Duo Security, Microsoft Authenticator push
+
+# Biometric + Password
+Windows Hello, TouchID + password
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">MFA Bypass Techniques (SOC Awareness):</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                                <li>SIM swapping attacks</li>
+                                <li>MFA fatigue attacks</li>
+                                <li>Session hijacking post-authentication</li>
+                                <li>Social engineering of helpdesk</li>
+                                <li>Malware intercepting SMS codes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Authorization -->
+            <section id="authorization" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Authorization Models</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">Role-Based Access Control (RBAC)</h3>
+                        <p class="text-gray-700 mb-4">
+                            Access permissions are assigned to roles, and users are assigned to roles based on their responsibilities.
+                        </p>
+                        <div class="code-block">
+# RBAC Example
+Role: Database_Admin
+Permissions:
+  - CREATE_DATABASE
+  - DELETE_DATABASE
+  - BACKUP_DATABASE
+  - MANAGE_USERS
+
+User: john_doe
+Assigned_Roles: [Database_Admin, Security_Auditor]
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded mt-4">
+                            <h4 class="font-semibold text-blue-800 mb-2">RBAC Benefits:</h4>
+                            <ul class="text-blue-700 text-sm space-y-1">
+                                <li>• Simplifies permission management</li>
+                                <li>• Scalable for large organizations</li>
+                                <li>• Principle of least privilege</li>
+                                <li>• Easy role-based reporting</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-green-600 mb-4">Attribute-Based Access Control (ABAC)</h3>
+                        <p class="text-gray-700 mb-4">
+                            Access decisions based on attributes of users, resources, environment, and actions.
+                        </p>
+                        <div class="code-block">
+# ABAC Policy Example
+PERMIT IF (
+  user.department == "Finance" AND
+  resource.classification == "Confidential" AND
+  environment.location == "Corporate_Network" AND
+  environment.time BETWEEN 09:00 AND 17:00
+)
+                        </div>
+                        <div class="bg-green-50 p-3 rounded mt-4">
+                            <h4 class="font-semibold text-green-800 mb-2">ABAC Advantages:</h4>
+                            <ul class="text-green-700 text-sm space-y-1">
+                                <li>• Fine-grained access control</li>
+                                <li>• Dynamic policy evaluation</li>
+                                <li>• Context-aware decisions</li>
+                                <li>• Supports complex requirements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Access Control Models -->
+            <section id="access-control" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Advanced Access Control Models</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-purple-600 mb-4">Mandatory Access Control (MAC)</h3>
+                        <p class="text-gray-700 mb-4">
+                            System-enforced access control based on security labels and clearance levels. Users cannot override system policies.
+                        </p>
+                        <div class="code-block">
+# MAC Implementation Examples
+# SELinux (Security-Enhanced Linux)
+ls -Z /etc/passwd
+# Shows SELinux context: user:role:type:level
+
+# Security Levels (Bell-LaPadula Model)
+Top Secret    (Level 4)
+Secret        (Level 3) 
+Confidential  (Level 2)
+Unclassified  (Level 1)
+
+# "No Read Up, No Write Down" Rule
+# Users can only:
+# - Read at their level or below
+# - Write at their level or above
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded mt-4">
+                            <h4 class="font-semibold text-purple-800 mb-2">MAC Characteristics:</h4>
+                            <ul class="text-purple-700 text-sm space-y-1">
+                                <li>• System administrator controls all access</li>
+                                <li>• Users cannot change object classifications</li>
+                                <li>• Common in government/military environments</li>
+                                <li>• Prevents information leakage to lower levels</li>
+                                <li>• Examples: SELinux, AppArmor, Windows MIC</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-600 mb-4">Discretionary Access Control (DAC)</h3>
+                        <p class="text-gray-700 mb-4">
+                            Resource owners have discretion over who can access their resources. Users can grant or revoke access to objects they own.
+                        </p>
+                        <div class="code-block">
+# DAC Implementation Examples
+# Linux File Permissions
+chmod 755 myfile.txt        # Owner: rwx, Group: rx, Other: rx
+chown user:group myfile.txt # Change ownership
+
+# Windows NTFS Permissions
+icacls file.txt /grant user:F    # Grant full control
+icacls file.txt /remove user     # Remove user access
+
+# Access Control Lists (ACLs)
+# Linux Extended ACLs
+setfacl -m u:john:rw file.txt    # Grant read/write to john
+getfacl file.txt                 # View ACL
+
+# Windows ACLs
+# Right-click → Properties → Security → Edit
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded mt-4">
+                            <h4 class="font-semibold text-orange-800 mb-2">DAC Examples & Use Cases:</h4>
+                            <ul class="text-orange-700 text-sm space-y-1">
+                                <li>• File system permissions (NTFS, ext4)</li>
+                                <li>• Database object permissions</li>
+                                <li>• Application-level access controls</li>
+                                <li>• Cloud storage sharing (Google Drive, OneDrive)</li>
+                                <li>• Most common in business environments</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cryptography -->
+            <section id="encryption" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Cryptography & Encryption</h2>
+                
+                <div class="bg-gradient-to-r from-green-50 to-teal-50 p-6 rounded-lg mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Cryptography Fundamentals</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Cryptography provides the mathematical foundation for protecting data confidentiality, integrity, and authenticity. Understanding encryption methods is essential for SOC analysts to identify proper implementations and detect cryptographic attacks.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">Symmetric Encryption</h3>
+                        <p class="text-gray-700 mb-4">
+                            Same key used for both encryption and decryption. Fast and efficient for large amounts of data, but requires secure key distribution.
+                        </p>
+                        <div class="code-block">
+# Common Symmetric Algorithms
+AES (Advanced Encryption Standard)
+- AES-128, AES-192, AES-256
+- Block cipher, 128-bit blocks
+- Most widely used
+
+3DES (Triple DES)
+- Legacy, being phased out
+- 112-bit effective key strength
+
+ChaCha20
+- Stream cipher
+- Used in TLS 1.3, SSH
+
+# AES Example (OpenSSL)
+echo "sensitive data" | openssl enc -aes-256-cbc -base64 -pass pass:mykey
+
+# File encryption
+openssl enc -aes-256-cbc -salt -in file.txt -out file.enc -pass pass:mypassword
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-green-600 mb-4">Asymmetric Encryption</h3>
+                        <p class="text-gray-700 mb-4">
+                            Uses a pair of mathematically related keys (public/private). Solves key distribution problem but slower than symmetric encryption.
+                        </p>
+                        <div class="code-block">
+# Common Asymmetric Algorithms
+RSA (Rivest-Shamir-Adleman)
+- Key sizes: 2048, 3072, 4096 bits
+- Most common for key exchange
+
+ECDSA (Elliptic Curve Digital Signature)
+- Smaller keys, same security
+- EC P-256, P-384, P-521
+
+Ed25519
+- Modern, fast elliptic curve
+- SSH and TLS implementation
+
+# RSA Key Generation
+openssl genrsa -out private.pem 2048
+openssl rsa -in private.pem -pubout -out public.pem
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Related Resources -->
+            <section class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Related SOC Documentation</h2>
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold text-blue-600 mb-3">Windows Fundamentals</h3>
+                        <p class="text-gray-700 mb-4">Windows security architecture, Active Directory, and system administration essentials for SOC analysts.</p>
+                        <a href="windows-fundamentals.html" class="text-blue-600 hover:underline font-semibold">Read More →</a>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold text-green-600 mb-3">Linux Fundamentals</h3>
+                        <p class="text-gray-700 mb-4">Linux command line, system security, and forensics techniques for incident response.</p>
+                        <a href="linux-fundamentals.html" class="text-green-600 hover:underline font-semibold">Read More →</a>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold text-purple-600 mb-3">OSI Security Model</h3>
+                        <p class="text-gray-700 mb-4">Network layer security analysis and protocol-specific attack vectors and defenses.</p>
+                        <a href="osi-security-model.html" class="text-purple-600 hover:underline font-semibold">Read More →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Security Fundamentals Reference.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

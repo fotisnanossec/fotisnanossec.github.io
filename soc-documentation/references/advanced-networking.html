@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Networking Concepts - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Advanced Networking Concepts</h1>
+            <p class="text-gray-600">Enterprise networking and emerging technologies</p>
+        </div>
+
+        <!-- QoS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Quality of Service (QoS)</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">QoS Mechanisms</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Traffic classification</li>
+                        <li>• Traffic marking (DSCP)</li>
+                        <li>• Queuing and scheduling</li>
+                        <li>• Traffic shaping</li>
+                        <li>• Congestion avoidance</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="code-block text-sm">
+# Traffic Classes
+Voice: < 150ms latency, < 1% loss
+Video: < 400ms latency, < 1% loss  
+Data: Best effort
+
+# DSCP Values
+EF (46) - Expedited Forwarding
+AF31 (26) - Assured Forwarding
+BE (0) - Best Effort
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Load Balancing -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Load Balancing</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Algorithms</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Round robin</li>
+                            <li>• Weighted round robin</li>
+                            <li>• Least connections</li>
+                            <li>• IP hash</li>
+                            <li>• Geographic</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Types</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Layer 4 (transport)</li>
+                            <li>• Layer 7 (application)</li>
+                            <li>• DNS load balancing</li>
+                            <li>• Global server LB</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Health Checks</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• TCP port checks</li>
+                            <li>• HTTP status codes</li>
+                            <li>• Custom scripts</li>
+                            <li>• Response time monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Redundancy -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Redundancy</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Redundancy Methods</h3>
+                    <div class="code-block text-sm">
+# Link Redundancy
+- Multiple physical paths
+- LACP (Link Aggregation)
+- STP (Spanning Tree Protocol)
+
+# Device Redundancy  
+- HSRP/VRRP (gateway redundancy)
+- Clustering
+- Hot standby systems
+
+# Geographic Redundancy
+- Multiple data centers
+- WAN backup links
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Failover Protocols</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>HSRP:</strong> Cisco proprietary</li>
+                        <li>• <strong>VRRP:</strong> Industry standard</li>
+                        <li>• <strong>GLBP:</strong> Load balancing gateway</li>
+                        <li>• <strong>BGP:</strong> Route redundancy</li>
+                        <li>• <strong>OSPF:</strong> Fast convergence</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CDN -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Content Delivery Networks</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">CDN Operation</h4>
+                        <ol class="text-sm space-y-1">
+                            <li>1. Content cached at edge servers</li>
+                            <li>2. DNS directs to nearest server</li>
+                            <li>3. Cache hit serves content locally</li>
+                            <li>4. Cache miss fetches from origin</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Benefits</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Reduced latency</li>
+                            <li>• Improved availability</li>
+                            <li>• Bandwidth optimization</li>
+                            <li>• DDoS protection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SDN -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Software Defined Networking</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">SDN Architecture</h3>
+                    <div class="code-block text-sm">
+Application Layer
+    |
+SDN Controller (Centralized Control)
+    |
+OpenFlow Protocol  
+    |
+Data Plane (Switches/Routers)
+
+# Benefits
+- Centralized management
+- Programmable networks
+- Dynamic configuration
+- Vendor independence
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">Network Virtualization</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>VXLAN:</strong> Layer 2 over Layer 3</li>
+                        <li>• <strong>NVGRE:</strong> Network virtualization</li>
+                        <li>• <strong>NSX:</strong> VMware network virtualization</li>
+                        <li>• <strong>Overlay networks:</strong> Virtual topologies</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cloud Networking -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cloud Networking</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">VPC/VNet</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Virtual private clouds</li>
+                            <li>• Subnet segmentation</li>
+                            <li>• Security groups</li>
+                            <li>• Route tables</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Connectivity</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• VPN gateways</li>
+                            <li>• Direct connect</li>
+                            <li>• Peering connections</li>
+                            <li>• Transit gateways</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Services</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Load balancers</li>
+                            <li>• CDN services</li>
+                            <li>• DNS services</li>
+                            <li>• API gateways</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Automation -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Automation</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Automation Tools</h3>
+                    <div class="code-block text-sm">
+# Configuration Management
+Ansible, Puppet, Chef
+Terraform (Infrastructure as Code)
+
+# Network APIs
+NETCONF, RESTCONF
+REST APIs
+GraphQL
+
+# Scripting
+Python with Netmiko
+Bash automation
+PowerShell DSC
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Orchestration</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Workflow automation</li>
+                        <li>• Service provisioning</li>
+                        <li>• Change management</li>
+                        <li>• Compliance monitoring</li>
+                        <li>• Incident response</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secure Architecture -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Secure Network Design</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Design Principles</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Defense in depth</li>
+                            <li>• Least privilege access</li>
+                            <li>• Network segmentation</li>
+                            <li>• Zero trust architecture</li>
+                            <li>• Secure by design</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Security Controls</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Firewalls and ACLs</li>
+                            <li>• IDS/IPS systems</li>
+                            <li>• Network access control</li>
+                            <li>• Encryption in transit</li>
+                            <li>• Security monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Disaster Recovery -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Disaster Recovery</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">DR Strategies</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Hot site: Immediate failover</li>
+                        <li>• Warm site: Quick activation</li>
+                        <li>• Cold site: Basic infrastructure</li>
+                        <li>• Cloud DR: Elastic resources</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Network Considerations</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Bandwidth requirements</li>
+                        <li>• Latency tolerances</li>
+                        <li>• Security during failover</li>
+                        <li>• DNS failover</li>
+                        <li>• Data replication</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance & Scaling -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Performance & Scaling</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Performance Factors</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Bandwidth capacity</li>
+                            <li>• Latency optimization</li>
+                            <li>• Packet processing</li>
+                            <li>• Buffer sizing</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Scaling Methods</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Horizontal scaling</li>
+                            <li>• Vertical scaling</li>
+                            <li>• Link aggregation</li>
+                            <li>• Load distribution</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Monitoring</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Utilization trends</li>
+                            <li>• Growth planning</li>
+                            <li>• Capacity modeling</li>
+                            <li>• Performance baselines</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emerging Trends -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Emerging Trends</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Technology Trends</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• 5G networks</li>
+                        <li>• Edge computing</li>
+                        <li>• AI/ML in networking</li>
+                        <li>• Intent-based networking</li>
+                        <li>• Quantum networking</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Application Requirements</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• IoT device connectivity</li>
+                        <li>• Real-time applications</li>
+                        <li>• Massive data transfers</li>
+                        <li>• Mobile-first design</li>
+                        <li>• Cloud-native architectures</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Network Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Basic networking concepts</p>
+                    <a href="network-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Network Security</h3>
+                    <p class="text-sm text-gray-600 mb-2">Security controls and monitoring</p>
+                    <a href="network-security.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Network Troubleshooting</h3>
+                    <p class="text-sm text-gray-600 mb-2">Analysis and monitoring tools</p>
+                    <a href="network-troubleshooting.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Advanced Networking Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

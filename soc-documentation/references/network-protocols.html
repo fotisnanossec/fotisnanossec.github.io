@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Protocols - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Network Protocols</h1>
+            <p class="text-gray-600">Essential application layer protocols for SOC analysts</p>
+        </div>
+
+        <!-- HTTP/HTTPS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">HTTP & HTTPS</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">HTTP Components</h3>
+                    <div class="code-block">
+# HTTP Request Structure
+GET /index.html HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+Connection: keep-alive
+
+# HTTP Response Structure  
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 1234
+Set-Cookie: session=abc123
+
+# Methods
+GET    - Retrieve data
+POST   - Submit data
+PUT    - Update resource
+DELETE - Remove resource
+HEAD   - Headers only
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">HTTP vs HTTPS</h3>
+                    <div class="space-y-3">
+                        <div class="bg-red-100 p-3 rounded">
+                            <h4 class="font-semibold">HTTP (Port 80)</h4>
+                            <ul class="text-sm">
+                                <li>• Plaintext transmission</li>
+                                <li>• No encryption</li>
+                                <li>• Vulnerable to interception</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded">
+                            <h4 class="font-semibold">HTTPS (Port 443)</h4>
+                            <ul class="text-sm">
+                                <li>• TLS/SSL encryption</li>
+                                <li>• Certificate validation</li>
+                                <li>• Data integrity protection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SSL/TLS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">SSL/TLS Security</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">TLS Handshake Process</h4>
+                        <ol class="text-sm space-y-1">
+                            <li>1. Client Hello (cipher suites, random)</li>
+                            <li>2. Server Hello (chosen cipher, certificate)</li>
+                            <li>3. Certificate verification</li>
+                            <li>4. Key exchange (pre-master secret)</li>
+                            <li>5. Session keys generated</li>
+                            <li>6. Finished messages</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Security Features</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Symmetric encryption (AES)</li>
+                            <li>• Asymmetric key exchange (RSA/ECDH)</li>
+                            <li>• Message authentication (HMAC)</li>
+                            <li>• Certificate-based identity</li>
+                            <li>• Perfect forward secrecy</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-block mt-4">
+# TLS Analysis Commands
+openssl s_client -connect example.com:443
+nmap --script ssl-enum-ciphers -p 443 target
+wireshark -Y "tls.handshake.type"
+                </div>
+            </div>
+        </section>
+
+        <!-- DNS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">DNS Resolution</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">DNS Resolution Steps</h3>
+                    <ol class="text-sm space-y-1">
+                        <li>1. Check local cache</li>
+                        <li>2. Query recursive resolver</li>
+                        <li>3. Query root nameservers</li>
+                        <li>4. Query TLD nameservers (.com)</li>
+                        <li>5. Query authoritative nameservers</li>
+                        <li>6. Return IP address</li>
+                        <li>7. Cache result with TTL</li>
+                    </ol>
+                    <div class="code-block text-sm mt-3">
+# DNS Commands
+nslookup example.com
+dig example.com
+dig @8.8.8.8 example.com MX
+host -t AAAA example.com
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">DNS Record Types</h3>
+                    <div class="code-block">
+# Common DNS Records
+A      - IPv4 address
+AAAA   - IPv6 address  
+CNAME  - Canonical name (alias)
+MX     - Mail exchange
+NS     - Name server
+PTR    - Reverse lookup
+TXT    - Text data
+SOA    - Start of authority
+SRV    - Service record
+
+# Examples
+example.com.     A     192.168.1.100
+www              CNAME example.com
+example.com.     MX 10 mail.example.com
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DHCP -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">DHCP Process</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">DORA Process</h4>
+                        <div class="space-y-2">
+                            <div class="bg-blue-100 p-2 rounded text-sm">
+                                <strong>Discover:</strong> Client broadcasts request
+                            </div>
+                            <div class="bg-green-100 p-2 rounded text-sm">
+                                <strong>Offer:</strong> Server offers IP configuration
+                            </div>
+                            <div class="bg-yellow-100 p-2 rounded text-sm">
+                                <strong>Request:</strong> Client requests specific offer
+                            </div>
+                            <div class="bg-purple-100 p-2 rounded text-sm">
+                                <strong>Acknowledge:</strong> Server confirms assignment
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">DHCP Options</h4>
+                        <div class="code-block text-sm">
+# Common DHCP Options
+Option 1  - Subnet mask
+Option 3  - Default gateway
+Option 6  - DNS servers
+Option 15 - Domain name
+Option 51 - Lease time
+Option 66 - TFTP server
+Option 67 - Boot filename
+
+# Lease Management
+ipconfig /release
+ipconfig /renew
+dhclient -r
+dhclient
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Email Protocols -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Email Protocols</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">SMTP (Port 25/587)</h3>
+                    <p class="text-sm mb-2">Simple Mail Transfer Protocol - sends email</p>
+                    <div class="code-block text-sm">
+# SMTP Process
+1. HELO/EHLO
+2. MAIL FROM: sender
+3. RCPT TO: recipient  
+4. DATA
+5. Message content
+6. QUIT
+
+# SMTP Commands
+telnet mail.server.com 25
+EHLO client.domain.com
+MAIL FROM: <user@domain.com>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">POP3 (Port 110/995)</h3>
+                    <p class="text-sm mb-2">Post Office Protocol - downloads email</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Downloads messages locally</li>
+                        <li>• Deletes from server</li>
+                        <li>• Single device access</li>
+                        <li>• Offline reading</li>
+                        <li>• Limited server storage</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">IMAP (Port 143/993)</h3>
+                    <p class="text-sm mb-2">Internet Message Access Protocol</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Syncs across devices</li>
+                        <li>• Server-side storage</li>
+                        <li>• Folder management</li>
+                        <li>• Partial downloads</li>
+                        <li>• Multi-device access</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Transfer -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">File Transfer Protocols</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">FTP (Ports 20/21)</h3>
+                    <div class="bg-red-100 p-3 rounded mb-3">
+                        <h4 class="font-semibold text-red-800">Security Limitations</h4>
+                        <ul class="text-sm">
+                            <li>• Plaintext credentials</li>
+                            <li>• Unencrypted data transfer</li>
+                            <li>• Passive/active mode confusion</li>
+                            <li>• Firewall complications</li>
+                        </ul>
+                    </div>
+                    <div class="code-block text-sm">
+# FTP Commands
+ftp ftp.example.com
+USER username
+PASS password
+PASV
+LIST
+RETR filename
+STOR filename
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Secure Alternatives</h3>
+                    <div class="space-y-3">
+                        <div class="bg-green-100 p-3 rounded">
+                            <h4 class="font-semibold">SFTP (Port 22)</h4>
+                            <p class="text-sm">SSH-based file transfer</p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded">
+                            <h4 class="font-semibold">FTPS (Port 990)</h4>
+                            <p class="text-sm">FTP over SSL/TLS</p>
+                        </div>
+                        <div class="bg-purple-100 p-3 rounded">
+                            <h4 class="font-semibold">SCP</h4>
+                            <p class="text-sm">Secure copy over SSH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Network Management -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Management & Directory</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">SNMP (Port 161/162)</h3>
+                    <p class="text-sm mb-2">Simple Network Management Protocol</p>
+                    <div class="code-block text-sm">
+# SNMP Operations
+GET    - Retrieve specific value
+GETNEXT - Retrieve next OID
+GETBULK - Retrieve multiple values
+SET    - Modify value
+TRAP   - Unsolicited notification
+
+# SNMP Commands
+snmpwalk -v2c -c public router 1.3.6.1.2.1.1
+snmpget -v2c -c public router 1.3.6.1.2.1.1.1.0
+                    </div>
+                    <p class="text-sm"><strong>Versions:</strong> v1 (plaintext), v2c (community), v3 (encrypted)</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">LDAP (Port 389/636)</h3>
+                    <p class="text-sm mb-2">Lightweight Directory Access Protocol</p>
+                    <div class="code-block text-sm">
+# LDAP Structure
+dc=example,dc=com
+  ou=People
+    cn=John Doe
+  ou=Groups
+    cn=Administrators
+
+# LDAP Operations
+BIND   - Authenticate
+SEARCH - Query directory
+ADD    - Create entry
+MODIFY - Update entry
+DELETE - Remove entry
+                    </div>
+                    <p class="text-sm"><strong>Secure:</strong> LDAPS (port 636) with SSL/TLS</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Remote Access -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Remote Access Protocols</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Telnet (Port 23)</h3>
+                    <div class="bg-red-100 p-3 rounded mb-3">
+                        <h4 class="font-semibold text-red-800">Security Issues</h4>
+                        <ul class="text-sm">
+                            <li>• Plaintext transmission</li>
+                            <li>• No encryption</li>
+                            <li>• Credentials visible</li>
+                            <li>• Session hijacking risk</li>
+                        </ul>
+                    </div>
+                    <div class="code-block text-sm">
+# Telnet Usage (Legacy)
+telnet server.example.com 23
+telnet 192.168.1.1 80  # Port testing
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">SSH (Port 22)</h3>
+                    <p class="text-sm mb-2">Secure Shell - encrypted remote access</p>
+                    <div class="code-block text-sm">
+# SSH Features
+- Encrypted communication
+- Public key authentication
+- Port forwarding
+- File transfer (SFTP/SCP)
+- Tunneling capabilities
+
+# SSH Commands
+ssh user@server.com
+ssh -i private_key user@server
+ssh -L 8080:localhost:80 user@server
+scp file.txt user@server:/path/
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NTP & ICMP -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Utilities</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">NTP (Port 123)</h3>
+                    <p class="text-sm mb-2">Network Time Protocol - synchronizes clocks</p>
+                    <div class="code-block text-sm">
+# NTP Hierarchy (Stratum)
+Stratum 0 - Atomic clocks, GPS
+Stratum 1 - Primary servers
+Stratum 2 - Secondary servers
+Stratum 3+ - Client systems
+
+# NTP Commands
+ntpdate pool.ntp.org
+ntpq -p
+chrony sources
+timedatectl status
+                    </div>
+                    <p class="text-sm"><strong>Importance:</strong> Log correlation, digital forensics, compliance</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">ICMP</h3>
+                    <p class="text-sm mb-2">Internet Control Message Protocol</p>
+                    <div class="code-block text-sm">
+# ICMP Message Types
+0  - Echo Reply (ping response)
+3  - Destination Unreachable
+8  - Echo Request (ping)
+11 - Time Exceeded (traceroute)
+30 - Traceroute
+
+# Tools Using ICMP
+ping 8.8.8.8
+traceroute google.com
+mtr google.com
+pathping google.com
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOC Applications -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">SOC Protocol Analysis</h2>
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6">
+                <h3 class="font-bold mb-3">Protocol Security Monitoring</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Traffic Analysis</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• HTTP vs HTTPS usage patterns</li>
+                            <li>• DNS tunneling detection</li>
+                            <li>• Email protocol anomalies</li>
+                            <li>• Unauthorized FTP transfers</li>
+                            <li>• SSH brute force attempts</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Common Indicators</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Unusual DNS queries</li>
+                            <li>• Plain text protocols on encrypted ports</li>
+                            <li>• Certificate anomalies</li>
+                            <li>• Protocol violations</li>
+                            <li>• Time synchronization issues</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-block mt-4">
+# Protocol Analysis Commands
+wireshark -Y "http.request.method == POST"
+tcpdump -i eth0 port 53
+nmap -sV --script http-methods target
+openssl s_client -connect target:443
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Network Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">OSI model, TCP/UDP, IP addressing</p>
+                    <a href="network-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Security Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Encryption, authentication, PKI</p>
+                    <a href="security-fundamentals.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Incident Response</h3>
+                    <p class="text-sm text-gray-600 mb-2">Network forensics and analysis</p>
+                    <a href="incident-response.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Network Protocols Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Security - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Network Security</h1>
+            <p class="text-gray-600">Network defense technologies and security controls</p>
+        </div>
+
+        <!-- Firewalls -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Firewalls</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">How Firewalls Work</h3>
+                    <p class="text-sm mb-3">Control network traffic based on predefined security rules, filtering packets between trusted and untrusted networks.</p>
+                    <div class="code-block text-sm">
+# Firewall Rules Example
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT  
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -j DROP
+
+# Rule Components
+Source IP/Network
+Destination IP/Network  
+Protocol (TCP/UDP/ICMP)
+Port Numbers
+Action (ALLOW/DENY/LOG)
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Stateful vs Stateless</h3>
+                    <div class="space-y-3">
+                        <div class="bg-green-100 p-3 rounded">
+                            <h4 class="font-semibold">Stateful</h4>
+                            <ul class="text-sm">
+                                <li>• Tracks connection state</li>
+                                <li>• Remembers established sessions</li>
+                                <li>• Dynamic rule application</li>
+                                <li>• Better security</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded">
+                            <h4 class="font-semibold">Stateless</h4>
+                            <ul class="text-sm">
+                                <li>• Examines each packet individually</li>
+                                <li>• No session awareness</li>
+                                <li>• Static rules only</li>
+                                <li>• Faster processing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IDS/IPS -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">IDS vs IPS</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">IDS - Detection</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• Monitors and alerts on threats</li>
+                        <li>• Passive detection (out-of-band)</li>
+                        <li>• Cannot stop attacks in real-time</li>
+                        <li>• Detailed forensic analysis</li>
+                    </ul>
+                    <div class="code-block text-sm">
+# Detection Methods
+Signature-based: Known attack patterns
+Anomaly-based: Behavioral analysis
+Protocol-based: Protocol violations
+Heuristic: Statistical analysis
+
+# Common IDS
+Snort, Suricata, OSSEC
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">IPS - Prevention</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• Detects and blocks threats</li>
+                        <li>• Active prevention (inline)</li>
+                        <li>• Real-time attack stopping</li>
+                        <li>• Can impact network performance</li>
+                    </ul>
+                    <div class="code-block text-sm">
+# Prevention Actions
+DROP packet
+BLOCK source IP
+RESET connection
+RATE LIMIT traffic
+QUARANTINE host
+
+# Deployment
+Inline with traffic flow
+Single point of failure risk
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VPN -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">VPN Security</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">How VPNs Work</h4>
+                        <ol class="text-sm space-y-1">
+                            <li>1. Create encrypted tunnel</li>
+                            <li>2. Authenticate endpoints</li>
+                            <li>3. Encapsulate traffic</li>
+                            <li>4. Route through tunnel</li>
+                            <li>5. Decrypt at destination</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">VPN Types</h4>
+                        <div class="space-y-2">
+                            <div class="bg-blue-100 p-2 rounded text-sm">
+                                <strong>Site-to-Site:</strong> Connects networks
+                            </div>
+                            <div class="bg-green-100 p-2 rounded text-sm">
+                                <strong>Remote Access:</strong> Individual users
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block mt-4">
+# VPN Protocols
+IPSec - Network layer, strong encryption
+OpenVPN - SSL/TLS based, flexible
+WireGuard - Modern, lightweight
+L2TP/IPSec - Layer 2 tunneling
+PPTP - Legacy, weak security
+
+# Security Features
+Encryption (AES-256)
+Authentication (certificates, PSK)
+Integrity (HMAC)
+Perfect Forward Secrecy
+                </div>
+            </div>
+        </section>
+
+        <!-- Network Segmentation -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Segmentation & DMZ</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-orange-600 mb-3">Network Segmentation</h3>
+                    <p class="text-sm mb-3">Divides network into isolated segments to limit attack spread and control access.</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Limits lateral movement</li>
+                        <li>• Contains security breaches</li>
+                        <li>• Improves compliance</li>
+                        <li>• Enables micro-segmentation</li>
+                    </ul>
+                    <div class="code-block text-sm">
+# Segmentation Methods
+VLANs - Layer 2 separation
+Subnets - Layer 3 separation  
+Firewalls - Policy enforcement
+ACLs - Access control lists
+SDN - Software-defined networking
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">DMZ (Demilitarized Zone)</h3>
+                    <p class="text-sm mb-3">Buffer network between internal and external networks for public-facing services.</p>
+                    <div class="code-block text-sm">
+# DMZ Architecture
+Internet
+    |
+Firewall (External)
+    |
+DMZ (Web servers, Email, DNS)
+    |  
+Firewall (Internal)
+    |
+Internal Network
+
+# DMZ Services
+Web servers
+Email servers
+DNS servers
+FTP servers
+Proxy servers
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wireless Security -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Wireless Security</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Security Implications</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Radio waves can be intercepted</li>
+                        <li>• Physical security boundaries unclear</li>
+                        <li>• Easy to deploy rogue access points</li>
+                        <li>• Vulnerable to jamming attacks</li>
+                        <li>• Client device vulnerabilities</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">WPA Evolution</h3>
+                    <div class="space-y-2">
+                        <div class="bg-red-100 p-2 rounded text-sm">
+                            <strong>WEP:</strong> Broken, RC4 encryption
+                        </div>
+                        <div class="bg-yellow-100 p-2 rounded text-sm">
+                            <strong>WPA:</strong> TKIP, better than WEP
+                        </div>
+                        <div class="bg-green-100 p-2 rounded text-sm">
+                            <strong>WPA2:</strong> AES-CCMP, strong security
+                        </div>
+                        <div class="bg-blue-100 p-2 rounded text-sm">
+                            <strong>WPA3:</strong> SAE, enhanced protection
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NAC & Zero Trust -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Access Control & Zero Trust</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">NAC (Network Access Control)</h3>
+                    <p class="text-sm mb-3">Controls device access to network based on identity and policy compliance.</p>
+                    <div class="code-block text-sm">
+# NAC Process
+1. Device connects
+2. Identity verification
+3. Health assessment
+4. Policy evaluation
+5. Access granted/denied
+6. Continuous monitoring
+
+# NAC Components
+Authentication server
+Policy server
+Enforcement points
+Quarantine network
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Zero Trust</h3>
+                    <p class="text-sm mb-3">"Never trust, always verify" - assumes no implicit trust.</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• Verify every user and device</li>
+                        <li>• Least privilege access</li>
+                        <li>• Micro-segmentation</li>
+                        <li>• Continuous monitoring</li>
+                        <li>• Strong authentication</li>
+                        <li>• Encrypted communications</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Network Attacks -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Common Network Attacks</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Layer 2 Attacks</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• ARP spoofing</li>
+                            <li>• MAC flooding</li>
+                            <li>• VLAN hopping</li>
+                            <li>• Switch spoofing</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Layer 3/4 Attacks</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• IP spoofing</li>
+                            <li>• Route hijacking</li>
+                            <li>• DDoS attacks</li>
+                            <li>• SYN flooding</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Application Attacks</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Man-in-the-middle</li>
+                            <li>• DNS poisoning</li>
+                            <li>• Session hijacking</li>
+                            <li>• SSL stripping</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-block mt-4">
+# Attack Detection
+arpwatch                    # ARP monitoring
+tcpdump -i eth0 arp        # ARP traffic
+wireshark -Y "arp.duplicate-address-detected"
+netstat -rn                # Route table monitoring
+                </div>
+            </div>
+        </section>
+
+        <!-- Detection & Prevention -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Detection & Prevention</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Detection Methods</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Network monitoring (SIEM)</li>
+                            <li>• Traffic analysis</li>
+                            <li>• Anomaly detection</li>
+                            <li>• Honeypots/honeynets</li>
+                            <li>• Flow analysis (NetFlow)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Prevention Strategies</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Defense in depth</li>
+                            <li>• Network segmentation</li>
+                            <li>• Access controls</li>
+                            <li>• Regular patching</li>
+                            <li>• Security awareness</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-block mt-4">
+# Monitoring Tools
+ntopng              # Traffic analysis
+Nagios             # Network monitoring  
+Wireshark          # Packet analysis
+Nmap               # Network discovery
+Nessus             # Vulnerability scanning
+                </div>
+            </div>
+        </section>
+
+        <!-- Network Forensics -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Forensics</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Evidence Collection</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Packet captures (PCAP)</li>
+                            <li>• Network logs</li>
+                            <li>• Flow records</li>
+                            <li>• IDS/IPS logs</li>
+                            <li>• Firewall logs</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Analysis Techniques</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Protocol analysis</li>
+                            <li>• Timeline reconstruction</li>
+                            <li>• Communication patterns</li>
+                            <li>• Data carving</li>
+                            <li>• Attribution analysis</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-block mt-4">
+# Forensic Tools
+tcpdump -i eth0 -w capture.pcap
+wireshark capture.pcap
+tshark -r capture.pcap -Y "http.request.method == POST"
+nfcapd -l /var/log/netflow   # NetFlow collection
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Network Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">OSI model, protocols, addressing</p>
+                    <a href="network-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Network Protocols</h3>
+                    <p class="text-sm text-gray-600 mb-2">HTTP, DNS, email protocols</p>
+                    <a href="network-protocols.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Incident Response</h3>
+                    <p class="text-sm text-gray-600 mb-2">Network forensics and analysis</p>
+                    <a href="incident-response.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Network Security Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

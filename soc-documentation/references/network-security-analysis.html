@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Security Analysis - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Network Security Analysis</h1>
+            <p class="text-gray-600">SOC techniques for network threat detection and investigation</p>
+        </div>
+
+        <!-- Investigating Suspicious Traffic -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Investigating Suspicious Traffic</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Initial Triage</h3>
+                    <ol class="text-sm space-y-1">
+                        <li>1. Isolate traffic timeframe</li>
+                        <li>2. Identify source/destination IPs</li>
+                        <li>3. Examine protocols and ports</li>
+                        <li>4. Check volume and patterns</li>
+                        <li>5. Correlate with threat intel</li>
+                    </ol>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="code-block text-sm">
+# Wireshark Analysis
+wireshark -Y "ip.src == suspicious_ip"
+wireshark -Y "tcp.port == 443 and tls.handshake.type == 1"
+
+# Flow Analysis
+nfcapd -r flows.dat | grep suspicious_ip
+silk-rwfilter --sip=malicious_ip
+
+# Log Correlation
+grep "suspicious_ip" /var/log/suricata/eve.json
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compromise Indicators -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Compromise Indicators</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold text-red-600 mb-2">Traffic Anomalies</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Unusual outbound connections</li>
+                            <li>• High-volume data transfers</li>
+                            <li>• Off-hours network activity</li>
+                            <li>• Geographic anomalies</li>
+                            <li>• Protocol misuse</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-orange-600 mb-2">Communication Patterns</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Beaconing behavior</li>
+                            <li>• Command & control traffic</li>
+                            <li>• Lateral movement</li>
+                            <li>• Tunneling protocols</li>
+                            <li>• Encrypted channels</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-purple-600 mb-2">Infrastructure Signs</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Rogue devices</li>
+                            <li>• Unauthorized services</li>
+                            <li>• DNS anomalies</li>
+                            <li>• Certificate irregularities</li>
+                            <li>• Port scanning activity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Exfiltration Detection -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Data Exfiltration Detection</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Detection Methods</h3>
+                    <div class="code-block text-sm">
+# Volume Analysis
+netstat -i | awk '{print $10}' # Bytes out
+sar -n DEV 1 10 # Interface statistics
+
+# DNS Tunneling
+dig +short evil.domain.com TXT
+wireshark -Y "dns.qry.name contains long_string"
+
+# ICMP Tunneling  
+tcpdump -i eth0 icmp and greater 64
+
+# Steganography Detection
+binwalk suspicious_image.jpg
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Exfiltration Vectors</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>HTTP/HTTPS:</strong> POST requests, file uploads</li>
+                        <li>• <strong>DNS:</strong> Tunneling, large TXT records</li>
+                        <li>• <strong>Email:</strong> Attachments, cloud services</li>
+                        <li>• <strong>FTP/SFTP:</strong> File transfers</li>
+                        <li>• <strong>Cloud Storage:</strong> Dropbox, OneDrive sync</li>
+                        <li>• <strong>Messaging:</strong> Slack, Teams uploads</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Threat Hunting -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network-Based Threat Hunting</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Hunting Hypotheses</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Attacker using DNS for C2</li>
+                            <li>• Data staging before exfiltration</li>
+                            <li>• Living-off-the-land techniques</li>
+                            <li>• Supply chain compromises</li>
+                            <li>• Insider threat activity</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Data Sources</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• NetFlow/sFlow records</li>
+                            <li>• DNS query logs</li>
+                            <li>• Proxy logs</li>
+                            <li>• Firewall logs</li>
+                            <li>• IDS/IPS alerts</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-block mt-4">
+# Hunting Queries
+# Long DNS queries (potential tunneling)
+cat dns.log | awk 'length($6) > 50 {print $0}'
+
+# Beaconing detection
+grep -E "GET.*/(config|update|status)" proxy.log | sort | uniq -c
+
+# High-frequency connections
+netstat | awk '{print $5}' | sort | uniq -c | sort -nr
+                </div>
+            </div>
+        </section>
+
+        <!-- Malicious Communications -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Analyzing Malicious Communications</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">C2 Analysis</h3>
+                    <div class="code-block text-sm">
+# HTTP C2 Analysis
+wireshark -Y "http.request.uri contains beacon"
+grep "User-Agent.*Bot" access.log
+
+# TLS Analysis
+tls_analyzer.py capture.pcap
+openssl s_client -connect malicious.com:443
+
+# Traffic Frequency
+tcpdump -ttt -r capture.pcap | \
+awk '{print $1}' | sort -n | \
+uniq -c | sort -nr
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Payload Analysis</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Extract embedded files</li>
+                        <li>• Decode base64 content</li>
+                        <li>• Analyze encryption patterns</li>
+                        <li>• Identify staging servers</li>
+                        <li>• Map infrastructure</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Workflow -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Investigation Workflow</h2>
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Phase 1: Detection</h4>
+                        <ol class="text-sm space-y-1">
+                            <li>1. Alert triage and validation</li>
+                            <li>2. Initial traffic analysis</li>
+                            <li>3. Threat intel correlation</li>
+                            <li>4. Scope determination</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Phase 2: Investigation</h4>
+                        <ol class="text-sm space-y-1">
+                            <li>1. Deep packet analysis</li>
+                            <li>2. Flow correlation</li>
+                            <li>3. Timeline reconstruction</li>
+                            <li>4. Attribution analysis</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Reference -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Analysis Tools</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Packet Analysis</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Wireshark</li>
+                            <li>• tshark</li>
+                            <li>• NetworkMiner</li>
+                            <li>• Xplico</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Flow Analysis</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• SiLK Tools</li>
+                            <li>• nfcapd</li>
+                            <li>• Argus</li>
+                            <li>• ntopng</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Security Platforms</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Zeek (Bro)</li>
+                            <li>• Suricata</li>
+                            <li>• Security Onion</li>
+                            <li>• RITA</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Network Security</h3>
+                    <p class="text-sm text-gray-600 mb-2">Defense technologies and controls</p>
+                    <a href="network-security.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Incident Response</h3>
+                    <p class="text-sm text-gray-600 mb-2">Investigation procedures</p>
+                    <a href="incident-response.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Network Troubleshooting</h3>
+                    <p class="text-sm text-gray-600 mb-2">Analysis tools and techniques</p>
+                    <a href="network-troubleshooting.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Network Security Analysis Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

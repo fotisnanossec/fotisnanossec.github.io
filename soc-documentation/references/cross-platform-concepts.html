@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Platform Operating Systems - SOC Analyst Essentials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">← Back to Portfolio</a>
+            <div class="space-x-4">
+                <a href="../index.html" class="text-gray-600 hover:text-gray-800 transition duration-300">SOC Documentation</a>
+                <a href="index.html" class="text-gray-600 hover:text-gray-800 transition duration-300">References</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Cross-Platform Operating Systems</h1>
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-600 mb-6">SOC Analyst Essentials</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    Essential knowledge for SOC analysts working in mixed Windows/Linux environments. Understanding both platforms enables effective monitoring, incident response, and security analysis across diverse infrastructures.
+                </p>
+            </div>
+
+            <!-- Security Models Comparison -->
+            <section id="security-models" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Security Models Comparison</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">Windows Security Model</h3>
+                        <div class="code-block">
+# Access Control Lists (ACLs)
+icacls C:\sensitive-data
+
+# Security Identifiers (SIDs)
+whoami /user
+
+# User Account Control (UAC)
+# Privilege elevation prompts
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Key Concepts:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                <li><strong>ACLs:</strong> Discretionary Access Control Lists</li>
+                                <li><strong>Security Tokens:</strong> Contain user/group SIDs</li>
+                                <li><strong>NTFS Permissions:</strong> File system level security</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-green-600 mb-4">Linux Security Model</h3>
+                        <div class="code-block">
+# Permission bits (rwx)
+ls -la /etc/passwd
+
+# Access Control Lists (extended)
+getfacl /sensitive-data/
+setfacl -m u:username:rwx /path/
+
+# SELinux/AppArmor
+sestatus
+aa-status
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Key Concepts:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                <li><strong>Permission Bits:</strong> Owner, Group, Other (rwx)</li>
+                                <li><strong>UID/GID:</strong> User and Group identifiers</li>
+                                <li><strong>sudo/su:</strong> Privilege escalation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SOC Applications -->
+            <section id="soc-applications" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">SOC Analyst Applications</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-red-600 mb-4">Log Analysis Across Platforms</h3>
+                        <div class="code-block">
+# Windows Event Logs
+Get-WinEvent -LogName Security | Where-Object {$_.Id -eq 4624}
+
+# Linux System Logs
+grep "Failed password" /var/log/auth.log
+journalctl -u sshd --since "2024-01-01"
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-600 mb-4">Incident Response</h3>
+                        <div class="code-block">
+# Windows IR commands
+Get-Process | Export-Csv processes.csv
+netstat -ano > connections.txt
+
+# Linux IR commands
+ps aux > processes.txt
+netstat -tuln > connections.txt
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platform IoCs -->
+                <div class="mt-8 bg-red-50 border-l-4 border-red-500 p-6">
+                    <h3 class="text-xl font-bold text-red-800 mb-4">Platform-Specific Threat Indicators</h3>
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-red-700 mb-2">Windows IoCs:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-red-600">
+                                <li>Unusual PowerShell execution</li>
+                                <li>Suspicious registry modifications</li>
+                                <li>Anomalous service installations</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-red-700 mb-2">Linux IoCs:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-red-600">
+                                <li>Suspicious cron jobs</li>
+                                <li>Hidden files/directories</li>
+                                <li>Modified system binaries</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Reference -->
+            <section id="quick-reference" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Quick Reference Commands</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">System Information</h3>
+                        <div class="code-block">
+# Linux
+uname -a                    # System information
+ps aux                      # Running processes
+
+# Windows
+systeminfo                 # System information
+Get-Process                # Running processes
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-green-600 mb-4">Network Commands</h3>
+                        <div class="code-block">
+# Linux
+ip addr show               # Network interfaces
+ss -tuln                  # Network connections
+
+# Windows
+ipconfig /all             # Network configuration
+netstat -ano              # Network connections
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="mb-16">
+                <div class="bg-gray-800 text-white p-8 rounded-lg text-center">
+                    <h2 class="text-2xl font-bold mb-4">Cross-Platform Mastery</h2>
+                    <p class="text-lg mb-4">
+                        This cross-platform knowledge is essential for SOC analysts working in mixed environments. Understanding both Windows and Linux systems enables effective monitoring, incident response, and security analysis.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 SOC Analyst Documentation. Part of the Tuned for Security portfolio.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

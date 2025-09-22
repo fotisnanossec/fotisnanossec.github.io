@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Fundamentals - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Network Fundamentals</h1>
+            <p class="text-gray-600">Essential networking concepts for SOC analysts</p>
+        </div>
+
+        <!-- OSI Model -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">OSI 7-Layer Model</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="space-y-2">
+                        <div class="bg-red-100 p-2 rounded"><strong>L7 - Application:</strong> HTTP, HTTPS, FTP, SMTP, DNS</div>
+                        <div class="bg-orange-100 p-2 rounded"><strong>L6 - Presentation:</strong> SSL/TLS, encryption</div>
+                        <div class="bg-yellow-100 p-2 rounded"><strong>L5 - Session:</strong> NetBIOS, RPC</div>
+                        <div class="bg-green-100 p-2 rounded"><strong>L4 - Transport:</strong> TCP, UDP</div>
+                        <div class="bg-blue-100 p-2 rounded"><strong>L3 - Network:</strong> IP, ICMP, routing</div>
+                        <div class="bg-indigo-100 p-2 rounded"><strong>L2 - Data Link:</strong> Ethernet, MAC</div>
+                        <div class="bg-purple-100 p-2 rounded"><strong>L1 - Physical:</strong> Cables, signals</div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold mb-2">Memory Aid:</h3>
+                    <p class="text-lg font-mono text-blue-600">"Please Do Not Throw Sausage Pizza Away"</p>
+                    <div class="code-block">
+# SOC Commands by Layer
+wireshark -Y "http"     # L7
+netstat -tuln          # L4  
+ping 8.8.8.8           # L3
+arp -a                 # L2
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TCP vs UDP -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">TCP vs UDP</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-600 mb-3">TCP - Reliable</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• Connection-oriented (3-way handshake)</li>
+                        <li>• Reliable delivery with ACK</li>
+                        <li>• Ordered packets</li>
+                        <li>• Flow control</li>
+                    </ul>
+                    <div class="code-block text-sm">
+# TCP Ports
+80   - HTTP
+443  - HTTPS  
+22   - SSH
+21   - FTP
+25   - SMTP
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-green-600 mb-3">UDP - Fast</h3>
+                    <ul class="text-sm space-y-1 mb-3">
+                        <li>• Connectionless</li>
+                        <li>• No reliability guarantees</li>
+                        <li>• Low overhead</li>
+                        <li>• Good for streaming</li>
+                    </ul>
+                    <div class="code-block text-sm">
+# UDP Ports
+53   - DNS
+67/68 - DHCP
+69   - TFTP
+161  - SNMP
+514  - Syslog
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IP Addressing -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">IP Addressing</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-600 mb-3">IPv4</h3>
+                    <div class="code-block">
+# IPv4 Structure
+192.168.1.100/24
+
+# Private Ranges
+10.0.0.0/8
+172.16.0.0/12  
+192.168.0.0/16
+
+# CIDR Notation
+/8  = 255.0.0.0
+/16 = 255.255.0.0
+/24 = 255.255.255.0
+
+# Commands
+ip addr show
+ipcalc 192.168.1.0/24
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-green-600 mb-3">IPv6</h3>
+                    <div class="code-block">
+# IPv6 Structure  
+2001:db8:85a3::8a2e:370:7334
+
+# Address Types
+2000::/3  - Global Unicast
+fe80::/10 - Link-Local
+::1/128   - Loopback
+
+# Commands
+ip -6 addr show
+ping6 google.com
+traceroute6 google.com
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Network Devices -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Devices</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow text-center">
+                    <h3 class="font-bold text-red-600 mb-2">Hub (L1)</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Repeats to all ports</li>
+                        <li>• Single collision domain</li>
+                        <li>• Half-duplex</li>
+                        <li>• Obsolete</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow text-center">
+                    <h3 class="font-bold text-blue-600 mb-2">Switch (L2)</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Learns MAC addresses</li>
+                        <li>• Per-port collision domains</li>
+                        <li>• Full-duplex</li>
+                        <li>• Intelligent forwarding</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow text-center">
+                    <h3 class="font-bold text-green-600 mb-2">Router (L3)</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Routes between networks</li>
+                        <li>• Per-interface broadcast domains</li>
+                        <li>• Routing decisions</li>
+                        <li>• Runs routing protocols</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Ports -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Common Ports & Services</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Web & Email</h4>
+                        <div class="code-block text-sm">
+20/21 - FTP
+22    - SSH
+23    - Telnet  
+25    - SMTP
+80    - HTTP
+110   - POP3
+143   - IMAP
+443   - HTTPS
+993   - IMAPS
+995   - POP3S
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Network Services</h4>
+                        <div class="code-block text-sm">
+53    - DNS
+67/68 - DHCP
+69    - TFTP
+123   - NTP
+161   - SNMP
+514   - Syslog
+1194  - OpenVPN
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Databases & Remote</h4>
+                        <div class="code-block text-sm">
+1433  - SQL Server
+1521  - Oracle
+3306  - MySQL
+3389  - RDP
+5432  - PostgreSQL
+8080  - HTTP Alt
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARP & NAT -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">ARP & NAT</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-purple-600 mb-3">ARP</h3>
+                    <p class="text-sm mb-3">Maps IP addresses to MAC addresses</p>
+                    <div class="code-block">
+# ARP Commands
+arp -a              # View ARP cache
+arp -d IP           # Delete entry
+ping IP             # Generate ARP request
+
+# ARP Process
+1. Check ARP cache
+2. Broadcast ARP request
+3. Target responds with MAC
+4. Update cache, send frame
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-orange-600 mb-3">NAT</h3>
+                    <p class="text-sm mb-3">Translates private to public IPs</p>
+                    <div class="code-block">
+# NAT Types
+Static:  1-to-1 mapping
+Dynamic: Pool of public IPs  
+PAT:     Port translation
+
+# Linux NAT
+iptables -t nat -L
+iptables -t nat -A POSTROUTING \
+  -o eth0 -j MASQUERADE
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Network Troubleshooting</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Connectivity Testing</h4>
+                        <div class="code-block">
+ping 8.8.8.8
+traceroute google.com
+mtr google.com
+telnet google.com 80
+nc -zv google.com 443
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Traffic Analysis</h4>
+                        <div class="code-block">
+netstat -tuln
+ss -tuln
+nmap -sS target
+wireshark -Y "tcp.port==80"
+tcpdump -i eth0 port 53
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOC Applications -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">SOC Applications</h2>
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6">
+                <h3 class="font-bold mb-3">Network Security Monitoring</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-semibold mb-2">Traffic Analysis:</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Monitor for suspicious connections</li>
+                            <li>• Analyze protocol violations</li>
+                            <li>• Track data exfiltration</li>
+                            <li>• Identify C2 communications</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Incident Response:</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Network forensics analysis</li>
+                            <li>• Trace attack paths</li>
+                            <li>• Identify affected systems</li>
+                            <li>• Document network timeline</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Security Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">CIA triad, authentication, encryption</p>
+                    <a href="security-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Windows Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Windows security and administration</p>
+                    <a href="windows-fundamentals.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Linux Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Linux security and forensics</p>
+                    <a href="linux-fundamentals.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. Network Fundamentals Reference.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({behavior: 'smooth'});
+                }
+            });
+        });
+    </script>
+</body>
+</html>

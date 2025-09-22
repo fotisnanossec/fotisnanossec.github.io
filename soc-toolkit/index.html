@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Analyst Toolkit | Tuned for Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-gradient {
+            background: linear-gradient(to right, #e5e7eb, #d1d5db);
+        }
+        .mobile-menu-transition {
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu-transition.open {
+            max-height: 500px;
+        }
+        .toolkit-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .toolkit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Main Navigation -->
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+                
+                <div class="hidden lg:flex space-x-6">
+                    <a href="../index.html#home" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Home</a>
+                    <a href="../index.html#cybersecurity" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Cybersecurity</a>
+                    <a href="../index.html#projects" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Projects</a>
+                    <a href="../blog/index.html" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Insights</a>
+                    <a href="#toolkit-main" class="text-blue-600 hover:text-blue-700 font-semibold transition duration-300 px-3 py-2 rounded-md">SOC Toolkit</a>
+                    <a href="../index.html#music" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Music</a>
+                    <a href="../index.html#about" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">About</a>
+                </div>
+
+                <button id="mobile-menu-button" class="lg:hidden text-gray-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="mobile-menu" class="lg:hidden custom-gradient px-6 mobile-menu-transition">
+                <a href="../index.html#home" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Home</a>
+                <a href="../index.html#cybersecurity" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Cybersecurity</a>
+                <a href="../index.html#projects" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Projects</a>
+                <a href="../blog/index.html" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Insights</a>
+                <a href="#toolkit-main" class="block py-2 text-blue-600 hover:text-blue-700 font-semibold transition duration-300 border-b border-gray-300">SOC Toolkit</a>
+                <a href="../index.html#music" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Music</a>
+                <a href="../index.html#about" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b py-3">
+        <div class="container mx-auto px-6">
+            <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                <a href="../index.html" class="hover:text-gray-800">Portfolio</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-gray-800 font-medium">SOC Analyst Toolkit</span>
+            </nav>
+        </div>
+    </div>
+    
+    <main>
+        <section id="toolkit-main" class="min-h-screen p-6 bg-gray-100">
+            <div class="container mx-auto py-16">
+                
+                <!-- Header -->
+                <div class="text-center mb-16">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6">
+                        🛠️ SOC Analyst Toolkit
+                    </h1>
+                    <h2 class="text-xl md:text-2xl font-semibold text-gray-600 mb-6">
+                        Ready-to-Deploy Investigation Capabilities
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Comprehensive collection of investigation procedures and technical knowledge developed through 
+                        SOC Level 1 training. <strong>Immediately applicable</strong> to real-world security operations.
+                    </p>
+                </div>
+
+                <!-- Professional Validation -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 border-l-4 border-green-500 p-6 rounded-lg shadow-xl mb-16 max-w-4xl mx-auto">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 p-2 rounded-full mr-3">
+                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-800">🎯 Professional Foundation</h3>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4 text-green-700 text-sm">
+                        <div>
+                            <p class="font-semibold">TryHackMe SOC Level 1</p>
+                            <p>100% Complete - Top 2% Global</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Official Assessment</p>
+                            <p>BEST Institut Vienna Certified</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Framework Integration</p>
+                            <p>MITRE ATT&CK • NIST • Industry Standards</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Toolkit Categories -->
+                <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                    
+                    <!-- Investigation Procedures -->
+                    <div class="toolkit-card bg-white p-8 rounded-lg shadow-xl" onclick="window.location.href='./procedures/index.html'">
+                        <div class="text-center mb-6">
+                            <div class="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-3xl">📋</span>
+                            </div>
+                            <h2 class="text-3xl font-bold text-gray-800 mb-4">Investigation Procedures</h2>
+                            <p class="text-lg text-gray-600 leading-relaxed">
+                                Step-by-step playbooks for real-world incident response scenarios
+                            </p>
+                        </div>
+                        
+                        <!-- Quick Preview -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <span class="text-lg mr-3">🎣</span>
+                                    <span class="font-medium text-gray-700">Phishing Investigation</span>
+                                </div>
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">✅ Complete</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-70">
+                                <div class="flex items-center">
+                                    <span class="text-lg mr-3">🌐</span>
+                                    <span class="font-medium text-gray-700">Network Traffic Analysis</span>
+                                </div>
+                                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-semibold">🚀 Ready</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-50">
+                                <div class="flex items-center">
+                                    <span class="text-lg mr-3">💻</span>
+                                    <span class="font-medium text-gray-700">Endpoint Investigation</span>
+                                </div>
+                                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-semibold">📅 Planned</span>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="text-center">
+                            <div class="inline-flex items-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                                <span>View Procedures</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Knowledge Base -->
+                    <div class="toolkit-card bg-white p-8 rounded-lg shadow-xl" onclick="window.location.href='./knowledge-base/index.html'">
+                        <div class="text-center mb-6">
+                            <div class="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-3xl">📖</span>
+                            </div>
+                            <h2 class="text-3xl font-bold text-gray-800 mb-4">Knowledge Base</h2>
+                            <p class="text-lg text-gray-600 leading-relaxed">
+                                Technical references and analysis frameworks for systematic investigation
+                            </p>
+                        </div>
+                        
+                        <!-- Quick Preview -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-lg mr-3">💻</span>
+                                <div>
+                                    <div class="font-medium text-gray-700">Windows Security Fundamentals</div>
+                                    <div class="text-xs text-gray-500">Registry • Processes • Event Logs</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-lg mr-3">🔍</span>
+                                <div>
+                                    <div class="font-medium text-gray-700">PCAP Analysis Framework</div>
+                                    <div class="text-xs text-gray-500">Wireshark • TShark • Network Forensics</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-lg mr-3">🏗️</span>
+                                <div>
+                                    <div class="font-medium text-gray-700">OSI Security Model</div>
+                                    <div class="text-xs text-gray-500">Layer Analysis • Tool Mapping</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="text-center">
+                            <div class="inline-flex items-center bg-purple-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-purple-700 transition duration-300">
+                                <span>Explore Knowledge Base</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-white p-8 rounded-lg shadow-xl mt-16 max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">🛠️ Toolkit Capabilities</h3>
+                    <div class="grid md:grid-cols-4 gap-6 text-center">
+                        <div>
+                            <div class="text-3xl font-bold text-blue-600 mb-2">4+</div>
+                            <div class="text-sm text-gray-600">Investigation Procedures</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-purple-600 mb-2">15+</div>
+                            <div class="text-sm text-gray-600">Security Tools Covered</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-green-600 mb-2">3</div>
+                            <div class="text-sm text-gray-600">Security Frameworks</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-orange-600 mb-2">100%</div>
+                            <div class="text-sm text-gray-600">SOC Level 1 Complete</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Readiness -->
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-lg shadow-xl mt-16 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🎯 SOC Analyst Ready</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            This toolkit demonstrates <strong>immediate deployment capability</strong> for SOC analyst roles with 
+                            documented procedures, technical proficiency, and framework integration.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Investigation Ready</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Tool Proficient</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Framework Aligned</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Documentation Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security - SOC Analyst Toolkit. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        };
+    </script>
+</body>
+</html>

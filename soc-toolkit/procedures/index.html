@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investigation Procedures | SOC Analyst Toolkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-gradient {
+            background: linear-gradient(to right, #e5e7eb, #d1d5db);
+        }
+        .mobile-menu-transition {
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu-transition.open {
+            max-height: 500px;
+        }
+        .procedure-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .procedure-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .procedure-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .procedure-card.disabled:hover {
+            transform: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="../../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+                
+                <div class="hidden lg:flex space-x-6">
+                    <a href="../../index.html#home" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Home</a>
+                    <a href="../../index.html#cybersecurity" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Cybersecurity</a>
+                    <a href="../../index.html#projects" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Projects</a>
+                    <a href="../../blog/index.html" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Insights</a>
+                    <a href="../index.html" class="text-blue-600 hover:text-blue-700 font-semibold transition duration-300 px-3 py-2 rounded-md">SOC Toolkit</a>
+                    <a href="../../index.html#music" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">Music</a>
+                    <a href="../../index.html#about" class="text-gray-800 hover:text-gray-600 transition duration-300 px-3 py-2 rounded-md">About</a>
+                </div>
+
+                <button id="mobile-menu-button" class="lg:hidden text-gray-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="mobile-menu" class="lg:hidden custom-gradient px-6 mobile-menu-transition">
+                <a href="../../index.html#home" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Home</a>
+                <a href="../../index.html#cybersecurity" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Cybersecurity</a>
+                <a href="../../index.html#projects" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Projects</a>
+                <a href="../../blog/index.html" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Insights</a>
+                <a href="../index.html" class="block py-2 text-blue-600 hover:text-blue-700 font-semibold transition duration-300 border-b border-gray-300">SOC Toolkit</a>
+                <a href="../../index.html#music" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Music</a>
+                <a href="../../index.html#about" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b py-3">
+        <div class="container mx-auto px-6">
+            <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                <a href="../../index.html" class="hover:text-gray-800">Portfolio</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <a href="../index.html" class="hover:text-gray-800">SOC Toolkit</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-gray-800 font-medium">Investigation Procedures</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Quick Access -->
+    <div class="bg-blue-50 border-b border-blue-200 py-3">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                <a href="../knowledge-base/index.html" class="flex items-center text-purple-600 hover:text-purple-700 transition duration-300">
+                    📖 Knowledge Base
+                </a>
+                <span class="text-gray-400">•</span>
+                <a href="../../soc-documentation/playbooks/phishing-investigation.html" class="flex items-center text-green-600 hover:text-green-700 transition duration-300">
+                    🎣 Phishing Investigation (Complete)
+                </a>
+                <span class="text-gray-400">•</span>
+                <a href="../../blog/index.html" class="flex items-center text-orange-600 hover:text-orange-700 transition duration-300">
+                    📝 TryHackMe Writeups
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <section class="min-h-screen p-6 bg-gray-100">
+            <div class="container mx-auto py-16">
+                
+                <!-- Header -->
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">📋 Investigation Procedures</h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                        Step-by-step playbooks for real-world SOC incident response scenarios. 
+                        Each procedure includes practical commands, analysis techniques, and MITRE ATT&CK mapping.
+                    </p>
+                </div>
+
+                <!-- Status Overview -->
+                <div class="bg-white p-6 rounded-lg shadow-xl mb-12 max-w-4xl mx-auto">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">🎯 Deployment Status</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-center text-sm">
+                        <div class="p-3 bg-green-50 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600">1</div>
+                            <div class="text-green-700">Complete & Ready</div>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">2</div>
+                            <div class="text-blue-700">In Development</div>
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-lg">
+                            <div class="text-2xl font-bold text-purple-600">2</div>
+                            <div class="text-purple-700">Planned</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Procedures Grid -->
+                <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    
+                    <!-- Phishing Investigation - COMPLETE -->
+                    <div class="procedure-card bg-white p-6 rounded-lg shadow-xl border-l-4 border-green-500" onclick="window.location.href='../../soc-documentation/playbooks/phishing-investigation.html'">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">🎣</span>
+                                <h3 class="text-xl font-bold text-gray-800">Phishing Investigation</h3>
+                            </div>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">✅ Complete</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Comprehensive email threat analysis methodology covering header analysis, attachment investigation, 
+                            social engineering detection, and threat intelligence integration.
+                        </p>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Key Components:</h4>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Email Header Analysis</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">MITRE T1566</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Boogeyman Series</span>
+                                <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded">Attachment Analysis</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-4">
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>Based on: TryHackMe SOC Level 1</span>
+                                <span>Ready for deployment</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Network Traffic Analysis - IN DEVELOPMENT -->
+                    <div class="procedure-card bg-white p-6 rounded-lg shadow-xl border-l-4 border-blue-500 disabled">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">🌐</span>
+                                <h3 class="text-xl font-bold text-gray-800">Network Traffic Analysis</h3>
+                            </div>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">🚀 Ready</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Wireshark and Zeek-based traffic analysis with behavioral pattern detection, 
+                            C2 identification, and network forensics methodology.
+                        </p>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Planned Components:</h4>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="bg-cyan-100 text-cyan-800 px-2 py-1 rounded">Wireshark Analysis</span>
+                                <span class="bg-teal-100 text-teal-800 px-2 py-1 rounded">TShark Commands</span>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">C2 Detection</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Zeek Logs</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-4">
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>Foundation: Network Security Module</span>
+                                <span>Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Endpoint Investigation - IN DEVELOPMENT -->
+                    <div class="procedure-card bg-white p-6 rounded-lg shadow-xl border-l-4 border-blue-500 disabled">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">💻</span>
+                                <h3 class="text-xl font-bold text-gray-800">Endpoint Investigation</h3>
+                            </div>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">🚀 Ready</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Memory forensics with Volatility, process analysis, Windows Event Log correlation, 
+                            and endpoint detection response procedures.
+                        </p>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Planned Components:</h4>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded">Volatility Analysis</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Memory Forensics</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">Process Analysis</span>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Event Log Analysis</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-4">
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>Foundation: Digital Forensics Module</span>
+                                <span>Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Malware Analysis - PLANNED -->
+                    <div class="procedure-card bg-white p-6 rounded-lg shadow-xl border-l-4 border-purple-500 disabled">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">🦠</span>
+                                <h3 class="text-xl font-bold text-gray-800">Malware Analysis</h3>
+                            </div>
+                            <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">📅 Planned</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Static and dynamic malware analysis with YARA rules, sandbox analysis, 
+                            IOC extraction, and threat classification procedures.
+                        </p>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Planned Components:</h4>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded">YARA Rules</span>
+                                <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded">Static Analysis</span>
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded">Dynamic Analysis</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">IOC Extraction</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-4">
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>Foundation: Malware Analysis Module</span>
+                                <span>In Development</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Methodology Overview -->
+                <div class="bg-white p-8 rounded-lg shadow-xl mt-16 max-w-4xl mx-auto">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">🔄 Investigation Methodology</h2>
+                    <div class="grid md:grid-cols-4 gap-6 text-center">
+                        <div class="p-4 bg-blue-50 rounded-lg">
+                            <div class="text-2xl mb-2">1️⃣</div>
+                            <h3 class="font-semibold text-blue-700 mb-2">Initial Triage</h3>
+                            <p class="text-sm text-blue-600">Alert assessment and scope determination</p>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <div class="text-2xl mb-2">2️⃣</div>
+                            <h3 class="font-semibold text-green-700 mb-2">Evidence Collection</h3>
+                            <p class="text-sm text-green-600">Systematic artifact gathering and preservation</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg">
+                            <div class="text-2xl mb-2">3️⃣</div>
+                            <h3 class="font-semibold text-purple-700 mb-2">Analysis & Correlation</h3>
+                            <p class="text-sm text-purple-600">Technical investigation and pattern identification</p>
+                        </div>
+                        <div class="p-4 bg-orange-50 rounded-lg">
+                            <div class="text-2xl mb-2">4️⃣</div>
+                            <h3 class="font-semibold text-orange-700 mb-2">Documentation & Response</h3>
+                            <p class="text-sm text-orange-600">Findings documentation and remediation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Framework Integration -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 p-8 rounded-lg shadow-xl mt-16 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🎯 Framework Integration</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            All procedures integrate industry-standard frameworks for systematic and compliant investigation processes.
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-6 text-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">MITRE ATT&CK</h4>
+                                <p class="text-sm text-gray-600">Technique mapping and threat categorization</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">NIST Framework</h4>
+                                <p class="text-sm text-gray-600">Incident response lifecycle integration</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Industry Standards</h4>
+                                <p class="text-sm text-gray-600">Best practices and compliance alignment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security - Investigation Procedures. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        };
+    </script>
+</body>
+</html>

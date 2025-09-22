@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security-Focused OS Analysis - SOC Reference</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 hover:text-gray-600">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Security-Focused OS Analysis</h1>
+            <p class="text-gray-600">System security, monitoring, and incident response</p>
+        </div>
+
+        <!-- Windows Security -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Windows Security Analysis</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Malicious Process Detection</h3>
+                    <div class="code-block text-sm">
+# Process Analysis
+tasklist /svc
+wmic process list full
+Get-Process | Select-Object Name,Id,Path,Company
+
+# Suspicious Indicators
+- Misspelled process names
+- Processes in unusual locations  
+- High CPU/memory usage
+- Unsigned binaries
+- Parent-child anomalies
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Critical Windows Logs</h3>
+                    <div class="code-block text-sm">
+# Event Log Analysis
+Security.evtx (4624,4625,4648,4720)
+System.evtx (7034,7035,7036)
+Application.evtx (1000,1001)
+PowerShell.evtx (4103,4104)
+Sysmon.evtx (1,3,7,8,11)
+
+# PowerShell Commands
+Get-WinEvent -LogName Security -ID 4624
+Get-EventLog -LogName System -EntryType Error
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Linux Security -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Linux Server Security</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Hardening Steps</h4>
+                        <div class="code-block text-sm">
+# User/Access Control
+passwd -l root
+usermod -L username
+chmod 600 /etc/shadow
+
+# Services & Ports
+systemctl disable unnecessary_service
+netstat -tulpn | grep LISTEN
+iptables -L -n
+
+# File Permissions
+find / -perm -4000 -type f 2>/dev/null
+chmod 644 /etc/passwd
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Security Monitoring</h4>
+                        <div class="code-block text-sm">
+# Process Monitoring
+ps auxf
+top -c
+lsof -p PID
+
+# Network Connections
+ss -tulpn
+netstat -anp | grep :22
+
+# File Activity
+inotifywatch /etc/passwd
+auditctl -w /etc/passwd -p wa
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compromise Indicators -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">System Compromise Signs</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-red-600 mb-2">Performance</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Slow system response</li>
+                        <li>• High CPU/memory usage</li>
+                        <li>• Disk space depletion</li>
+                        <li>• Network saturation</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-orange-600 mb-2">Behavioral</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Unexpected reboots</li>
+                        <li>• New processes/services</li>
+                        <li>• Unauthorized users</li>
+                        <li>• Changed file permissions</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-purple-600 mb-2">Network</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Unusual outbound connections</li>
+                        <li>• DNS requests to suspicious domains</li>
+                        <li>• Data transfer spikes</li>
+                        <li>• Port scanning activity</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Activity Investigation -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Suspicious File Activity</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600 mb-3">Windows Investigation</h3>
+                    <div class="code-block text-sm">
+# File System Analysis
+dir /a /s /od C:\Windows\Temp
+forfiles /p C:\ /m *.exe /s /c "cmd /c echo @path @fdate"
+
+# Registry Analysis
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+
+# PowerShell History
+Get-Content (Get-PSReadlineOption).HistorySavePath
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Linux Investigation</h3>
+                    <div class="code-block text-sm">
+# Recent File Changes
+find /etc -type f -mtime -1
+find /tmp -type f -executable
+stat suspicious_file
+
+# File Integrity
+rpm -Va
+debsums -c
+
+# Hidden Files
+ls -la /tmp/.*
+find / -name ".*" -type f 2>/dev/null
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring Tools -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">System Monitoring Tools</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Windows</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Sysmon</li>
+                            <li>• Process Monitor</li>
+                            <li>• Autoruns</li>
+                            <li>• Windows Performance Monitor</li>
+                            <li>• Event Viewer</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Linux</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• auditd</li>
+                            <li>• osquery</li>
+                            <li>• AIDE</li>
+                            <li>• Tripwire</li>
+                            <li>• rsyslog</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Cross-Platform</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• OSSEC</li>
+                            <li>• Splunk Universal Forwarder</li>
+                            <li>• Elastic Beats</li>
+                            <li>• Nagios</li>
+                            <li>• Zabbix</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Account Security -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Unauthorized Accounts</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600 mb-3">Windows</h3>
+                    <div class="code-block text-sm">
+# User Enumeration
+net user
+wmic useraccount list full
+Get-LocalUser | Select-Object Name,Enabled,LastLogon
+
+# Group Membership
+net localgroup administrators
+Get-LocalGroupMember -Group "Administrators"
+
+# Recent Logins
+Get-WinEvent -LogName Security -ID 4624,4625
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Linux</h3>
+                    <div class="code-block text-sm">
+# User Analysis
+cat /etc/passwd
+awk -F: '$3==0 {print $1}' /etc/passwd
+lastlog
+who -a
+
+# Sudo Access
+cat /etc/sudoers
+grep -r "sudo" /etc/sudoers.d/
+
+# Authentication Logs
+tail -f /var/log/auth.log
+grep "Failed password" /var/log/auth.log
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privilege Escalation -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Privilege Escalation Indicators</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Common Techniques</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Token manipulation</li>
+                            <li>• Unquoted service paths</li>
+                            <li>• SUID/SGID abuse</li>
+                            <li>• Kernel exploits</li>
+                            <li>• Credential dumping</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Detection</h4>
+                        <div class="code-block text-sm">
+# Windows
+whoami /priv
+icacls C:\Windows\System32\*
+
+# Linux  
+find / -perm -4000 2>/dev/null
+getcap -r / 2>/dev/null
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Malware Response -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Malware Response</h2>
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6">
+                <h3 class="font-bold mb-3">Response Steps</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Immediate Actions</h4>
+                        <ol class="text-sm space-y-1">
+                            <li>1. Isolate infected system</li>
+                            <li>2. Preserve evidence</li>
+                            <li>3. Identify malware type</li>
+                            <li>4. Stop malicious processes</li>
+                            <li>5. Document findings</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Analysis Tools</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• VirusTotal</li>
+                            <li>• Hybrid Analysis</li>
+                            <li>• Process Hacker</li>
+                            <li>• Volatility (memory analysis)</li>
+                            <li>• YARA rules</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Persistence Mechanisms -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Persistence Mechanisms</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-red-600 mb-3">Windows</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Registry Run keys</li>
+                        <li>• Scheduled tasks</li>
+                        <li>• Services</li>
+                        <li>• Startup folder</li>
+                        <li>• WMI event subscriptions</li>
+                        <li>• DLL hijacking</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600 mb-3">Linux</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• Cron jobs</li>
+                        <li>• Init scripts</li>
+                        <li>• .bashrc/.profile</li>
+                        <li>• Systemd services</li>
+                        <li>• SSH authorized_keys</li>
+                        <li>• LD_PRELOAD</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Analysis -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Performance Anomaly Analysis</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="code-block">
+# Windows Performance
+Get-Counter "\Processor(_Total)\% Processor Time"
+Get-Counter "\Memory\Available MBytes"
+typeperf "\Process(*)\Working Set"
+
+# Linux Performance  
+top -b -n1 | head -20
+vmstat 1 5
+iostat -x 1 5
+sar -u 1 10
+
+# Network Performance
+netstat -i
+ss -s
+iftop -i eth0
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Resources -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related References</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-blue-600">Windows Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Windows security and administration</p>
+                    <a href="windows-fundamentals.html" class="text-blue-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-green-600">Linux Fundamentals</h3>
+                    <p class="text-sm text-gray-600 mb-2">Linux security and forensics</p>
+                    <a href="linux-fundamentals.html" class="text-green-600 hover:underline text-sm">Read More →</a>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-purple-600">Incident Response</h3>
+                    <p class="text-sm text-gray-600 mb-2">Investigation procedures</p>
+                    <a href="incident-response.html" class="text-purple-600 hover:underline text-sm">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. OS Security Analysis Reference.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

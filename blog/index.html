@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Insights - Tuned for Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-gradient {
+            background: linear-gradient(to right, #e5e7eb, #d1d5db);
+        }
+        .mobile-menu-transition {
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu-transition.open {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+            <div class="space-x-8 hidden md:flex">
+                <a href="../index.html#home" class="text-lg text-gray-800 hover:text-gray-600 transition duration-300">Home</a>
+                <a href="../index.html#cybersecurity" class="text-lg text-gray-800 hover:text-gray-600 transition duration-300">Cybersecurity</a>
+                <a href="../index.html#projects" class="text-lg text-gray-800 hover:text-gray-600 transition duration-300">Projects</a>
+                <a href="../soc-documentation/index.html" class="text-lg text-blue-600 hover:text-blue-700 font-semibold transition duration-300">SOC Documentation</a>
+                <a href="#insights-main" class="text-lg font-bold text-gray-900 transition duration-300">Insights</a>
+                <a href="../index.html#music" class="text-lg text-gray-800 hover:text-gray-600 transition duration-300">Music</a>
+                <a href="../index.html#about" class="text-lg text-gray-800 hover:text-gray-600 transition duration-300">About Me</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden custom-gradient px-6 mobile-menu-transition">
+            <a href="../index.html#home" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Home</a>
+            <a href="../index.html#cybersecurity" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Cybersecurity</a>
+            <a href="../index.html#projects" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Projects</a>
+            <a href="../soc-documentation/index.html" class="block py-2 text-blue-600 hover:text-blue-700 font-semibold transition duration-300 border-b border-gray-300">SOC Documentation</a>
+            <a href="#insights-main" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Insights</a>
+            <a href="../index.html#music" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">Music</a>
+            <a href="../index.html#about" class="block py-2 text-gray-800 hover:text-gray-600 transition duration-300 border-b border-gray-300">About Me</a>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="insights-main" class="min-h-screen p-6 bg-gray-100">
+            <div class="container mx-auto py-16">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Cybersecurity Insights</h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                        Technical writeups, threat analysis, and digital defense strategies. A collection of articles covering incident response, malware analysis, and cybersecurity methodologies based on hands-on experience.
+                    </p>
+                </div>
+
+                <!-- Featured Posts -->
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Featured Analysis</h2>
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-lg shadow-xl">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <img src="../assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 3 Advanced Analysis" class="rounded-lg shadow-md">
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-3">Boogeyman 3 - Advanced Windows Log Analysis</h3>
+                                <p class="text-sm text-gray-500 mb-3">Published: January 2025 • 25 min read • Featured</p>
+                                <p class="text-gray-700 mb-4">
+                                    Comprehensive multi-stage APT attack investigation using Windows Event Logs and Sysmon. Complete attack chain reconstruction from HTA malware delivery through domain compromise and ransomware deployment.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">Windows Event Logs</span>
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">Attack Chain Analysis</span>
+                                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-semibold">APT Techniques</span>
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold">UAC Bypass</span>
+                                </div>
+                                <a href="./boogeyman-3-writeup.html" class="inline-block bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Read Full Analysis →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Browse by Category</h2>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-lg transition duration-300">
+                            <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-700">TryHackMe Writeups</h3>
+                            <p class="text-sm text-gray-500">3 posts</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-lg transition duration-300">
+                            <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-700">Methodology</h3>
+                            <p class="text-sm text-gray-500">1 post</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-lg transition duration-300">
+                            <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-700">Technical Tutorials</h3>
+                            <p class="text-sm text-gray-500">Coming soon</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-lg transition duration-300">
+                            <div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-700">Career Development</h3>
+                            <p class="text-sm text-gray-500">1 post</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Posts -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Boogeyman 3 Post - Latest -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col hover:shadow-2xl transition duration-300 border-2 border-blue-200">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold mb-2 w-fit">NEW</div>
+                        <img src="../assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 3 Analysis" class="rounded-lg mb-4 object-cover h-48 w-full">
+                        <div class="flex-grow">
+                            <h2 class="text-xl font-bold text-gray-600 mb-2">Boogeyman 3 - Advanced Windows Log Analysis</h2>
+                            <p class="text-sm text-gray-500 mb-3">Published: January 2025 • 25 min read</p>
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                Multi-stage APT attack investigation using Windows Event Logs and Sysmon. Complete attack chain reconstruction from HTA malware delivery through domain compromise and ransomware deployment.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Windows Event Logs</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Attack Chain Analysis</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">APT Techniques</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="./boogeyman-3-writeup.html" class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 transition duration-300 w-full text-center">Read Full Analysis</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Boogeyman 2 Post -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col hover:shadow-2xl transition duration-300">
+                        <img src="../assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 2 Analysis" class="rounded-lg mb-4 object-cover h-48 w-full">
+                        <div class="flex-grow">
+                            <h2 class="text-xl font-bold text-gray-600 mb-2">Boogeyman 2 - Advanced Spear Phishing Analysis</h2>
+                            <p class="text-sm text-gray-500 mb-3">Published: September 2025 • 20 min read</p>
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                Advanced memory forensics and spear phishing investigation targeting HR departments. Demonstrates Volatility 3 analysis, multi-stage payload tracing, and sophisticated persistence mechanisms.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Memory Forensics</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Macro Analysis</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Process Investigation</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="./boogeyman-2-writeup.html" class="inline-block bg-gray-800 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-300 w-full text-center">Read Full Analysis</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Boogeyman 1 Post -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col hover:shadow-2xl transition duration-300">
+                        <img src="../assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 1 Analysis" class="rounded-lg mb-4 object-cover h-48 w-full">
+                        <div class="flex-grow">
+                            <h2 class="text-xl font-bold text-gray-600 mb-2">Boogeyman 1 - Complete Incident Analysis</h2>
+                            <p class="text-sm text-gray-500 mb-3">Published: September 2025 • 15 min read</p>
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                End-to-end incident response walkthrough covering email analysis, malware investigation, PowerShell forensics, and DNS exfiltration recovery. Demonstrates SOC analyst methodology and technical proficiency.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Incident Response</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Malware Analysis</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Network Forensics</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="./boogeyman-1-writeup.html" class="inline-block bg-gray-800 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-300 w-full text-center">Read Full Analysis</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Musical Methodology Post -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col hover:shadow-2xl transition duration-300">
+                        <img src="https://storage.googleapis.com/my-portfolio-images-2025/MusicSec.png" alt="Music and Security Methodology" class="rounded-lg mb-4 object-cover h-48 w-full">
+                        <div class="flex-grow">
+                            <h2 class="text-xl font-bold text-gray-600 mb-2">The Analyst as a Musician</h2>
+                            <p class="text-sm text-gray-500 mb-3">Published: September 2025 • 8 min read</p>
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                How classical music training informs cybersecurity methodology: pattern recognition, systematic analysis, and disciplined practice applied to digital defense.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Methodology</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs">Career Development</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="./insights.html" class="inline-block bg-gray-800 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-300 w-full text-center">Read Article</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Coming Soon Posts -->
+                    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col border-2 border-dashed border-gray-300">
+                        <div class="text-center py-8 flex-grow">
+                            <div class="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-400 mb-2">More Content Coming Soon</h3>
+                            <p class="text-gray-500">
+                                Additional TryHackMe writeups, threat analysis, and technical tutorials in development.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        };
+    </script>
+</body>
+</html>

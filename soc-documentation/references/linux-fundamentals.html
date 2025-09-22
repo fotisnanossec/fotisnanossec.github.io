@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Security Fundamentals | Tuned for Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .command-box {
+            background: #1f2937;
+            color: #10b981;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            display: inline-block;
+            margin: 0.25rem 0;
+        }
+        .topic-section {
+            background: #ffffff;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #22c55e;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+            <div class="flex space-x-4">
+                <a href="./index.html" class="text-gray-600 hover:text-gray-800 transition duration-300">← References</a>
+                <button onclick="window.print()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">Print Guide</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-6xl mx-auto">
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Linux Security Fundamentals</h1>
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-600 mb-6">SOC Analyst Technical Reference</h2>
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">Linux Security</span>
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">System Administration</span>
+                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">Command Line</span>
+                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">Threat Hunting</span>
+                </div>
+                <p class="text-gray-600">Updated: September 2025 • Version 1.0 • Based on SOC Level 1 Training</p>
+            </div>
+
+            <!-- Quick Reference Summary -->
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-lg mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Essential Commands Overview</h2>
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded">
+                        <h4 class="font-semibold text-green-800 mb-2">Process Management</h4>
+                        <div class="text-sm space-y-1">
+                            <div class="command-box text-xs">ps aux</div>
+                            <div class="command-box text-xs">top</div>
+                            <div class="command-box text-xs">kill -9</div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded">
+                        <h4 class="font-semibold text-blue-800 mb-2">File System</h4>
+                        <div class="text-sm space-y-1">
+                            <div class="command-box text-xs">ls -la</div>
+                            <div class="command-box text-xs">chmod 755</div>
+                            <div class="command-box text-xs">find / -name</div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded">
+                        <h4 class="font-semibold text-purple-800 mb-2">Network</h4>
+                        <div class="text-sm space-y-1">
+                            <div class="command-box text-xs">netstat -tulpn</div>
+                            <div class="command-box text-xs">ss -tulpn</div>
+                            <div class="command-box text-xs">ip addr</div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded">
+                        <h4 class="font-semibold text-red-800 mb-2">System Monitoring</h4>
+                        <div class="text-sm space-y-1">
+                            <div class="command-box text-xs">df -h</div>
+                            <div class="command-box text-xs">free -h</div>
+                            <div class="command-box text-xs">tail -f</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process Management & Monitoring -->
+            <div class="topic-section">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">⚙️ Process Management & Monitoring</h2>
+                
+                <div class="info-box mb-4">
+                    <h3 class="font-semibold text-blue-800 mb-2">Purpose</h3>
+                    <p class="text-gray-700">
+                        Linux process management is critical for SOC analysts to identify suspicious processes, 
+                        analyze system performance, and detect potential security threats through process behavior analysis.
+                    </p>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Essential Process Commands</h3>
+                <div class="code-block">
+# Process listing and analysis
+ps aux                          # All processes with detailed info
+ps aux | grep [process_name]    # Find specific process
+ps -ef                          # Full format listing
+ps -e --forest                 # Process tree view
+
+# Real-time process monitoring
+top                             # Interactive process viewer
+htop                            # Enhanced process viewer (if installed)
+top -p [PID]                    # Monitor specific process
+
+# Process control
+kill [PID]                      # Terminate process gracefully
+kill -9 [PID]                   # Force kill process
+killall [process_name]          # Kill all instances of process
+pkill -f [pattern]              # Kill processes matching pattern
+
+# Background process management
+jobs                            # List active jobs
+nohup [command] &               # Run process in background
+disown                          # Remove job from shell's job table
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Daemon vs Regular Process</h3>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h4 class="font-semibold text-blue-800">Daemon Process</h4>
+                        <ul class="text-blue-700 text-sm space-y-1">
+                            <li>• Runs in background without terminal</li>
+                            <li>• Started at boot or by system</li>
+                            <li>• Parent PID typically 1 (systemd/init)</li>
+                            <li>• Examples: sshd, httpd, mysqld</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-800">Regular Process</h4>
+                        <ul class="text-green-700 text-sm space-y-1">
+                            <li>• User-initiated from terminal</li>
+                            <li>• Has controlling terminal</li>
+                            <li>• Child of shell process</li>
+                            <li>• Examples: vim, grep, ls</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">SOC Investigation Applications</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>Malware Detection:</strong> Identify processes with unusual names or resource consumption</li>
+                    <li><strong>Persistence Analysis:</strong> Check for unauthorized daemon processes</li>
+                    <li><strong>Performance Investigation:</strong> Analyze CPU and memory usage patterns</li>
+                    <li><strong>Network Activity:</strong> Correlate processes with network connections</li>
+                </ul>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-4">
+                    <h4 class="font-semibold text-yellow-800 mb-2">Threat Hunting Indicators</h4>
+                    <p class="text-yellow-700 text-sm">
+                        Monitor for processes running from /tmp or /var/tmp, unusual parent-child relationships, 
+                        processes with hidden names (starting with dots), and unexpected network connections.
+                    </p>
+                </div>
+            </div>
+
+            <!-- File System & Permissions -->
+            <div class="topic-section">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">📁 File System & Permissions</h2>
+                
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Linux Directory Structure</h3>
+                <div class="code-block">
+# Essential directory hierarchy
+/                    # Root directory
+├── /etc            # System configuration files
+├── /home           # User home directories
+├── /var            # Variable data (logs, mail, tmp)
+│   ├── /var/log    # System and application logs
+│   └── /var/tmp    # Temporary files (persistent across reboots)
+├── /usr            # User programs and data
+├── /bin            # Essential command binaries
+├── /sbin           # System administration binaries
+├── /tmp            # Temporary files (cleared on reboot)
+├── /proc           # Process and kernel information
+└── /sys            # Kernel and system information
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">File Permissions System</h3>
+                <div class="info-box mb-4">
+                    <h3 class="font-semibold text-blue-800 mb-2">Permission Structure</h3>
+                    <p class="text-gray-700 mb-2">
+                        Linux uses a 3-bit permission system for User (owner), Group, and Other (world):
+                    </p>
+                    <div class="code-block">
+# Permission bits: rwx rwx rwx
+# User permissions | Group permissions | Other permissions
+# 4 (read) + 2 (write) + 1 (execute) = 7 (full permissions)
+
+# Common permission examples:
+755 = rwxr-xr-x  # Owner: full, Group/Other: read+execute
+644 = rw-r--r--  # Owner: read+write, Group/Other: read only
+700 = rwx------  # Owner: full, Group/Other: no access
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">File Permission Commands</h3>
+                <div class="code-block">
+# View file permissions
+ls -la                          # Detailed listing with permissions
+ls -la /etc/passwd              # Check specific file permissions
+stat filename                   # Detailed file information
+
+# Modify permissions
+chmod 755 filename              # Set specific permissions
+chmod u+x filename              # Add execute for user
+chmod g-w filename              # Remove write for group
+chmod o-r filename              # Remove read for others
+
+# Change ownership
+chown user:group filename       # Change owner and group
+chown user filename             # Change owner only
+chgrp group filename            # Change group only
+
+# Special permissions
+chmod +s filename               # Set SUID/SGID bit
+chmod +t directory              # Set sticky bit (for directories)
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">File Search & Discovery</h3>
+                <div class="code-block">
+# Find command variations
+find / -name "filename"                    # Search by name
+find /home -type f -name "*.log"          # Find log files
+find /var -size +100M                     # Files larger than 100MB
+find / -perm 4755                         # Find SUID files
+find /tmp -mtime -1                       # Modified in last 24 hours
+
+# Search file contents
+grep -r "pattern" /var/log/               # Search in all log files
+grep -i "error" /var/log/syslog           # Case-insensitive search
+zgrep "pattern" /var/log/*.gz             # Search compressed logs
+
+# File system analysis
+du -sh /var/log/                          # Directory size
+df -h                                     # Disk space usage
+lsof +D /var/log/                         # Open files in directory
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Links and File References</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h4 class="font-semibold text-blue-800">Hard Links</h4>
+                        <ul class="text-blue-700 text-sm space-y-1">
+                            <li>• Direct reference to inode</li>
+                            <li>• Same file system only</li>
+                            <li>• File persists if original deleted</li>
+                            <li>• <code class="bg-blue-100 px-1 rounded">ln file hardlink</code></li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-800">Symbolic Links</h4>
+                        <ul class="text-green-700 text-sm space-y-1">
+                            <li>• Pointer to file path</li>
+                            <li>• Can cross file systems</li>
+                            <li>• Breaks if target deleted</li>
+                            <li>• <code class="bg-green-100 px-1 rounded">ln -s file symlink</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4">
+                    <h4 class="font-semibold text-red-800 mb-2">Security Implications</h4>
+                    <p class="text-red-700 text-sm">
+                        Monitor SUID/SGID files for privilege escalation, check /tmp and /var/tmp for suspicious files, 
+                        and investigate unusual file permissions in system directories. Pay attention to hidden files (starting with .).
+                    </p>
+                </div>
+            </div>
+
+            <!-- System Administration & Access Control -->
+            <div class="topic-section">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">🔐 System Administration & Access Control</h2>
+                
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">User Privilege Management</h3>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h4 class="font-semibold text-blue-800">su (Switch User)</h4>
+                        <ul class="text-blue-700 text-sm space-y-1">
+                            <li>• Switches to another user account</li>
+                            <li>• Requires target user's password</li>
+                            <li>• Creates new shell session</li>
+                            <li>• Full user environment switch</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-800">sudo (Superuser Do)</h4>
+                        <ul class="text-green-700 text-sm space-y-1">
+                            <li>• Executes commands as another user</li>
+                            <li>• Uses current user's password</li>
+                            <li>• Granular permission control</li>
+                            <li>• Comprehensive audit logging</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="code-block">
+# su command usage
+su                              # Switch to root (requires root password)
+su - username                   # Switch to user with environment
+su -c "command" username        # Execute command as user
+
+# sudo command usage
+sudo command                    # Execute command as root
+sudo -u username command        # Execute command as specific user
+sudo -l                         # List allowed sudo commands
+sudo -i                         # Interactive root shell
+
+# sudo configuration
+sudo visudo                     # Edit sudoers file safely
+sudo cat /etc/sudoers          # View sudo configuration
+sudo tail -f /var/log/auth.log # Monitor sudo usage
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Automated Task Management (Cron)</h3>
+                <div class="info-box mb-4">
+                    <h3 class="font-semibold text-blue-800 mb-2">Cron System</h3>
+                    <p class="text-gray-700">
+                        Cron daemon (crond) executes scheduled tasks automatically. Critical for system maintenance 
+                        and potential attack vector for persistent malware execution.
+                    </p>
+                </div>
+
+                <div class="code-block">
+# Cron management commands
+crontab -l                      # List current user's cron jobs
+crontab -e                      # Edit current user's cron jobs
+crontab -u username -l          # List specific user's cron jobs
+sudo crontab -l                 # List root's cron jobs
+
+# System-wide cron files
+cat /etc/crontab               # System crontab
+ls /etc/cron.d/                # Additional cron files
+ls /etc/cron.daily/            # Daily cron jobs
+ls /etc/cron.hourly/           # Hourly cron jobs
+
+# Cron syntax: minute hour day month weekday command
+# Example: 0 2 * * * /usr/bin/backup.sh    # Daily at 2 AM
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4">
+                    <h4 class="font-semibold text-red-800 mb-2">Security Monitoring</h4>
+                    <p class="text-red-700 text-sm">
+                        Regularly audit cron jobs for unauthorized tasks, monitor sudo logs for privilege escalation attempts, 
+                        and verify package integrity for signs of compromise. Check for unusual scheduled tasks in all cron directories.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Log Analysis & System Monitoring -->
+            <div class="topic-section">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">📊 Log Analysis & System Monitoring</h2>
+                
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">System Log Locations</h3>
+                <div class="code-block">
+# Primary log directory: /var/log/
+├── /var/log/syslog             # General system messages (Debian/Ubuntu)
+├── /var/log/messages           # General system messages (RedHat/CentOS)
+├── /var/log/auth.log           # Authentication logs (Debian/Ubuntu)
+├── /var/log/secure             # Authentication logs (RedHat/CentOS)
+├── /var/log/kern.log           # Kernel messages
+├── /var/log/dmesg              # Boot and hardware messages
+├── /var/log/cron               # Cron job execution logs
+├── /var/log/mail.log           # Mail server logs
+├── /var/log/apache2/           # Apache web server logs
+├── /var/log/nginx/             # Nginx web server logs
+└── /var/log/audit/             # SELinux/AppArmor audit logs
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Log Analysis Commands</h3>
+                <div class="code-block">
+# Real-time log monitoring
+tail -f /var/log/syslog                    # Follow log in real-time
+tail -n 100 /var/log/auth.log              # Show last 100 lines
+multitail /var/log/syslog /var/log/auth.log # Monitor multiple logs
+
+# Log search and analysis
+grep "Failed password" /var/log/auth.log   # Find failed login attempts
+grep -i "error" /var/log/syslog           # Case-insensitive error search
+zgrep "pattern" /var/log/*.gz             # Search compressed logs
+
+# Log rotation and management
+ls -la /var/log/*.log                     # Current active logs
+ls -la /var/log/*.gz                      # Rotated/compressed logs
+logrotate -d /etc/logrotate.conf          # Test log rotation config
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">System Resource Monitoring</h3>
+                <div class="code-block">
+# Disk space analysis
+df -h                          # Human-readable disk usage
+du -sh /var/log/               # Directory size summary
+du -ah /var/log/ | sort -rh    # Sort by size, largest first
+
+# Memory and CPU monitoring
+free -h                        # Memory usage (human-readable)
+cat /proc/meminfo              # Detailed memory information
+cat /proc/cpuinfo              # CPU information
+uptime                         # System load and uptime
+
+# Process and system monitoring
+vmstat 1                       # Virtual memory statistics
+iostat 1                       # I/O statistics
+sar -u 1 10                   # CPU utilization (10 samples)
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">SOC Log Analysis Workflow</h3>
+                <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                    <li><strong>Baseline Establishment:</strong> Understand normal log patterns and volumes</li>
+                    <li><strong>Authentication Analysis:</strong> Review login attempts and privilege escalations</li>
+                    <li><strong>Error Investigation:</strong> Analyze system errors and application failures</li>
+                    <li><strong>Timeline Construction:</strong> Correlate events across multiple log sources</li>
+                    <li><strong>Anomaly Detection:</strong> Identify unusual patterns or unexpected events</li>
+                </ol>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+                    <h4 class="font-semibold text-blue-800 mb-2">Critical Log Events</h4>
+                    <ul class="text-blue-700 text-sm space-y-1">
+                        <li>• Failed authentication attempts (brute force indicators)</li>
+                        <li>• Privilege escalation events (sudo usage, su attempts)</li>
+                        <li>• New user account creation or modification</li>
+                        <li>• Unusual network connections or service starts</li>
+                        <li>• System configuration changes or package installations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="text-center border-t pt-8 mt-12">
+                <p class="text-gray-600 mb-4">Part of SOC Analyst Reference Collection</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="./windows-fundamentals.html" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-300">← Windows Fundamentals</a>
+                    <a href="./index.html" class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition duration-300">All References</a>
+                    <a href="#" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition duration-300">Network Fundamentals →</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. All rights reserved.</p>
+            <p class="text-sm mt-2">Technical Reference Guide v1.0 - Linux Security Fundamentals</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
