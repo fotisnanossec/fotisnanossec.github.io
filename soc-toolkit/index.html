@@ -165,50 +165,100 @@
                         </div>
                     </div>
 
-                    <!-- Splunk SPL Reference -->
-                    <div class="toolkit-card bg-white p-8 rounded-lg shadow-xl" onclick="window.location.href='./splunk-reference.html'">
+                    <!-- Splunk SPL Reference - Embedded -->
+                    <div class="bg-white p-8 rounded-lg shadow-xl">
                         <div class="text-center mb-6">
                             <div class="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <span class="text-3xl">📊</span>
                             </div>
                             <h2 class="text-2xl font-bold text-gray-800 mb-4">Splunk SPL Reference</h2>
                             <p class="text-gray-600 leading-relaxed">
-                                Quick reference guide for Splunk Search Processing Language commands
+                                Essential SPL commands for SOC operations
                             </p>
                         </div>
                         
-                        <!-- Quick Preview -->
-                        <div class="space-y-3 mb-6">
-                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                                <span class="text-lg mr-3">🔍</span>
-                                <div>
-                                    <div class="font-medium text-gray-700">Search Operators & Syntax</div>
-                                    <div class="text-xs text-gray-500">Boolean • Wildcards • Comparisons</div>
+                        <!-- Embedded Splunk Content -->
+                        <div class="space-y-6">
+                            <!-- Basic Operators -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">⚖️ Basic Operators</h3>
+                                <div class="bg-gray-900 text-gray-100 p-3 rounded text-sm font-mono cursor-pointer hover:bg-gray-800" title="Click to copy">
+                                    <div class="text-blue-300 mb-1"># Equal / Not Equal</div>
+                                    <div>UserName=Mark<br>UserName!=Mark</div>
                                 </div>
                             </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                                <span class="text-lg mr-3">🚨</span>
-                                <div>
-                                    <div class="font-medium text-gray-700">SOC Investigation Queries</div>
-                                    <div class="text-xs text-gray-500">Windows Events • Malware • Networks</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                                <span class="text-lg mr-3">⚡</span>
-                                <div>
-                                    <div class="font-medium text-gray-700">Performance Tips</div>
-                                    <div class="text-xs text-gray-500">Optimization • Best Practices</div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- CTA -->
-                        <div class="text-center">
-                            <div class="inline-flex items-center bg-orange-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-700 transition duration-300">
-                                <span>View SPL Reference</span>
-                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
+                            <!-- Boolean Logic -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">🔗 Boolean Logic</h3>
+                                <div class="bg-gray-900 text-gray-100 p-3 rounded text-sm font-mono cursor-pointer hover:bg-gray-800" title="Click to copy">
+                                    <div class="text-blue-300 mb-1"># AND / OR / NOT</div>
+                                    <div>field_A=value1 AND field_B=value2<br>field_A=value1 OR field_A=value2<br>field_A NOT value</div>
+                                </div>
+                            </div>
+
+                            <!-- Pipeline Commands -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">🚀 Pipeline Commands</h3>
+                                <div class="bg-gray-900 text-gray-100 p-3 rounded text-sm font-mono cursor-pointer hover:bg-gray-800" title="Click to copy">
+                                    <div class="text-blue-300 mb-1"># Essential Pipeline</div>
+                                    <div>| fields + User + Host<br>| stats count by User<br>| sort -_time<br>| dedup EventID</div>
+                                </div>
+                            </div>
+
+                            <!-- SOC Examples -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">🚨 SOC Investigation</h3>
+                                <div class="space-y-2">
+                                    <div class="bg-gray-900 text-gray-100 p-3 rounded text-sm font-mono cursor-pointer hover:bg-gray-800" title="Click to copy">
+                                        <div class="text-blue-300 mb-1"># Windows Authentication</div>
+                                        <div>index=windowslogs EventID=4624  # Success<br>index=windowslogs EventID=4625  # Failed</div>
+                                    </div>
+                                    <div class="bg-gray-900 text-gray-100 p-3 rounded text-sm font-mono cursor-pointer hover:bg-gray-800" title="Click to copy">
+                                        <div class="text-blue-300 mb-1"># PowerShell Analysis</div>
+                                        <div>index=security "*powershell* -enc*"<br>index=sysmon EventID=1 Image="*powershell*"</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- EventID Reference -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">📋 EventID Quick Reference</h3>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div class="space-y-1">
+                                        <div class="bg-red-100 p-2 rounded flex justify-between">
+                                            <strong>4625</strong><span>Failed Logons</span>
+                                        </div>
+                                        <div class="bg-green-100 p-2 rounded flex justify-between">
+                                            <strong>4624</strong><span>Successful Logons</span>
+                                        </div>
+                                        <div class="bg-blue-100 p-2 rounded flex justify-between">
+                                            <strong>4688</strong><span>Process Creation</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="bg-blue-100 p-2 rounded flex justify-between">
+                                            <strong>Sysmon 1</strong><span>Process</span>
+                                        </div>
+                                        <div class="bg-green-100 p-2 rounded flex justify-between">
+                                            <strong>Sysmon 3</strong><span>Network</span>
+                                        </div>
+                                        <div class="bg-yellow-100 p-2 rounded flex justify-between">
+                                            <strong>Sysmon 11</strong><span>File Created</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Performance Tips -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">⚡ Performance Tips</h3>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• Use specific time ranges: <code class="bg-gray-200 px-1 rounded">earliest=-1h</code></li>
+                                    <li>• Filter early: <code class="bg-gray-200 px-1 rounded">index=security EventID=4624</code></li>
+                                    <li>• Limit results: <code class="bg-gray-200 px-1 rounded">| head 100</code></li>
+                                    <li>• Avoid leading wildcards: <code class="bg-red-100 px-1 rounded">*password</code></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
