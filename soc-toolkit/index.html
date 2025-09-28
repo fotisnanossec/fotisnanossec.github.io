@@ -90,8 +90,8 @@
                         Ready-to-Deploy Investigation Capabilities
                     </h2>
                     <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        Comprehensive collection of investigation procedures and technical knowledge developed through 
-                        SOC Level 1 training. <strong>Immediately applicable</strong> to real-world security operations.
+                        Collection of investigation procedures and technical knowledge developed through 
+                        SOC Level 1 training. <strong>Applicable</strong> to real-world security operations.
                     </p>
                 </div>
 
@@ -122,7 +122,7 @@
                 </div>
 
                 <!-- Main Toolkit Categories -->
-                <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                     
                     <!-- Investigation Procedures -->
                     <div class="toolkit-card bg-white p-8 rounded-lg shadow-xl" onclick="window.location.href='./procedures/index.html'">
@@ -130,8 +130,8 @@
                             <div class="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <span class="text-3xl">📋</span>
                             </div>
-                            <h2 class="text-3xl font-bold text-gray-800 mb-4">Investigation Procedures</h2>
-                            <p class="text-lg text-gray-600 leading-relaxed">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Investigation Procedures</h2>
+                            <p class="text-gray-600 leading-relaxed">
                                 Step-by-step playbooks for real-world incident response scenarios
                             </p>
                         </div>
@@ -152,19 +152,60 @@
                                 </div>
                                 <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-semibold">🚀 Ready</span>
                             </div>
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-50">
-                                <div class="flex items-center">
-                                    <span class="text-lg mr-3">💻</span>
-                                    <span class="font-medium text-gray-700">Endpoint Investigation</span>
-                                </div>
-                                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-semibold">📅 Planned</span>
-                            </div>
                         </div>
 
                         <!-- CTA -->
                         <div class="text-center">
                             <div class="inline-flex items-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
                                 <span>View Procedures</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Splunk SPL Reference -->
+                    <div class="toolkit-card bg-white p-8 rounded-lg shadow-xl" onclick="window.location.href='./splunk-reference.html'">
+                        <div class="text-center mb-6">
+                            <div class="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-3xl">📊</span>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Splunk SPL Reference</h2>
+                            <p class="text-gray-600 leading-relaxed">
+                                Quick reference guide for Splunk Search Processing Language commands
+                            </p>
+                        </div>
+                        
+                        <!-- Quick Preview -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-lg mr-3">🔍</span>
+                                <div>
+                                    <div class="font-medium text-gray-700">Search Operators & Syntax</div>
+                                    <div class="text-xs text-gray-500">Boolean • Wildcards • Comparisons</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-lg mr-3">🚨</span>
+                                <div>
+                                    <div class="font-medium text-gray-700">SOC Investigation Queries</div>
+                                    <div class="text-xs text-gray-500">Windows Events • Malware • Networks</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-lg mr-3">⚡</span>
+                                <div>
+                                    <div class="font-medium text-gray-700">Performance Tips</div>
+                                    <div class="text-xs text-gray-500">Optimization • Best Practices</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="text-center">
+                            <div class="inline-flex items-center bg-orange-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-700 transition duration-300">
+                                <span>View SPL Reference</span>
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>
@@ -226,19 +267,19 @@
                     <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">🛠️ Toolkit Capabilities</h3>
                     <div class="grid md:grid-cols-4 gap-6 text-center">
                         <div>
-                            <div class="text-3xl font-bold text-blue-600 mb-2">4+</div>
+                            <div class="text-3xl font-bold text-blue-600 mb-2">5+</div>
                             <div class="text-sm text-gray-600">Investigation Procedures</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-orange-600 mb-2">1</div>
+                            <div class="text-sm text-gray-600">Splunk SPL Reference</div>
                         </div>
                         <div>
                             <div class="text-3xl font-bold text-purple-600 mb-2">15+</div>
                             <div class="text-sm text-gray-600">Security Tools Covered</div>
                         </div>
                         <div>
-                            <div class="text-3xl font-bold text-green-600 mb-2">3</div>
-                            <div class="text-sm text-gray-600">Security Frameworks</div>
-                        </div>
-                        <div>
-                            <div class="text-3xl font-bold text-orange-600 mb-2">100%</div>
+                            <div class="text-3xl font-bold text-green-600 mb-2">100%</div>
                             <div class="text-sm text-gray-600">SOC Level 1 Complete</div>
                         </div>
                     </div>
@@ -247,16 +288,16 @@
                 <!-- Career Readiness -->
                 <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-lg shadow-xl mt-16 max-w-4xl mx-auto">
                     <div class="text-center">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🎯 SOC Analyst Ready</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🎯 SOC Analyst Skills</h3>
                         <p class="text-gray-600 mb-6 leading-relaxed">
-                            This toolkit demonstrates <strong>immediate deployment capability</strong> for SOC analyst roles with 
-                            documented procedures, technical proficiency, and framework integration.
+                            This toolkit includes investigation procedures, technical proficiency, and framework integration 
+                            developed through SOC Level 1 training.
                         </p>
                         <div class="flex flex-wrap justify-center gap-4">
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Investigation Ready</span>
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Tool Proficient</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Framework Aligned</span>
-                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Documentation Complete</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Investigation Procedures</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Tool Knowledge</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Framework Understanding</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold">✅ Technical Documentation</span>
                         </div>
                     </div>
                 </div>

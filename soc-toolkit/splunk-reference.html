@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splunk SPL Reference | SOC Analyst Toolkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block { 
+            background: #1f2937; 
+            color: #f9fafb; 
+            font-family: 'Courier New', monospace; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+        }
+        .code-block:hover { background: #374151; }
+        .command-card { transition: all 0.3s ease; }
+        .command-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md no-print">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="../index.html" class="text-2xl font-bold text-gray-800">Tuned for Security</a>
+                <div class="flex space-x-6">
+                    <a href="../index.html" class="text-gray-800 hover:text-gray-600">Home</a>
+                    <a href="./index.html" class="text-blue-600 font-semibold">SOC Toolkit</a>
+                    <a href="../blog/index.html" class="text-gray-800 hover:text-gray-600">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b py-3 no-print">
+        <div class="container mx-auto px-6">
+            <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                <a href="../index.html" class="hover:text-gray-800">Portfolio</a>
+                <span>›</span>
+                <a href="./index.html" class="hover:text-gray-800">SOC Toolkit</a>
+                <span>›</span>
+                <span class="text-gray-800 font-medium">Splunk SPL Reference</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <section class="bg-gradient-to-r from-blue-50 to-purple-50 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">📊 Splunk SPL Reference</h1>
+            <h2 class="text-xl text-gray-600 mb-6">SOC Analyst Quick Reference Guide</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+                Essential Splunk commands for SOC operations. Based on SOC Level 1 training and practical application.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 no-print">
+                <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                    📄 Print Reference
+                </button>
+                <a href="#soc-examples" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700">
+                    🚨 SOC Examples
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Interface Components -->
+    <section class="py-8 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">📊 Search App Interface</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="command-card bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🔍 Search Elements</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li><strong>Search Head:</strong> SPL query input field</li>
+                        <li><strong>Time Duration:</strong> All-time, Last 60 minutes, Custom ranges</li>
+                        <li><strong>Search History:</strong> Previous queries with timestamps</li>
+                        <li><strong>Data Summary:</strong> Sources, sourcetypes, hosts overview</li>
+                    </ul>
+                </div>
+
+                <div class="command-card bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🏷️ Field Symbols</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li><strong>'α':</strong> Text/alphanumeric fields</li>
+                        <li><strong>'#':</strong> Numeric fields</li>
+                        <li><strong>Count number:</strong> Events captured in timeframe</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Field Operators -->
+    <section class="py-8 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">🔧 Field Operators & Syntax</h2>
+            
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Comparison Operators -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">⚖️ Comparison Operators</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Equal / Not Equal</div>
+                            <div>UserName=Mark<br>UserName!=Mark</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Greater / Less Than</div>
+                            <div>Age > 10<br>bytes >= 1000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boolean Logic -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🔗 Boolean Logic</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># AND Operation</div>
+                            <div>field_A=value1 AND field_B=value2</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># OR / NOT Operations</div>
+                            <div>field_A=value1 OR field_A=value2<br>field_A NOT value</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wildcards -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🃏 Wildcards</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Wildcard Examples</div>
+                            <div>status=fail*<br>DestinationIp=172.*</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pipeline Commands -->
+    <section class="py-8 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">🚰 Pipeline Commands</h2>
+            
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Filtering Commands -->
+                <div class="command-card bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🔍 Filtering Commands</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Fields Command</div>
+                            <div>| fields + User + Host<br>| fields - EventID</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Search & Dedup</div>
+                            <div>| search Powershell<br>| dedup EventID</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Rename Command</div>
+                            <div>| rename User as Employee</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structuring Commands -->
+                <div class="command-card bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">📊 Structuring Commands</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Table & Sort</div>
+                            <div>| table _time User EventID<br>| sort -_time</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Head & Tail</div>
+                            <div>| head 20<br>| tail 5</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Reverse Order</div>
+                            <div>| reverse</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Commands -->
+    <section class="py-8 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">📈 Stats & Analysis</h2>
+            
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Statistics -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">📊 Statistics</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Basic Stats</div>
+                            <div>| stats count by User<br>| stats avg(response_time)<br>| stats max(bytes) min(bytes)</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Top & Rare</div>
+                            <div>| top limit=10 Image<br>| rare limit=5 User</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">📊 Charts</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Chart Commands</div>
+                            <div>| chart count by User<br>| timechart count by Image</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Time-based Analysis</div>
+                            <div>| timechart span=1h count</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOC Investigation Examples -->
+    <section id="soc-examples" class="py-8 bg-gradient-to-r from-red-50 to-orange-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">🚨 SOC Investigation Examples</h2>
+            
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Windows Events -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">💻 Windows Event Analysis</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Authentication Events</div>
+                            <div>index=windowslogs EventID=4624  # Successful<br>index=windowslogs EventID=4625  # Failed</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Failed Login Analysis</div>
+                            <div>index=security EventID=4625<br>| stats count by Account_Name<br>| sort -count</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Process Events</div>
+                            <div>index=windowslogs EventID=4688  # Process Creation<br>index=windowslogs EventID=4697  # Service Installed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Malware Detection -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🦠 Malware Detection</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Encoded PowerShell</div>
+                            <div>index=security "*powershell* -enc*"<br>OR "*powershell* -e *"</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Suspicious Downloads</div>
+                            <div>index=proxy (*.exe OR *.scr OR *.bat)<br>| table _time user url</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Rare Process Execution</div>
+                            <div>index=sysmon EventID=1<br>| rare limit=20 Image<br>| where count < 5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Analysis -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🌐 Network Analysis</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Traffic Analysis</div>
+                            <div>index=network src_ip=192.168.1.*<br>index=network dest_port=443  # HTTPS</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># DNS Anomalies</div>
+                            <div>index=dns NOT dest_port=53<br>| table _time src_ip dest_ip query</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Large Data Transfers</div>
+                            <div>index=network protocol=TCP<br>AND bytes>1000000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat Hunting -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🎯 Threat Hunting</h3>
+                    <div class="space-y-3">
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Unusual Login Times</div>
+                            <div>index=security EventID=4624<br>| eval hour=strftime(_time, "%H")<br>| where hour > 22 OR hour < 6</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Lateral Movement</div>
+                            <div>index=security EventID=4624 Logon_Type=3<br>| stats dc(Computer) as hosts by User<br>| where hosts > 5</div>
+                        </div>
+                        <div class="code-block p-3 rounded text-sm" title="Click to copy">
+                            <div class="text-blue-300 mb-1"># Registry Modifications</div>
+                            <div>index=sysmon EventID=13<br>TargetObject="*Run*"<br>| table _time Computer Details</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Tips -->
+    <section class="py-8 bg-yellow-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">⚡ Performance & Best Practices</h2>
+            
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Optimization -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🚀 Optimization</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• Use specific time ranges: <code class="bg-gray-200 px-1 rounded">earliest=-1h</code></li>
+                        <li>• Filter early: <code class="bg-gray-200 px-1 rounded">index=security EventID=4624</code></li>
+                        <li>• Limit results: <code class="bg-gray-200 px-1 rounded">| head 100</code></li>
+                        <li>• Use indexed fields when possible</li>
+                        <li>• Avoid wildcards at search start</li>
+                    </ul>
+                </div>
+
+                <!-- Common Mistakes -->
+                <div class="command-card bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">⚠️ Avoid These</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• Broad time ranges without filters</li>
+                        <li>• Leading wildcards: <code class="bg-red-100 px-1 rounded">*password</code></li>
+                        <li>• Expensive regex operations early</li>
+                        <li>• Missing index specifications</li>
+                        <li>• Complex eval statements early in pipeline</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EventID Reference Card -->
+    <section class="py-8 bg-blue-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">📋 EventID Quick Reference</h2>
+            
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Windows EventIDs -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">🔑 Windows EventIDs</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between bg-red-100 p-2 rounded">
+                                <strong>4625</strong><span>Failed Logons</span>
+                            </div>
+                            <div class="flex justify-between bg-green-100 p-2 rounded">
+                                <strong>4624</strong><span>Successful Logons</span>
+                            </div>
+                            <div class="flex justify-between bg-blue-100 p-2 rounded">
+                                <strong>4688</strong><span>Process Creation</span>
+                            </div>
+                            <div class="flex justify-between bg-yellow-100 p-2 rounded">
+                                <strong>4697</strong><span>Service Installed</span>
+                            </div>
+                            <div class="flex justify-between bg-purple-100 p-2 rounded">
+                                <strong>4672</strong><span>Admin Rights Assigned</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sysmon EventIDs -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">🔍 Sysmon EventIDs</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between bg-blue-100 p-2 rounded">
+                                <strong>1</strong><span>Process Creation</span>
+                            </div>
+                            <div class="flex justify-between bg-green-100 p-2 rounded">
+                                <strong>3</strong><span>Network Connection</span>
+                            </div>
+                            <div class="flex justify-between bg-yellow-100 p-2 rounded">
+                                <strong>11</strong><span>File Created</span>
+                            </div>
+                            <div class="flex justify-between bg-red-100 p-2 rounded">
+                                <strong>13</strong><span>Registry Value Set</span>
+                            </div>
+                            <div class="flex justify-between bg-purple-100 p-2 rounded">
+                                <strong>22</strong><span>DNS Query</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-green-100 rounded-lg text-center">
+                    <p class="text-green-800 font-semibold">
+                        💡 <strong>Pro Tip:</strong> Always start with index and time range, then add filters progressively!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Toolkit -->
+    <section class="py-8 bg-gray-100 no-print">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">🛠️ Explore More SOC Tools</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="./index.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                    🛠️ SOC Toolkit Home
+                </a>
+                <a href="./procedures/index.html" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition duration-300">
+                    📋 Investigation Procedures
+                </a>
+                <a href="./knowledge-base/index.html" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    📖 Knowledge Base
+                </a>
+                <a href="../blog/index.html" class="bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-700 transition duration-300">
+                    📝 Technical Writeups
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center no-print">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security - Splunk SPL Reference</p>
+            <p class="text-sm mt-2">SOC Level 1 Certified • Top 1% TryHackMe</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Copy functionality
+        function copyCode(element) {
+            const code = element.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                element.style.backgroundColor = '#22c55e';
+                element.style.color = 'white';
+                setTimeout(() => {
+                    element.style.backgroundColor = '#1f2937';
+                    element.style.color = '#f9fafb';
+                }, 1000);
+            }).catch(err => {
+                console.log('Copy failed: ', err);
+            });
+        }
+
+        // Add copy functionality to code blocks
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block');
+            codeBlocks.forEach(block => {
+                block.addEventListener('click', () => copyCode(block));
+            });
+        });
+    </script>
+</body>
+</html>
