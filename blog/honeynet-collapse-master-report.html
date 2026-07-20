@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Security Incident Report: SIR-2026-MASTER | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        pre { background: #1e293b; color: #e2e8f0; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; font-size: 0.82rem; }
+        code { font-family: 'Courier New', monospace; }
+        .report-mono { font-family: 'Courier New', monospace; }
+        .stage-badge { background-color: #1E3A5F; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 9999px; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-10 px-4">
+        <div class="container mx-auto max-w-5xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to Writeups</a>
+
+            <div class="bg-white shadow-lg mt-4 border border-gray-300">
+
+                <div class="bg-[#1E3A5F] text-white px-8 py-6">
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-blue-200 mb-1">Security Incident Report, Full Campaign Reconstruction</div>
+                            <h1 class="text-2xl font-bold">Honeynet Collapse: Full Kill Chain from Public Web Application to Domain-Wide Compromise</h1>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">TLP:CLEAR</span>
+                    </div>
+                </div>
+
+                <table class="w-full text-sm report-mono border-b border-gray-200">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Report ID</td>
+                            <td class="px-8 py-2">SIR-2026-MASTER</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Classification</td>
+                            <td class="px-8 py-2">Simulated / Training Environment</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Analyst</td>
+                            <td class="px-8 py-2">F. Nanos</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Date of Report</td>
+                            <td class="px-8 py-2">2026-06-22 to 2026-06-23 (consolidated)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Severity</td>
+                            <td class="px-8 py-2">Critical</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Status</td>
+                            <td class="px-8 py-2">Closed (Full Campaign Contained)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Affected Assets</td>
+                            <td class="px-8 py-2" colspan="3">1x public-facing WordPress host, 1x DMZ gateway server, 1x CRM application server, 1x domain controller, 1x macOS developer workstation (5 hosts, single campaign)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Constituent Reports</td>
+                            <td class="px-8 py-2" colspan="3">SIR-2026-06-22-01, SIR-2026-06-23-02, SIR-2026-06-23-03, SIR-2026-06-23-05, SIR-2026-06-23-04</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-8 py-8 space-y-10">
+
+                    <div class="bg-amber-50 border border-amber-300 rounded p-3 text-xs text-amber-900">
+                        This report consolidates six independently published incident reports (TryHackMe, Honeynet
+                        Collapse series) into a single, cross-referenced campaign reconstruction. It supersedes no
+                        individual report. Each stage remains available separately for readers who want the compact
+                        version. Specific artifact values, exact timestamps, and file paths are generalized or
+                        redacted for public publication throughout, consistent with the individual reports. The
+                        analytical structure, root-cause reasoning, and cross-stage correlation reflect the actual
+                        investigation performed across all six stages.
+                    </div>
+
+                    <!-- 1. EXECUTIVE SUMMARY -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">1. Executive Summary</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            Between the initial compromise of a public-facing WordPress host and the final exfiltration
+                            of customer data from an internal CRM application server, a single threat actor progressed
+                            through five distinct internal systems over the course of a multi-day campaign, culminating
+                            in domain controller compromise, ransomware deployment, and a parallel, opportunistic
+                            compromise of an unrelated macOS developer workstation. Rather than exploiting a software
+                            vulnerability at any stage, the actor relied almost entirely on credential brute-forcing,
+                            abuse of legitimate administrative functionality, and living-off-the-land techniques,
+                            a pattern that persisted across every host in the chain and is the single most consistent
+                            signature of this campaign. Investigation of the full chain required six materially
+                            different evidence sources, web-server access logs, host-based audit logging, Volatility 3
+                            memory forensics, Windows Event Log and registry analysis, NTFS metadata-only artifact
+                            recovery, and macOS-specific artifact parsing, because the actor deliberately disabled or
+                            cleared logging at three separate points in the chain. In every instance, the investigation
+                            was able to proceed by pivoting to an artifact category that survives the specific
+                            anti-forensic technique used, a pattern that itself became a repeatable methodology over
+                            the course of the engagement rather than a one-off improvisation at each stage.
+                        </p>
+                    </section>
+
+                    <!-- 2. CAMPAIGN SCOPE & METHODOLOGY -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">2. Campaign Scope &amp; Methodology</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            Six independent evidence packages were provided for this campaign, corresponding to the
+                            five compromised hosts plus one standalone memory capture: a web-server and host-audit
+                            log set for the WordPress host and its underlying Linux server, a full memory capture from
+                            a DMZ gateway server reached via lateral movement, a forensic disk image (E01) of a CRM
+                            application server, a metadata-only NTFS image (no user files, registry, or event logs)
+                            from a domain controller, and a macOS forensic disk image from an unrelated developer
+                            workstation, investigated as a parallel, opportunistic incident rather than a continuation
+                            of the same intrusion path. Each package was analyzed independently first, using the
+                            artifact categories appropriate to its evidence type, before being cross-referenced against
+                            the others to establish shared infrastructure, credential reuse, and tooling fingerprints.
+                            The consolidated methodology below reflects that two-pass approach: per-host technical
+                            findings (Section 4) followed by a dedicated cross-stage correlation pass (Section 6) that
+                            was not possible, and was not attempted, at the level of any single constituent report.
+                        </p>
+                        <pre><code># Representative toolchain across the six evidence packages
+# Web / Linux host
+sudo ausearch -k exec -i
+grep "wp-login" /var/log/apache2/access.log
+
+# Windows log source triage (gateway, CRM, DC where available)
+Get-WinEvent -ListLog * | Where-Object {$_.RecordCount -gt 0}
+Get-WinEvent -FilterHashtable @{LogName='Security'; Id=1102}   # log-clear marker
+AppCompatCacheParser.exe --csv &lt;out&gt; --csvf shimcache_parsed.csv
+
+# Memory forensics (DMZ gateway capture)
+vol -f &lt;capture&gt; windows.pstree
+vol -f &lt;capture&gt; windows.malfind
+vol -f &lt;capture&gt; windows.netscan
+
+# NTFS metadata-only image (domain controller)
+MFTECmd.exe -f "&lt;path&gt;\$MFT" --csv "&lt;out&gt;" --csvf mft_parsed.csv
+LogFileParser64.exe /LogFileFile:"&lt;path&gt;" /MftCsvFile:"mft_parsed.csv" /OutputPath:"&lt;out&gt;"
+
+# macOS disk image
+python3 mac_apt.py MOUNTED &lt;verified_root&gt; QUARANTINE TCC AUTOSTART INSTALLHISTORY -o &lt;out&gt;</code></pre>
+                    </section>
+
+                    <!-- 3. AFFECTED SYSTEMS TABLE -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">3. Affected Systems</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Host</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Role</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Compromise Path</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200 w-20">Stage</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 font-semibold">WordPress / Linux host</td><td class="p-2.5">Public-facing web application</td><td class="p-2.5">Credential brute-force -&gt; web shell -&gt; SSH key theft -&gt; root</td><td class="p-2.5"><span class="stage-badge">Stage 1</span></td></tr>
+                                    <tr><td class="p-2.5 font-semibold">Windows Server (internal)</td><td class="p-2.5">Internal target reached from the web host</td><td class="p-2.5">Valid domain credentials -&gt; RDP -&gt; scheduled task hijack -&gt; LSASS dump -&gt; log clearing</td><td class="p-2.5"><span class="stage-badge">Stage 2</span></td></tr>
+                                    <tr><td class="p-2.5 font-semibold">DMZ Gateway Server</td><td class="p-2.5">Lateral pivot point</td><td class="p-2.5">Remote service execution -&gt; LOLBin proxy -&gt; process injection -&gt; active RDP pivot at capture</td><td class="p-2.5"><span class="stage-badge">Stage 3</span></td></tr>
+                                    <tr><td class="p-2.5 font-semibold">CRM Application Server</td><td class="p-2.5">Customer data store</td><td class="p-2.5">Reused domain credentials -&gt; logging disabled -&gt; staged exfiltration tool -&gt; cloud upload</td><td class="p-2.5"><span class="stage-badge">Stage 4</span></td></tr>
+                                    <tr><td class="p-2.5 font-semibold">Domain Controller</td><td class="p-2.5">Domain authority</td><td class="p-2.5">Public file-share payload -&gt; rename-then-execute -&gt; ransomware deployment</td><td class="p-2.5"><span class="stage-badge">Stage 5</span></td></tr>
+                                    <tr><td class="p-2.5 font-semibold">macOS Workstation</td><td class="p-2.5">Developer endpoint (parallel, unrelated)</td><td class="p-2.5">Trojanized installer -&gt; TCC permission abuse -&gt; LaunchAgent persistence -&gt; exfiltration</td><td class="p-2.5"><span class="stage-badge">Stage 6</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed text-sm mt-3">
+                            Stages 1 through 5 form a single, continuous intrusion path: the web host is the entry
+                            point, the gateway server and CRM server are successive internal pivots reached with
+                            credential material obtained earlier in the chain, and the domain controller is the
+                            terminal objective. Stage 6, the macOS workstation, is investigated and reported
+                            separately in its own right. Nothing in its evidence links it to the same threat actor
+                            or infrastructure, and it is included in this consolidated report only because it was
+                            issued as part of the same training series, not because it is part of the same kill chain.
+                        </p>
+                    </section>
+
+                    <!-- 4. CAMPAIGN TIMELINE -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">4. Campaign Timeline (Stages 1-5)</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            The table below sequences the reconstructed activity across all five hosts in the main
+                            intrusion path onto a single relative timeline. Because each host's evidence package
+                            used a different reference clock (web-server logs, Windows Event Log timestamps, and
+                            NTFS metadata each anchor differently), absolute cross-host time alignment was not
+                            possible from the available evidence. The sequence below reflects the confirmed logical
+                            order of events (each stage's start depends on credential or access material obtained
+                            in the previous stage), not a verified shared clock.
+                        </p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Sequence</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Event</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Host</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Kill Chain Stage</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 report-mono text-xs">01</td><td class="p-2.5">Brute-force success against WordPress login endpoint</td><td class="p-2.5">Web host</td><td class="p-2.5 text-gray-500">Initial Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">02</td><td class="p-2.5">Theme Editor abused to plant disguised web shell</td><td class="p-2.5">Web host</td><td class="p-2.5 text-gray-500">Execution</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">03</td><td class="p-2.5">Exposed SSH key backup recovered, authenticate as root</td><td class="p-2.5">Web host</td><td class="p-2.5 text-gray-500">Privilege Escalation</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">04</td><td class="p-2.5">Internal network sweep, payload staged, persistence installed</td><td class="p-2.5">Web host</td><td class="p-2.5 text-gray-500">Discovery, Persistence</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">05</td><td class="p-2.5">Inbound RDP using domain credentials, from the compromised web host's IP</td><td class="p-2.5">Windows Server</td><td class="p-2.5 text-gray-500">Lateral Movement</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">06</td><td class="p-2.5">Elevated scheduled task hijacked, known post-exploitation stager confirmed</td><td class="p-2.5">Windows Server</td><td class="p-2.5 text-gray-500">Privilege Escalation</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">07</td><td class="p-2.5">LSASS dumped via renamed utility, second domain account recovered</td><td class="p-2.5">Windows Server</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">08</td><td class="p-2.5">Security event log cleared mid-session, Shimcache used to reconstruct post-clearing activity</td><td class="p-2.5">Windows Server</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">09</td><td class="p-2.5">Remote service execution arrival, LOLBin proxy, injection into a legitimate utility</td><td class="p-2.5">DMZ Gateway</td><td class="p-2.5 text-gray-500">Lateral Movement, Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">10</td><td class="p-2.5">Outbound RDP to a further internal host, active at time of memory capture</td><td class="p-2.5">DMZ Gateway</td><td class="p-2.5 text-gray-500">Lateral Movement</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">11</td><td class="p-2.5">Interactive logon with reused domain credentials</td><td class="p-2.5">CRM Server</td><td class="p-2.5 text-gray-500">Lateral Movement</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">12</td><td class="p-2.5">Event Log and Sysmon services stopped mid-session</td><td class="p-2.5">CRM Server</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">13</td><td class="p-2.5">Cloud-sync utility staged, renamed, full customer export exfiltrated</td><td class="p-2.5">CRM Server</td><td class="p-2.5 text-gray-500">Collection, Exfiltration</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">14</td><td class="p-2.5">Shadow copies deleted, recycle bin cleared, staged tooling removed</td><td class="p-2.5">CRM Server</td><td class="p-2.5 text-gray-500">Defense Evasion, Impact</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">15</td><td class="p-2.5">Ransomware payload delivered via public file-sharing service</td><td class="p-2.5">Domain Controller</td><td class="p-2.5 text-gray-500">Command and Control</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">16</td><td class="p-2.5">Dropper duplicated under IT-tooling-mimicking name, rename-then-execute</td><td class="p-2.5">Domain Controller</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">17</td><td class="p-2.5">Domain-wide file encryption, ransom note replicated across the host</td><td class="p-2.5">Domain Controller</td><td class="p-2.5 text-gray-500">Impact</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- 5. STAGE-BY-STAGE TECHNICAL FINDINGS -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">5. Stage-by-Stage Technical Findings</h2>
+
+                        <!-- STAGE 1 & 2 -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="stage-badge">Stages 1-2</span>
+                                <h3 class="font-bold text-gray-800 text-base">Web Application Compromise to Windows Lateral Movement</h3>
+                            </div>
+                            <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                Initial access was gained through sustained credential brute-forcing against the
+                                WordPress login endpoint, succeeding after roughly one minute against an endpoint
+                                with no apparent rate limiting. The same source then abused the platform's built-in
+                                Theme Editor, a documented content-management capability requiring no vulnerability,
+                                to plant PHP code disguised behind a parameter name closely resembling WordPress's
+                                own cron-trigger mechanism. Host-based audit logging, scoped to the web service
+                                account, captured the resulting reconnaissance and reverse-shell activity, including
+                                a targeted search for private key material that recovered an exposed <code>.bak</code>
+                                SSH key backup. This key granted direct root authentication, completing local
+                                privilege escalation without a second exploit. Once privilege escalation moved
+                                activity outside the scope of the service-account-restricted audit rules, root shell
+                                history became the only remaining evidence source, and recorded an internal network
+                                sweep, a further payload retrieved from the same external staging server, and a
+                                disguised persistence service mimicking a legitimate kernel process name.
+                            </p>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                The credentials and staging infrastructure established here reappear directly in
+                                Stage 2: an inbound RDP connection to an internal Windows server, sourced from the
+                                web host's own IP address and authenticated with a domain account, is the first
+                                confirmed link between the two hosts. On the Windows server, the actor hijacked a
+                                pre-existing, elevated scheduled task rather than creating new persistence, replacing
+                                its target binary with a payload later confirmed via public threat-intelligence
+                                lookup as a known post-exploitation framework stager. A short, base64-encoded
+                                PowerShell command, recovered from PowerShell transcription logging rather than
+                                process-command logging (which was enabled but not capturing command-line detail on
+                                this host), decoded to a renamed LSASS-dumping utility. The resulting memory dump
+                                yielded a second, higher-privileged domain credential. The Windows Security event
+                                log was then cleared mid-session, confirmed by the log-clear event Windows records
+                                automatically as the first entry of any newly cleared log, which itself doubled as a
+                                reliable timeline boundary. Activity after that boundary, a renamed remote-execution
+                                utility and its associated service installation, was reconstructed entirely from
+                                registry-based execution caching (Shimcache), which operates independently of the
+                                Event Log subsystem and was unaffected by the clearing.
+                            </p>
+                            <p class="text-xs text-gray-500 mt-2">Full report: <a href="./lateral-movement-writeup.html" class="text-[#1E3A5F] underline">SIR-2026-06-22-01</a></p>
+                        </div>
+
+                        <!-- STAGE 3 -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="stage-badge">Stage 3</span>
+                                <h3 class="font-bold text-gray-800 text-base">DMZ Gateway Server: Memory Analysis, Process Injection &amp; Lateral Pivot</h3>
+                            </div>
+                            <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                A full memory capture from a DMZ gateway server, reached from the Stage 2 host via a
+                                remote service-execution mechanism, was analyzed using Volatility 3 in place of any
+                                log source, since none was collected for this host. Process tree reconstruction
+                                traced arrival through a command shell into a signed Windows utility invoked with
+                                attacker-controlled arguments (a LOLBin proxy pattern) pointing at a disguised DLL,
+                                itself dropped into a plausible system path, followed by a further renamed dropper
+                                delivered into a user's Downloads directory. Command-line recovery confirmed the
+                                LOLBin proxy invocation directly (a trusted system utility invoked against an
+                                attacker DLL with an exported function name), a technique that evades allow-listing
+                                based on the executing process's identity rather than its behavior.
+                            </p>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                The delivery chain terminated at injection into a legitimate, unremarkable system
+                                application, selected specifically for its innocuous, expected-to-be-running nature.
+                                Memory-region analysis identified a writable-and-executable region within that
+                                process not backed by any file mapped from disk, the defining signature of injected
+                                code. A second, smaller candidate region in the same process was assessed as a
+                                loader stub based on its substantially smaller committed size, with the larger
+                                region identified as the actual payload, a distinction the investigation had to make
+                                explicitly since both regions initially appeared as equally plausible injection
+                                candidates. Network-connection state captured at acquisition time showed an
+                                established outbound RDP connection from the same process tree as the injected
+                                payload, directed at a further internal host, an active lateral-movement pivot
+                                caught mid-flight. This is the clearest instance in the campaign of memory forensics
+                                resolving both what already happened on a host and where the actor was going next,
+                                from a single artifact source and without waiting for evidence from the next host.
+                            </p>
+                            <p class="text-xs text-gray-500 mt-2">Full report: <a href="./memory-forensics-writeup.html" class="text-[#1E3A5F] underline">SIR-2026-06-23-02</a></p>
+                        </div>
+
+                        <!-- STAGE 4 -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="stage-badge">Stage 4</span>
+                                <h3 class="font-bold text-gray-800 text-base">CRM Server Data Exfiltration: Anti-Forensics &amp; Cloud Exfil</h3>
+                            </div>
+                            <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                Using domain credentials consistent with those obtained in Stage 2, the actor reached
+                                a CRM application server holding the organization's customer data. A forensic disk
+                                image (E01) was investigated after native mounting failed, requiring targeted file
+                                export instead. Command-history review, recovered in full from the default-on
+                                PowerShell history file rather than any Event Log source, provided a verbatim record
+                                of the session: reconnaissance, then explicit commands stopping both the Windows
+                                Event Log service and Sysmon mid-session, a materially more thorough anti-forensics
+                                technique than the log-clearing already seen in Stage 2, since it prevents any
+                                subsequent activity from being recorded at all rather than leaving a single,
+                                timestamped gap.
+                            </p>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                With both logging mechanisms disabled, standard session-duration reconstruction
+                                (logon/logoff and process create/terminate correlation) had no data to work from.
+                                The registry's shell-usage tracking artifact (UserAssist), written independently of
+                                the Event Log subsystem, retained an intact focus-time value for the session and
+                                supplied a reliable duration despite the outage, the second time in this campaign
+                                that registry-based artifacts resolved a logging gap that a purely Event-Log-centric
+                                investigation would not have survived. Shell history further recorded staging of a
+                                cloud-sync utility renamed to resemble legitimate backup software, an abandoned
+                                initial exfiltration attempt, and a subsequent successful exfiltration of the
+                                organization's full customer export, configured entirely through disposable
+                                configuration files rather than command-line arguments to keep credentials and
+                                destination details out of any process-command logging that might otherwise have
+                                survived. Post-exfiltration cleanup, deletion of staged tooling, recycle-bin
+                                clearing, and removal of volume shadow copies, was confirmed from the same
+                                command-history source.
+                            </p>
+                            <p class="text-xs text-gray-500 mt-2">Full report: <a href="./disk-forensics-writeup.html" class="text-[#1E3A5F] underline">SIR-2026-06-23-03</a></p>
+                        </div>
+
+                        <!-- STAGE 5 -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="stage-badge">Stage 5</span>
+                                <h3 class="font-bold text-gray-800 text-base">Domain Controller Ransomware Deployment &amp; Threat Attribution</h3>
+                            </div>
+                            <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                The campaign's terminal stage targeted the domain controller directly, reconstructed
+                                from a forensic acquisition deliberately scoped to NTFS metadata only ($MFT,
+                                $LogFile, $UsnJrnl), with no live system, registry, or event-log access available at
+                                all, the most evidence-constrained host in the entire campaign. An alternate data
+                                stream associated with the payload archive recorded referrer and host URLs pointing
+                                to a public file-sharing service, recovering the exact external delivery source
+                                directly from filesystem metadata alone. The original dropper, delivered under a
+                                short, generic filename, was found duplicated under a second name in a path designed
+                                to mimic legitimate IT deployment tooling. Identical file size and file-record
+                                timestamps placing the renamed binary's execution seconds before the first ransom
+                                note was written established it, not the original dropper, as the file that
+                                performed encryption, a rename-then-execute evasion pattern.
+                            </p>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                Threat-actor attribution could not be resolved through the two most obvious avenues:
+                                encryption-extension and ransom-note-naming-convention pattern matching against
+                                public ransomware family databases each produced multiple superficially plausible,
+                                contemporaneously active candidates, none of which were confirmed correct.
+                                Attribution was ultimately resolved by abandoning pattern matching in favor of direct
+                                evidence, submitting the literal ransom note text to a public malware analysis
+                                sandbox, which had already indexed a matching sample and linked to a confirmed
+                                dark-web leak-site listing, directly identifying the responsible group. This closes
+                                the campaign: the same actor who brute-forced a WordPress login in Stage 1 is, by
+                                infrastructure and credential reuse traced across Stages 2 through 4, the actor who
+                                encrypted the domain controller here.
+                            </p>
+                            <p class="text-xs text-gray-500 mt-2">Full report: <a href="./ransomware-attribution-writeup.html" class="text-[#1E3A5F] underline">SIR-2026-06-23-05</a></p>
+                        </div>
+
+                        <!-- STAGE 6 -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="stage-badge">Stage 6</span>
+                                <h3 class="font-bold text-gray-800 text-base">macOS Endpoint Compromise (Parallel, Unrelated Incident)</h3>
+                            </div>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                Investigated and reported separately from the main intrusion path, this stage
+                                documents an opportunistic compromise of a macOS developer workstation via a
+                                trojanized installer masquerading as an AI development tool. The application abused
+                                macOS's privacy-permission framework to request broad filesystem access, established
+                                persistence via a disguised, non-plist auto-start script, and exfiltrated high-value
+                                local files to a server disguised as a legitimate update service. Nothing in the
+                                delivery infrastructure, credentials, or tooling recovered here overlaps with Stages
+                                1 through 5. It is included in this consolidated report for completeness of the
+                                training series it belongs to, not as evidence of a broader campaign against the
+                                same organization.
+                            </p>
+                            <p class="text-xs text-gray-500 mt-2">Full report: <a href="./macos-forensics-writeup.html" class="text-[#1E3A5F] underline">SIR-2026-06-23-04</a></p>
+                        </div>
+                    </section>
+
+                    <!-- 6. CROSS-STAGE ANALYSIS -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">6. Cross-Stage Analysis</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            Three patterns recur across Stages 1 through 5 clearly enough to be treated as
+                            campaign-level findings rather than isolated, per-host observations.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            <strong>Escalating anti-forensics, not static tradecraft.</strong> The actor's approach to
+                            evading detection intensified at each stage rather than repeating a fixed playbook. Stage
+                            2 cleared the Windows Security log once, after the fact, leaving a detectable log-clear
+                            marker as a timeline boundary. Stage 4 disabled the Event Log and Sysmon services
+                            outright, mid-session, preventing any record from being written at all rather than
+                            clearing one after the fact, a strictly more thorough technique. Stage 5, facing an
+                            evidence source with no logging infrastructure to disable in the first place (a
+                            metadata-only acquisition), relied instead on rename-then-execute file-level evasion.
+                            Read in sequence, this is not three unrelated anti-forensic choices but a single actor's
+                            technique maturing across the engagement, and it directly explains why no single
+                            evidence category, Event Logs, registry, or filesystem metadata, was sufficient on its
+                            own anywhere in this campaign.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            <strong>Credential reuse as the connective tissue of the campaign.</strong> No stage after
+                            the first required a new exploitation technique to gain a foothold. Every lateral move,
+                            Stage 1 to Stage 2 (RDP with a domain account), Stage 2 to Stage 4 (reused domain
+                            credentials on the CRM server), was authenticated with material harvested at an earlier
+                            stage rather than a fresh compromise. This is the single strongest piece of evidence
+                            tying Stages 1, 2, and 4 together as one continuous intrusion rather than three
+                            coincidentally similar incidents, and it is also the campaign's clearest single point of
+                            failure from a defensive standpoint: interrupting credential reuse at any one hop, through
+                            segmentation, credential rotation, or privileged-account monitoring, would have
+                            contained the campaign to a single host.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            <strong>A consistent recovery methodology, not five unrelated workarounds.</strong> Every
+                            time the actor removed or disabled a primary evidence source, the investigation resolved
+                            it by pivoting to an artifact category that survives that specific technique, and the
+                            same small set of fallback sources recurs deliberately across stages: registry-based
+                            usage and execution tracking (UserAssist in Stage 4, Shimcache in Stage 2) when the Event
+                            Log subsystem was disabled or cleared, shell and command history when privilege
+                            escalation moved activity outside audit-rule scope, and memory forensics (Stage 3) when
+                            no log source existed for a host at all. Framed at the campaign level, this is not five
+                            separate investigative improvisations but one repeatable principle applied five times:
+                            identify what the anti-forensic technique in play cannot reach, and go there first.
+                        </p>
+                    </section>
+
+                    <!-- 7. CONSOLIDATED IOCs -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">7. Consolidated Indicators of Compromise</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Stage</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Type</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Indicator</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 report-mono text-xs">
+                                    <tr><td class="p-2.5 font-sans">1</td><td class="p-2.5">Source IP</td><td class="p-2.5 text-gray-400">[redacted], brute-force source, reused as RDP source and payload staging host</td></tr>
+                                    <tr><td class="p-2.5 font-sans">1</td><td class="p-2.5">Web shell parameter</td><td class="p-2.5 text-gray-400">[redacted, cron-mimicking parameter name]</td></tr>
+                                    <tr><td class="p-2.5 font-sans">1</td><td class="p-2.5">Exposed key file</td><td class="p-2.5 text-gray-400">[redacted, .bak private key backup]</td></tr>
+                                    <tr><td class="p-2.5 font-sans">2</td><td class="p-2.5">Hijacked task</td><td class="p-2.5 text-gray-400">[redacted diagnostic scheduled task]</td></tr>
+                                    <tr><td class="p-2.5 font-sans">2</td><td class="p-2.5">Service artifact</td><td class="p-2.5 text-gray-400">Fixed-name remote-execution service binary, survives client renaming</td></tr>
+                                    <tr><td class="p-2.5 font-sans">3</td><td class="p-2.5">Disguised DLL</td><td class="p-2.5 text-gray-400">[redacted, masquerading as Windows Update component]</td></tr>
+                                    <tr><td class="p-2.5 font-sans">3</td><td class="p-2.5">Pivot destination</td><td class="p-2.5 text-gray-400">[redacted internal IP]:3389</td></tr>
+                                    <tr><td class="p-2.5 font-sans">4</td><td class="p-2.5">Renamed tool</td><td class="p-2.5 text-gray-400">Cloud-sync utility, renamed to mimic backup software</td></tr>
+                                    <tr><td class="p-2.5 font-sans">4</td><td class="p-2.5">Exfil destination</td><td class="p-2.5 text-gray-400">[redacted cloud storage account]</td></tr>
+                                    <tr><td class="p-2.5 font-sans">5</td><td class="p-2.5">Delivery host</td><td class="p-2.5 text-gray-400">[redacted public file-sharing service]</td></tr>
+                                    <tr><td class="p-2.5 font-sans">5</td><td class="p-2.5">Attributed group</td><td class="p-2.5 text-gray-400">Confirmed via sandbox / leak-site cross-reference</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- 8. CONSOLIDATED MITRE ATT&CK -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">8. Consolidated MITRE ATT&amp;CK Mapping (Full Kill Chain)</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Tactic</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Stage(s)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 text-gray-500">Initial Access</td><td class="p-2.5 report-mono text-xs">T1110 Brute Force</td><td class="p-2.5">1</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Persistence</td><td class="p-2.5 report-mono text-xs">T1505.003 Web Shell</td><td class="p-2.5">1</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Credential Access</td><td class="p-2.5 report-mono text-xs">T1552.004 Credentials in Files</td><td class="p-2.5">1</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Initial Access, Lateral Movement</td><td class="p-2.5 report-mono text-xs">T1078 Valid Accounts</td><td class="p-2.5">1, 2, 4</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Persistence, Privilege Escalation</td><td class="p-2.5 report-mono text-xs">T1053.005 Scheduled Task Abuse</td><td class="p-2.5">2</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Credential Access</td><td class="p-2.5 report-mono text-xs">T1003.001 OS Credential Dumping (LSASS)</td><td class="p-2.5">2</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Defense Evasion</td><td class="p-2.5 report-mono text-xs">T1070.001 Clear Windows Event Logs</td><td class="p-2.5">2</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Lateral Movement</td><td class="p-2.5 report-mono text-xs">T1021.002 / T1570 Remote Services / Lateral Tool Transfer</td><td class="p-2.5">2, 3</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Defense Evasion</td><td class="p-2.5 report-mono text-xs">T1218.011 Signed Binary Proxy Execution</td><td class="p-2.5">3</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Defense Evasion, Privilege Escalation</td><td class="p-2.5 report-mono text-xs">T1055 Process Injection</td><td class="p-2.5">3</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Lateral Movement</td><td class="p-2.5 report-mono text-xs">T1021.001 Remote Services (RDP)</td><td class="p-2.5">3</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Defense Evasion</td><td class="p-2.5 report-mono text-xs">T1562.001 / .002 Impair Defenses (Disable Logging)</td><td class="p-2.5">4</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Defense Evasion</td><td class="p-2.5 report-mono text-xs">T1036.005 Masquerading</td><td class="p-2.5">1, 2, 4</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Collection</td><td class="p-2.5 report-mono text-xs">T1560.001 Archive Collected Data</td><td class="p-2.5">4</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Exfiltration</td><td class="p-2.5 report-mono text-xs">T1567.002 Exfiltration to Cloud Storage</td><td class="p-2.5">4</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Impact</td><td class="p-2.5 report-mono text-xs">T1490 Inhibit System Recovery</td><td class="p-2.5">4</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Command and Control</td><td class="p-2.5 report-mono text-xs">T1105 Ingress Tool Transfer</td><td class="p-2.5">5</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Impact</td><td class="p-2.5 report-mono text-xs">T1486 Data Encrypted for Impact</td><td class="p-2.5">5</td></tr>
+                                    <tr><td class="p-2.5 text-gray-500">Impact</td><td class="p-2.5 report-mono text-xs">T1657 Financial Theft</td><td class="p-2.5">5</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- 9. ROOT CAUSE ANALYSIS -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">9. Root Cause Analysis</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            <strong>Primary cause.</strong> The campaign originated from a public-facing web
+                            application with no rate limiting on its authentication endpoint, allowing credential
+                            brute-forcing to succeed within roughly one minute. Every subsequent stage of the
+                            campaign, five additional hosts, was reachable using either functionality already
+                            present on the compromised host (the Theme Editor, an exposed key backup) or credential
+                            material harvested at the previous stage. At no point did the actor need a software
+                            vulnerability to progress.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            <strong>Contributing factors.</strong>
+                        </p>
+                        <ul class="list-disc list-inside space-y-1.5 text-sm text-gray-700 mb-3">
+                            <li>No account lockout or rate limiting on the public authentication endpoint that served as the campaign's entry point.</li>
+                            <li>Predictable, web-accessible storage of a private key backup file, providing root-equivalent access with no further exploitation required.</li>
+                            <li>Domain credentials valid across multiple internal hosts (web host, gateway, CRM server) with no apparent segmentation or step-up authentication between them.</li>
+                            <li>Audit logging scoped to individual service accounts rather than extended to cover privilege-escalated activity, creating a documented blind spot the moment any account reached root or SYSTEM.</li>
+                            <li>Event Log and Sysmon services stoppable by a standard administrative session, with no independent, host-external forwarding to prevent local tampering from blinding central monitoring.</li>
+                            <li>No memory-capture or equivalent volatile-evidence collection built into standard incident response readiness for at least one host in the chain, a gap only avoided in this campaign because Volatility 3 analysis happened to be available for the DMZ gateway server specifically.</li>
+                        </ul>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            <strong>Evidentiary limitations.</strong> Absolute time correlation across all five hosts
+                            in the main intrusion path was not possible from the available evidence, since each
+                            host's evidence package anchored to a different reference clock and no single
+                            cross-host timestamp source (e.g., a centralized SIEM ingesting all five hosts) was
+                            provided. The Campaign Timeline in Section 4 reflects confirmed logical sequencing, not
+                            verified absolute chronology. The domain controller acquisition (Stage 5) was
+                            deliberately scoped to NTFS metadata only, meaning no registry, process, or network
+                            evidence exists for that host beyond what filesystem metadata could recover. Any
+                            findings requiring those artifact types on that specific host could not be pursued
+                            within this campaign's evidence.
+                        </p>
+                    </section>
+
+                    <!-- 10. RECOMMENDATIONS -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">10. Recommendations</h2>
+                        <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-700">
+                            <li>Enforce account lockout or rate limiting on all public-facing authentication endpoints. This single control would have prevented the campaign's entry point entirely.</li>
+                            <li>Rotate and segment domain credentials so that a single compromised account cannot authenticate across web-facing, gateway, and internal application-server roles. Credential reuse was the connective thread of this entire campaign.</li>
+                            <li>Forward Event Log and Sysmon telemetry to a centralized, host-independent SIEM. Local service stoppage and log clearing were used at two separate stages and would not have blinded a properly externalized logging pipeline.</li>
+                            <li>Extend audit logging scope beyond individual service-account UIDs to cover privilege-escalated activity, which went dark at multiple points in this campaign the moment an account reached root or SYSTEM.</li>
+                            <li>Treat registry-based artifacts (UserAssist, Shimcache) and default-on shell history as standard, first-pass triage sources on every Windows host investigation, not fallbacks reached only once Event Logs are found to be unavailable.</li>
+                            <li>Build memory-capture capability into standing incident-response readiness across all critical hosts. The DMZ gateway server investigation in this campaign would not have been possible from disk or log artifacts alone.</li>
+                            <li>Restrict outbound access to public file-sharing and consumer cloud-storage services from servers handling sensitive data or holding domain-controller privileges.</li>
+                        </ol>
+                    </section>
+
+                    <!-- 11. INVESTIGATOR'S NOTES -->
+                    <section>
+                        <h2 class="text-lg font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">11. Investigator's Notes</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            Investigating each stage in isolation, as the individual constituent reports do, is
+                            sufficient to answer "what happened on this host." It is not sufficient to answer "what
+                            is this actor's operating pattern," and that second question only became answerable once
+                            all five hosts were read together. The escalating anti-forensics pattern in Section 6,
+                            in particular, was not visible from any single report. It required noticing that Stage 2
+                            cleared a log after the fact, Stage 4 disabled logging before the fact, and Stage 5 faced
+                            an environment with no logging to disable at all, and recognizing that ordering as
+                            deliberate escalation rather than three unrelated choices. This is the main practical
+                            lesson carried forward from this exercise: a campaign-level view, built by deliberately
+                            re-reading completed, individually-closed investigations against each other, surfaces
+                            actor behavior that per-incident reporting alone does not, and is worth doing even after
+                            each constituent case has already been closed.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div class="bg-gray-50 border-t border-gray-200 px-8 py-4 text-xs text-gray-400 report-mono">
+                    END OF REPORT : SIR-2026-MASTER
+                </div>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+                Full technical detail, exact artifact values, and challenge-identifying information intentionally
+                generalized for public publication throughout. Individual per-stage reports are available in the
+                Writeups section. Happy to walk through the complete investigation in more depth in conversation:
+                <a href="../index.html#contact" class="text-[#1E3A5F] hover:underline">get in touch</a>.
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

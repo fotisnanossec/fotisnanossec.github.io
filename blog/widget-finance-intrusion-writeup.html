@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Security Incident Report: Finance Workstation Intrusion | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        pre { background: #1e293b; color: #e2e8f0; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; font-size: 0.82rem; }
+        code { font-family: 'Courier New', monospace; }
+        .report-mono { font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-10 px-4">
+        <div class="container mx-auto max-w-4xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to Writeups</a>
+
+            <div class="bg-white shadow-lg mt-4 border border-gray-300">
+
+                <div class="bg-[#1E3A5F] text-white px-8 py-6">
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-blue-200 mb-1">Security Incident Report</div>
+                            <h1 class="text-2xl font-bold">Finance Workstation Intrusion: Credential Theft to Persistence</h1>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">TLP:CLEAR</span>
+                    </div>
+                </div>
+
+                <table class="w-full text-sm report-mono border-b border-gray-200">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Report ID</td>
+                            <td class="px-8 py-2">INC2021-1228-WLLC</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Classification</td>
+                            <td class="px-8 py-2">Simulated / Training Environment</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Analyst</td>
+                            <td class="px-8 py-2">F. Nanos</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Platform / Tool</td>
+                            <td class="px-8 py-2">TryHackMe · Splunk (Sysmon)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Severity</td>
+                            <td class="px-8 py-2">Critical</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Status</td>
+                            <td class="px-8 py-2">Closed (Investigation Complete)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Affected Asset</td>
+                            <td class="px-8 py-2" colspan="3">1x finance workstation (single user context)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-8 py-8 space-y-8">
+
+                    <div class="bg-amber-50 border border-amber-300 rounded p-3 text-xs text-amber-900">
+                        This report documents a simulated incident from a training environment (TryHackMe, "New Hire Old
+                        Artifacts"). Host and artifact values are generalized for public publication; the analytical
+                        structure, Sysmon query logic, and findings reflect the actual investigation performed. No
+                        production, client, or employer data is included.
+                    </div>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">1. Executive Summary</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            A finance department workstation was compromised by malware that stole saved browser
+                            credentials, established communication with an external command-and-control server, disabled
+                            the endpoint's antivirus protection through targeted signature suppression, and installed a
+                            reboot-surviving persistence mechanism disguised as legitimate vendor telemetry. The full
+                            sequence was reconstructed from Sysmon endpoint telemetry in Splunk. Because the
+                            credential-harvesting tool executed repeatedly while an active C2 channel was present, all
+                            credentials stored in the browser on this host must be treated as compromised.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">2. Scope &amp; Methodology</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            The investigation was conducted entirely against Sysmon endpoint telemetry indexed in Splunk.
+                            Process-creation, file-creation, file-deletion, and network-connection event types were
+                            pivoted against one another to reconstruct a chain in which several stages (antivirus
+                            tampering, persistence) were designed to look like routine system activity. The queries that
+                            surfaced each stage are shown in Section 4.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">3. Attack Chain</h2>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.1 &nbsp; Credential Theft</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">A renamed copy of a well-known browser-cookie extraction utility was executed from a user temporary directory. It ran repeatedly across a short window, a pattern consistent with scripted or automated harvesting of saved browser cookies and credentials rather than manual use.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.2 &nbsp; Command and Control</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">A second component, staged in the same temporary directory, initiated outbound HTTP connections to an external address, establishing the attacker's control channel.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.3 &nbsp; Defense Evasion via Targeted Signature Suppression</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Rather than disabling antivirus wholesale, the attacker used the built-in WMI utility to suppress four specific Windows Defender threat signatures (setting each to "Allow"). Disabling individual signatures is stealthier than a full shutdown and is far less likely to raise a "protection off" alert.</p>
+                            <pre><code>WMIC /NAMESPACE:\\root\Microsoft\Windows\Defender PATH MSFT_MpPreference
+     call Add ThreatIDDefaultAction_Ids=[ID]
+              ThreatIDDefaultAction_Actions=6 Force=True
+# Actions=6 = Allow ; four distinct ThreatIDs suppressed</code></pre>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.4 &nbsp; Persistence via Vendor-Masquerading Scheduled Task</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">A scheduled task was registered under a name mimicking legitimate GPU-vendor crash-reporting telemetry, pointing to a payload in a user cache directory and triggering every single minute. Legitimate telemetry does not run once per minute; the frequency alone is a reliable detection signal.</p>
+                            <pre><code>Name:      NvTmRep_CrashReport3_{...}   (fake vendor telemetry)
+Command:   [user-cache path]\subst.exe
+Trigger:   every 1 minute</code></pre>
+                        </div>
+
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.5 &nbsp; Secondary Payloads &amp; Anti-Forensics</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Additional payloads were staged as a fake calculator application and inside a media-themed folder. On the way out, the attacker terminated processes and deleted at least one executable; those deletions were themselves captured in the file-delete telemetry, preserving the filenames despite removal.</p>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">4. Detection Queries</h2>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-3">Each query below was used during the investigation to surface a specific stage of the chain.</p>
+                        <pre><code># 1 - Processes run under the compromised account (surfaces all malicious binaries)
+index=main EventCode=1 User="*[user]*"
+| table _time, Image, CommandLine, ParentImage
+
+# 2 - Scheduled-task creation (exposes the vendor-masquerading persistence)
+index=main EventCode=1 Image="*schtasks*"
+| table _time, CommandLine
+
+# 3 - File deletions (anti-forensics; recovers deleted filenames)
+index=main EventCode=23
+| table _time, TargetFilename, Image
+
+# 4 - Outbound network connections (ties the C2 process to its destination)
+index=main EventCode=3
+| table _time, Image, DestinationIp, DestinationPort</code></pre>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">5. MITRE ATT&amp;CK Mapping</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique ID</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Tactic</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 report-mono text-xs">T1555</td><td class="p-2.5">Credentials from Password Stores</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1562.001</td><td class="p-2.5">Impair Defenses: Disable or Modify Tools</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1053.005</td><td class="p-2.5">Scheduled Task</td><td class="p-2.5 text-gray-500">Persistence</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1036</td><td class="p-2.5">Masquerading</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1070.004</td><td class="p-2.5">Indicator Removal: File Deletion</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1071.001</td><td class="p-2.5">Application Layer Protocol: Web</td><td class="p-2.5 text-gray-500">Command and Control</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1047</td><td class="p-2.5">Windows Management Instrumentation</td><td class="p-2.5 text-gray-500">Execution</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">6. Recommendations</h2>
+                        <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-700">
+                            <li>Enable Windows Defender Tamper Protection to prevent WMI-based signature suppression.</li>
+                            <li>Deploy application control to block execution of unsigned tools from user Temp and AppData directories.</li>
+                            <li>Alert on WMI calls to the Defender preference class (ThreatID suppression).</li>
+                            <li>Alert on scheduled tasks that trigger at very short intervals and on task names impersonating known vendors when the binary path is in a user directory.</li>
+                            <li>Alert on repeated execution of known credential-access utilities, including by hash even when renamed.</li>
+                            <li>Reset all browser-stored credentials for the affected user and any accounts where those credentials were reused.</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">7. Investigator's Notes</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            The most instructive stage was the targeted Defender tampering. Suppressing four specific
+                            threat IDs rather than disabling protection outright is a deliberately quiet technique: the
+                            product still reports as running. This reinforced a standing detection lesson, that
+                            configuration changes to security tooling deserve their own high-priority alerting, since an
+                            attacker who can silently allow-list their own payloads has neutralized the endpoint's
+                            defenses without ever tripping an "antivirus disabled" signal.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div class="bg-gray-50 border-t border-gray-200 px-8 py-4 text-xs text-gray-400 report-mono">
+                    END OF REPORT : INC2021-1228-WLLC
+                </div>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+                Full technical detail, exact artifact values, and challenge-identifying information intentionally
+                generalized for public publication. Happy to walk through the complete investigation in more depth in
+                conversation: <a href="../index.html#contact" class="text-[#1E3A5F] hover:underline">get in touch</a>.
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

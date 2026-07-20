@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Security Incident Report: SIR-2026-01 | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        pre { background: #1e293b; color: #e2e8f0; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; font-size: 0.82rem; }
+        code { font-family: 'Courier New', monospace; }
+        .report-mono { font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-10 px-4">
+        <div class="container mx-auto max-w-4xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to Writeups</a>
+
+            <div class="bg-white shadow-lg mt-4 border border-gray-300">
+
+                <div class="bg-[#1E3A5F] text-white px-8 py-6">
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-blue-200 mb-1">Security Incident Report</div>
+                            <h1 class="text-2xl font-bold">Web Application Compromise to Windows Lateral Movement</h1>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">TLP:CLEAR</span>
+                    </div>
+                </div>
+
+                <table class="w-full text-sm report-mono border-b border-gray-200">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Report ID</td>
+                            <td class="px-8 py-2">SIR-2026-06-22-01</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Classification</td>
+                            <td class="px-8 py-2">Simulated / Training Environment</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Analyst</td>
+                            <td class="px-8 py-2">F. Nanos</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Date of Report</td>
+                            <td class="px-8 py-2">2026-06-22 / 23</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Severity</td>
+                            <td class="px-8 py-2">Critical</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Status</td>
+                            <td class="px-8 py-2">Closed (Contained)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Affected Assets</td>
+                            <td class="px-8 py-2" colspan="3">1x public-facing WordPress host, 1x internal Windows server</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-8 py-8 space-y-8">
+
+                    <div class="bg-amber-50 border border-amber-300 rounded p-3 text-xs text-amber-900">
+                        This report documents a simulated incident from a training environment (TryHackMe, Honeynet
+                        Collapse series, Stages 1 and 2). Specific artifact values, timestamps, and file paths are
+                        generalized or redacted for public publication; the analytical structure and findings reflect
+                        the actual investigation performed.
+                    </div>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">1. Executive Summary</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            A two-stage intrusion was reconstructed spanning a public-facing WordPress host and an
+                            internal Windows server. The threat actor gained initial access to the web application via
+                            credential brute-forcing, escalated to code execution by abusing a built-in content-management
+                            feature to plant a disguised web shell, and achieved local privilege escalation through an
+                            exposed SSH key backup. Using credentials obtained during this phase, the actor pivoted to an
+                            internal Windows host, hijacked a legitimate scheduled task to obtain elevated code execution,
+                            dumped credential material from memory, and cleared the host's security event log mid-session
+                            before moving laterally toward a further internal target. Every technique observed abused
+                            legitimate, documented functionality rather than exploiting a software vulnerability, and
+                            the actor's clearing of security logging required the investigation to rely on artifacts
+                            that survive this class of anti-forensic activity.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">2. Scope &amp; Methodology</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            Investigation of the web-facing host relied on host-based audit logging (scoped to the web
+                            service account) cross-referenced with web-server access logs. Investigation of the Windows
+                            host began with standard Security-log review, but pivoted through several artifact layers,
+                            RDP-specific operational logs, PowerShell transcription, and registry-based execution
+                            caching, as each successive log source was found incomplete or deliberately cleared.
+                        </p>
+                        <pre><code># Linux host: audit log review
+sudo ausearch -k exec -i
+grep "wp-login" /var/log/apache2/access.log
+
+# Windows host: log source triage
+Get-WinEvent -ListLog * | Where-Object {$_.RecordCount -gt 0}
+wevtutil epl "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" &lt;out.evtx&gt;
+Get-WinEvent -FilterHashtable @{LogName='Security'; Id=1102}
+
+# Registry-based execution cache (survives Security log clearing)
+AppCompatCacheParser.exe --csv &lt;out&gt; --csvf shimcache_parsed.csv</code></pre>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">3. Technical Findings</h2>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.1 &nbsp; Initial Access (Web Application)</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Web-server access logs identified sustained credential brute-forcing against the WordPress login endpoint, succeeding after approximately one minute of attempts. The same source subsequently accessed the platform's built-in theme-editing feature and repeatedly saved a modified template file, a documented content-management capability requiring no vulnerability, resulting in arbitrary PHP execution once an authenticated session was obtained.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.2 &nbsp; Web Shell &amp; Local Privilege Escalation</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">The planted code was disguised using a parameter name closely resembling WordPress's legitimate cron-trigger mechanism, reducing its visibility during casual log review. Host-based audit logging (scoped to the web-service account) captured the resulting command execution, including reconnaissance, a reverse-shell callback, and a targeted search for private key material that recovered an exposed SSH key backup file. This key was used to authenticate directly as root, completing local privilege escalation without further exploitation.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.3 &nbsp; Post-Escalation Activity &amp; Persistence (Web Host)</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Root-level shell history, the only available evidence source once privilege escalation placed activity outside the scope of the service-account-restricted audit rules, recorded an internal network sweep, targeted port probing against a specific host, retrieval and execution of an additional payload from the same external staging server used for initial access, and establishment of persistence via a disguised system service mimicking a legitimate kernel process name.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.4 &nbsp; Lateral Movement to Windows Host</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Standard Security-log review of the Windows target did not cover the incident window. RDP-specific operational logging, a separate log source unaffected by the same gap, confirmed an inbound connection from the previously compromised web host's IP address, authenticated with a domain account's credentials, consistent with credential material obtained during the initial intrusion phase.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.5 &nbsp; Privilege Escalation via Scheduled Task Hijack</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">A legitimate, pre-existing scheduled task configured to run a diagnostic utility with elevated privileges on an hourly basis was found to have its target binary replaced with a payload later confirmed via public threat-intelligence lookup as a known post-exploitation framework stager. No new persistence mechanism was created; an already-trusted, already-elevated execution path was repurposed directly.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.6 &nbsp; Credential Access</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Process-creation logging on the host was enabled but did not capture command-line detail, limiting log-based visibility into subsequent actions. PowerShell transcription, a separate and independently configured logging mechanism, had captured a short encoded command that decoded to a renamed memory-dumping utility targeting the LSASS process. Offline analysis of the resulting memory dump recovered cached credential material for a second, higher-privileged domain account.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.7 &nbsp; Anti-Forensics &amp; Continued Lateral Movement</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">The Windows Security event log was found to have been cleared during the incident window, confirmed by the log-clear event that Windows records automatically as the first entry in any newly cleared log, which also served as a reliable timeline boundary marker. Activity following this boundary was reconstructed using a registry-based execution-history artifact unaffected by Security log clearing, which recovered evidence of a renamed remote-execution utility and its associated service installation, indicating a further lateral movement toward an additional internal host.</p>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">4. Indicators of Compromise</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Type</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Indicator</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Context</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 report-mono text-xs">
+                                    <tr><td class="p-2.5">Source IP</td><td class="p-2.5 text-gray-400">[redacted]</td><td class="p-2.5 font-sans">Brute-force source, reused as RDP source and payload staging host</td></tr>
+                                    <tr><td class="p-2.5">Web shell parameter</td><td class="p-2.5 text-gray-400">[redacted, cron-mimicking parameter name]</td><td class="p-2.5 font-sans">Disguised trigger for planted PHP code</td></tr>
+                                    <tr><td class="p-2.5">Exposed key file</td><td class="p-2.5 text-gray-400">[redacted, .bak private key backup]</td><td class="p-2.5 font-sans">Root-equivalent credential exposure</td></tr>
+                                    <tr><td class="p-2.5">Persistence service</td><td class="p-2.5 text-gray-400">[redacted, kernel-process-mimicking name]</td><td class="p-2.5 font-sans">Linux host persistence</td></tr>
+                                    <tr><td class="p-2.5">Hijacked task</td><td class="p-2.5 text-gray-400">[redacted diagnostic scheduled task]</td><td class="p-2.5 font-sans">Windows privilege escalation vector</td></tr>
+                                    <tr><td class="p-2.5">Service artifact</td><td class="p-2.5 text-gray-400">Fixed-name remote-execution service binary</td><td class="p-2.5 font-sans">Lateral movement tooling fingerprint, survives client renaming</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">5. MITRE ATT&amp;CK Mapping</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique ID</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Tactic</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 report-mono text-xs">T1110</td><td class="p-2.5">Brute Force</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1505.003</td><td class="p-2.5">Web Shell</td><td class="p-2.5 text-gray-500">Persistence</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1552.004</td><td class="p-2.5">Credentials in Files (SSH key)</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1078</td><td class="p-2.5">Valid Accounts</td><td class="p-2.5 text-gray-500">Initial Access, Lateral Movement</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1053.005</td><td class="p-2.5">Scheduled Task Abuse</td><td class="p-2.5 text-gray-500">Persistence, Privilege Escalation</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1003.001</td><td class="p-2.5">OS Credential Dumping (LSASS)</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1070.001</td><td class="p-2.5">Clear Windows Event Logs</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1021.002 / T1570</td><td class="p-2.5">Remote Services / Lateral Tool Transfer</td><td class="p-2.5 text-gray-500">Lateral Movement</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1036</td><td class="p-2.5">Masquerading</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">6. Recommendations</h2>
+                        <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-700">
+                            <li>Enforce account lockout or rate limiting on the WordPress authentication endpoint. Brute-forcing succeeded without any apparent throttling.</li>
+                            <li>Restrict Theme Editor and equivalent code-execution-capable admin features to a smaller, monitored set of trusted accounts, or disable entirely where not required.</li>
+                            <li>Remove or securely relocate private key backup files from predictable, web-accessible paths. Audit for `.bak` and similar backup-extension files containing credential material.</li>
+                            <li>Extend audit logging scope beyond single-service-account UIDs to cover privilege-escalated activity, which is currently invisible once an attacker reaches root.</li>
+                            <li>Enable command-line auditing for process-creation events on Windows hosts. The absence of this detail significantly slowed credential-access detection.</li>
+                            <li>Forward event logs to a centralized, host-independent SIEM so that local log clearing does not create investigative blind spots.</li>
+                            <li>Review and restrict scheduled tasks running with elevated privileges for unauthorized modification, particularly those referencing user-writable binary paths.</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">7. Investigator's Notes</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            Two log-scoping limitations shaped this investigation. On the web host, audit rules scoped to
+                            the service account went blind the moment the actor escalated to root, requiring a pivot to
+                            root shell history as the only remaining evidence source. On the Windows host, deliberate
+                            Security log clearing created a similar blind spot. The resolution required recognizing that
+                            registry-based execution caching operates entirely independently of the Event Log subsystem
+                            and survives this class of anti-forensic activity intact. Both lessons are now treated as
+                            standing considerations: privilege-scoped audit rules require a documented root-level fallback
+                            source, and registry-based artifacts should be checked in parallel with, not only after,
+                            Event Log analysis on any Windows host investigation.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div class="bg-gray-50 border-t border-gray-200 px-8 py-4 text-xs text-gray-400 report-mono">
+                    END OF REPORT : SIR-2026-06-22-01
+                </div>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+                Full technical detail, exact artifact values, and challenge-identifying information intentionally
+                generalized for public publication. Happy to walk through the complete investigation in more depth in
+                conversation: <a href="../index.html#contact" class="text-[#1E3A5F] hover:underline">get in touch</a>.
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

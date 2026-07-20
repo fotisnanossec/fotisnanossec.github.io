@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Security Incident Report: SIR-2026-06 | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        pre { background: #1e293b; color: #e2e8f0; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; font-size: 0.82rem; }
+        code { font-family: 'Courier New', monospace; }
+        .report-mono { font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-10 px-4">
+        <div class="container mx-auto max-w-4xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to Writeups</a>
+
+            <!-- REPORT DOCUMENT -->
+            <div class="bg-white shadow-lg mt-4 border border-gray-300">
+
+                <!-- Report Header Block -->
+                <div class="bg-[#1E3A5F] text-white px-8 py-6">
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-blue-200 mb-1">Security Incident Report</div>
+                            <h1 class="text-2xl font-bold">macOS Endpoint Compromise: Trojanized Installer &amp; Data Exfiltration</h1>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">TLP:CLEAR</span>
+                    </div>
+                </div>
+
+                <!-- Report Metadata Table -->
+                <table class="w-full text-sm report-mono border-b border-gray-200">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Report ID</td>
+                            <td class="px-8 py-2">SIR-2026-06-23-04</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Classification</td>
+                            <td class="px-8 py-2">Simulated / Training Environment</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Analyst</td>
+                            <td class="px-8 py-2">F. Nanos</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Date of Report</td>
+                            <td class="px-8 py-2">2026-06-23</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Severity</td>
+                            <td class="px-8 py-2">High</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Status</td>
+                            <td class="px-8 py-2">Closed (Contained)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Affected Asset</td>
+                            <td class="px-8 py-2" colspan="3">1x macOS workstation (developer endpoint)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-8 py-8 space-y-8">
+
+                    <div class="bg-amber-50 border border-amber-300 rounded p-3 text-xs text-amber-900">
+                        This report documents a simulated incident from a training environment (TryHackMe, Honeynet
+                        Collapse series). Specific artifact values, timestamps, and file paths are generalized or
+                        redacted for public publication; the analytical structure and findings reflect the actual
+                        investigation performed.
+                    </div>
+
+                    <!-- 1. Executive Summary -->
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">1. Executive Summary</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            The affected user downloaded and executed a trojanized installer masquerading as an AI development
+                            tool, sourced from a domain impersonating a legitimate vendor. Upon execution, the application
+                            requested broad filesystem access through the operating system's privacy-permission framework,
+                            established persistence via a disguised auto-start mechanism, and executed a script that harvested
+                            high-value local files (credentials, private keys, recently modified documents) for exfiltration to
+                            an attacker-controlled server disguised as a legitimate update service. The affected user
+                            independently noticed anomalous behavior and initiated inquiry prior to formal incident detection.
+                            No evidence was found linking this incident to a targeted campaign against the organization; it is
+                            assessed as an opportunistic, single-endpoint compromise.
+                        </p>
+                    </section>
+
+                    <!-- 2. Scope & Methodology -->
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">2. Scope &amp; Methodology</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            Analysis was performed against a forensic disk image (read-only, no live system access) using a
+                            macOS-specific automated artifact parsing suite, supplemented by manual inspection of recovered
+                            files. Parser modules were selected based on the artifact categories relevant to the suspected
+                            attack lifecycle (delivery, permission abuse, persistence) rather than a full sweep, to prioritize
+                            investigative speed while maintaining coverage of all categories in scope.
+                        </p>
+                        <pre><code># Image mount and root verification
+sudo apfs-fuse -v 4 &lt;image&gt; &lt;mount_point&gt;
+ls -la &lt;mount_point&gt;
+
+# Targeted artifact parsing
+python3 mac_apt.py MOUNTED &lt;verified_root&gt; \
+    QUARANTINE SAFARI CHROMIUM TCC AUTOSTART INSTALLHISTORY \
+    -o &lt;output_dir&gt;
+
+# Manual review
+sqlite3 &lt;output.db&gt; ".tables"
+sqlite3 &lt;output.db&gt; -header -column "SELECT * FROM &lt;table&gt;;"</code></pre>
+                    </section>
+
+                    <!-- 3. Technical Findings -->
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">3. Technical Findings</h2>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.1 &nbsp; Initial Access &amp; Delivery</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Browser artifact analysis identified a download event for an installer package sourced from a domain impersonating a legitimate AI development tool vendor, delivered to the user's Downloads directory. System package-installation records corroborated execution within approximately one minute of download completion, consistent with immediate execution post-download.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.2 &nbsp; Permission Abuse</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Query of the operating system's centralized privacy-permission ledger, filtered to the installed application's bundle identifier, identified a sequence of folder-access grant requests (three sensitive user directories) issued within a narrow time window immediately following installation. This request pattern is inconsistent with the incremental, on-demand access model typically exhibited by legitimate applications in this software category, and is assessed as reconnaissance behavior.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.3 &nbsp; Persistence</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Automated parsing of auto-start configuration locations returned a parser error on a file within the user's LaunchAgents directory, a location the operating system expects to contain only structured property-list job descriptors. Manual inspection confirmed the file was a plain shell script disguised with a directory placement designed to evade casual review. This is assessed as the primary persistence mechanism.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.4 &nbsp; Collection &amp; Exfiltration</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Direct inspection of the persistence script (recovered unencrypted from disk) revealed complete payload logic: recursive search of common user file-storage locations for recently modified files above a defined size threshold and matching high-value extensions (documents, cloud credentials, private keys, certificates), staging and compression of matched files, exfiltration via HTTP POST to a remote host disguised as an operating-system update service, and cleanup of staging artifacts with decoy status messages presented to the user to mask the activity as legitimate application processing.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.5 &nbsp; User-Reported Corroboration</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Browser search-history artifacts independently corroborated the incident timeline, showing the affected user researching symptoms consistent with compromise (unexpected application relaunch behavior, data-theft concerns related to AI productivity tools) prior to formal incident detection.</p>
+                        </div>
+                    </section>
+
+                    <!-- 4. Indicators of Compromise -->
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">4. Indicators of Compromise</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Type</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Indicator</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Context</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 report-mono text-xs">
+                                    <tr><td class="p-2.5">Delivery domain</td><td class="p-2.5 text-gray-400">[redacted, lookalike vendor domain]</td><td class="p-2.5 font-sans">Installer source</td></tr>
+                                    <tr><td class="p-2.5">C2 domain</td><td class="p-2.5 text-gray-400">[redacted, masquerading as OS update service]</td><td class="p-2.5 font-sans">Exfiltration destination</td></tr>
+                                    <tr><td class="p-2.5">Persistence path</td><td class="p-2.5 text-gray-400">~/Library/LaunchAgents/[redacted].sh</td><td class="p-2.5 font-sans">Disguised non-plist script</td></tr>
+                                    <tr><td class="p-2.5">Bundle ID</td><td class="p-2.5 text-gray-400">[redacted]</td><td class="p-2.5 font-sans">Installed application identifier</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- 5. MITRE ATT&CK Mapping -->
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">5. MITRE ATT&amp;CK Mapping</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique ID</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Tactic</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 report-mono text-xs">T1204</td><td class="p-2.5">User Execution</td><td class="p-2.5 text-gray-500">Execution</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1548</td><td class="p-2.5">Abuse Elevation Control Mechanism</td><td class="p-2.5 text-gray-500">Privilege Escalation</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1543.001</td><td class="p-2.5">Create or Modify System Process</td><td class="p-2.5 text-gray-500">Persistence</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1083 / T1005</td><td class="p-2.5">Discovery / Data from Local System</td><td class="p-2.5 text-gray-500">Discovery, Collection</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1041</td><td class="p-2.5">Exfiltration Over C2 Channel</td><td class="p-2.5 text-gray-500">Exfiltration</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1036</td><td class="p-2.5">Masquerading</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- 6. Recommendations -->
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">6. Recommendations</h2>
+                        <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-700">
+                            <li>Deploy endpoint detection coverage for non-plist files created within LaunchAgents/LaunchDaemons directories.</li>
+                            <li>Implement application allow-listing or notarization enforcement for developer/AI-tooling software categories, which currently receive lower scrutiny than general productivity software.</li>
+                            <li>Alert on TCC permission grant sequences requesting multiple sensitive directories within a short time window post-installation.</li>
+                            <li>Extend security awareness guidance to explicitly cover AI-tooling installer risk, given the current absence of user intuition around this category.</li>
+                        </ol>
+                    </section>
+
+                    <!-- 7. Investigator's Notes -->
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">7. Investigator's Notes</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            Initial automated parsing failed against the image with a generic installation-detection error.
+                            Root cause was an incorrect assumed mount path: the actual macOS volume root sat one directory
+                            level below the mount point, a known behavior of some FUSE-based APFS mounting tools. This was
+                            resolved through manual directory verification prior to re-running automated tooling, which then
+                            completed without further issue. This is now a standing first step applied to any unfamiliar
+                            forensic tool: confirm ground truth manually before trusting automated path detection.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div class="bg-gray-50 border-t border-gray-200 px-8 py-4 text-xs text-gray-400 report-mono">
+                    END OF REPORT : SIR-2026-06-23-04
+                </div>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+                Full technical detail, exact artifact values, and challenge-identifying information intentionally
+                generalized for public publication. Happy to walk through the complete investigation in more depth in
+                conversation: <a href="../index.html#contact" class="text-[#1E3A5F] hover:underline">get in touch</a>.
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

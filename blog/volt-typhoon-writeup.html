@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Security Incident Report: Volt Typhoon Intrusion | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        pre { background: #1e293b; color: #e2e8f0; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; font-size: 0.82rem; }
+        code { font-family: 'Courier New', monospace; }
+        .report-mono { font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-10 px-4">
+        <div class="container mx-auto max-w-4xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to Writeups</a>
+
+            <div class="bg-white shadow-lg mt-4 border border-gray-300">
+
+                <div class="bg-[#1E3A5F] text-white px-8 py-6">
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-blue-200 mb-1">Security Incident Report</div>
+                            <h1 class="text-2xl font-bold">Volt Typhoon: State-Actor Intrusion &amp; Domain Compromise</h1>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">TLP:CLEAR</span>
+                    </div>
+                </div>
+
+                <table class="w-full text-sm report-mono border-b border-gray-200">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Report ID</td>
+                            <td class="px-8 py-2">INC2024-0324-VT</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Classification</td>
+                            <td class="px-8 py-2">Simulated / Training Environment</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Analyst</td>
+                            <td class="px-8 py-2">F. Nanos</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Platform</td>
+                            <td class="px-8 py-2">TryHackMe (SIEM investigation)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Severity</td>
+                            <td class="px-8 py-2">Critical</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Status</td>
+                            <td class="px-8 py-2">Closed (Investigation Complete)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Attributed Actor</td>
+                            <td class="px-8 py-2" colspan="3">Volt Typhoon (state-sponsored, living-off-the-land tradecraft)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-8 py-8 space-y-8">
+
+                    <div class="bg-amber-50 border border-amber-300 rounded p-3 text-xs text-amber-900">
+                        This report documents a simulated intrusion from a training environment (TryHackMe). Specific
+                        artifact values, account names, and addresses are generalized for public publication; the
+                        analytical structure, timeline reconstruction, and findings reflect the actual investigation
+                        performed. No production, client, or employer data is included.
+                    </div>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">1. Executive Summary</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            Over a six-day window, an Active Directory environment was subjected to a deliberate,
+                            multi-stage intrusion consistent with the tradecraft of Volt Typhoon, a state-sponsored
+                            threat group known for targeting critical infrastructure and for heavy reliance on
+                            living-off-the-land techniques. Initial access was obtained by abusing an unauthenticated
+                            password-reset weakness in an internet-facing identity self-service portal. The attacker then
+                            created a hidden administrative backdoor, extracted the entire domain credential database,
+                            harvested credentials from memory, staged sensitive financial records, deployed web shells
+                            for durable access, and finally cleared event logs and network configuration to frustrate
+                            investigation.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            Although the attacker cleared the Windows event logs at the end of the operation, telemetry
+                            forwarded to the SIEM beforehand allowed a complete, corroborated timeline to be
+                            reconstructed. The single most consequential action was the extraction of the domain
+                            credential database, which must be treated as a full domain compromise requiring a complete
+                            credential reset.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">2. Scope &amp; Methodology</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            The investigation was conducted in the SIEM against forwarded telemetry from the identity
+                            self-service application, Windows Management Instrumentation activity, and PowerShell
+                            pipeline logging. The core analytical challenge was reconstructing the timeline after the
+                            attacker cleared all local Windows event logs in the final phase; because critical telemetry
+                            had already been forwarded, the SIEM retained the record that the endpoint no longer held.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            A defining characteristic of this intrusion was the near-exclusive use of legitimate built-in
+                            Windows tooling (the domain database utility, WMI, netsh, and the event-log utility), which
+                            blends with normal administration and defeats signature-based detection. Reconstruction
+                            therefore depended on behavioral sequencing rather than malware signatures.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">3. Attack Chain</h2>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.1 &nbsp; Initial Access &amp; Backdoor</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">An unauthenticated password reset in an internet-facing identity self-service portal was abused to seize an existing administrative account. Approximately two minutes later, a second attacker-controlled administrative account was created, a deliberate redundancy ensuring continued access even if the first compromise were remediated.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.2 &nbsp; Credential Access</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Following drive enumeration of two file servers via WMI, the attacker extracted the entire Active Directory credential database using a legitimate built-in domain utility, then copied it into a web-server directory. Separately, a credential-dumping tool was pulled from an external host and run against process memory, and the registry was searched for stored credentials belonging to remote-access software. These represent two independent credential-theft vectors: the on-disk domain database and live memory.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.3 &nbsp; Collection &amp; Masquerading</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">The stolen credential database was compressed into a password-protected, split archive and then renamed to an image-file extension, disguising it as a harmless picture to evade content inspection and blend with web traffic. Three years of financial records were staged in a temporary directory for collection.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.4 &nbsp; Persistence via Web Shells</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">An ASP.NET web shell was created on one server by renaming an existing file to a web-executable extension, then copied to a second server under an audit-themed name. Web shells provide a browser-accessible command channel that survives account remediation.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.5 &nbsp; Anti-Forensic Cleanup</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">In the final phase, all Windows event logs (Application, Security, Setup, System) were cleared, and a netsh port-forwarding rule was created to relay traffic to an external address, then deleted to remove the configuration evidence. The prior forwarding of telemetry to the SIEM is precisely what preserved the investigative record through this cleanup.</p>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">4. Indicators of Compromise</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Type</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Indicator</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Context</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 report-mono text-xs">
+                                    <tr><td class="p-2.5">Backdoor account</td><td class="p-2.5 text-gray-400">[redacted, attacker-created admin]</td><td class="p-2.5 font-sans">Persistence / redundancy</td></tr>
+                                    <tr><td class="p-2.5">C2 domain</td><td class="p-2.5 text-gray-400">[redacted, actor-themed domain]</td><td class="p-2.5 font-sans">Tool download source</td></tr>
+                                    <tr><td class="p-2.5">C2 relay</td><td class="p-2.5 text-gray-400">[redacted, external IP:port]</td><td class="p-2.5 font-sans">netsh port-forward target</td></tr>
+                                    <tr><td class="p-2.5">Domain database dump</td><td class="p-2.5 text-gray-400">[redacted, temp path]</td><td class="p-2.5 font-sans">Full credential extraction</td></tr>
+                                    <tr><td class="p-2.5">Disguised archive</td><td class="p-2.5 text-gray-400">[redacted, .7z renamed to image ext]</td><td class="p-2.5 font-sans">Staged for exfiltration</td></tr>
+                                    <tr><td class="p-2.5">Web shells</td><td class="p-2.5 text-gray-400">[redacted, .aspx / .jspx]</td><td class="p-2.5 font-sans">Durable access, two hosts</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">5. MITRE ATT&amp;CK Mapping</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique ID</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Tactic</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 report-mono text-xs">T1190</td><td class="p-2.5">Exploit Public-Facing Application</td><td class="p-2.5 text-gray-500">Initial Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1136 / T1078.003</td><td class="p-2.5">Create Account / Valid Accounts</td><td class="p-2.5 text-gray-500">Persistence</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1003.003</td><td class="p-2.5">OS Credential Dumping: NTDS</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1003.001</td><td class="p-2.5">OS Credential Dumping: LSASS Memory</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1552.007</td><td class="p-2.5">Credentials from Password Stores</td><td class="p-2.5 text-gray-500">Credential Access</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1560 / T1036.005</td><td class="p-2.5">Archive Collected Data / Masquerading</td><td class="p-2.5 text-gray-500">Collection / Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1505.003</td><td class="p-2.5">Web Shell</td><td class="p-2.5 text-gray-500">Persistence</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1070.001</td><td class="p-2.5">Clear Windows Event Logs</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1090.001</td><td class="p-2.5">Internal Proxy (netsh port-forward)</td><td class="p-2.5 text-gray-500">Command and Control</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">6. Root Cause &amp; Recommendations</h2>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-3">The intrusion was enabled by three compounding weaknesses: an unauthenticated password reset on an internet-facing identity portal (primary root cause), absent multi-factor authentication on privileged accounts, and no alerting on high-risk built-in tooling.</p>
+                        <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-700">
+                            <li>Patch or isolate the identity self-service portal and remove direct internet exposure where possible.</li>
+                            <li>Enforce multi-factor authentication on all privileged and administrative accounts.</li>
+                            <li>Alert on domain-database utility execution and on any access to the credential database outside sanctioned backup windows.</li>
+                            <li>Alert on event-log clearing and on netsh port-forward rule creation, both high-fidelity intrusion indicators.</li>
+                            <li>Forward all critical logs to the SIEM in near real time so local log clearing cannot erase the investigative record, the control that made this reconstruction possible.</li>
+                            <li>On confirmed domain-database extraction, perform a domain-wide credential reset including a double reset of the krbtgt account.</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">7. Investigator's Notes</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            The instructive element of this investigation was the living-off-the-land tradecraft. With no
+                            custom malware to key on for most stages, detection depended on recognizing that legitimate
+                            administrative tools were being used in illegitimate sequences: a domain-database utility run
+                            outside backup windows, WMI used for multi-host enumeration, and the event-log utility used
+                            to wipe history. The standing lesson is that resilient SIEM forwarding plus behavioral
+                            detection on built-in tooling, rather than signature matching, is what defeats an actor who
+                            deliberately avoids bringing their own malware.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div class="bg-gray-50 border-t border-gray-200 px-8 py-4 text-xs text-gray-400 report-mono">
+                    END OF REPORT : INC2024-0324-VT
+                </div>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+                Full technical detail, exact artifact values, and challenge-identifying information intentionally
+                generalized for public publication. Happy to walk through the complete investigation in more depth in
+                conversation: <a href="../index.html#contact" class="text-[#1E3A5F] hover:underline">get in touch</a>.
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

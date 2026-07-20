@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Security Incident Report: BlackSun Ransomware | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        pre { background: #1e293b; color: #e2e8f0; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; font-size: 0.82rem; }
+        code { font-family: 'Courier New', monospace; }
+        .report-mono { font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-10 px-4">
+        <div class="container mx-auto max-w-4xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to Writeups</a>
+
+            <div class="bg-white shadow-lg mt-4 border border-gray-300">
+
+                <div class="bg-[#1E3A5F] text-white px-8 py-6">
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-blue-200 mb-1">Security Incident Report</div>
+                            <h1 class="text-2xl font-bold">BlackSun Ransomware: PowerShell Kill Chain to Encryption</h1>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">TLP:CLEAR</span>
+                    </div>
+                </div>
+
+                <table class="w-full text-sm report-mono border-b border-gray-200">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Report ID</td>
+                            <td class="px-8 py-2">INC2022-0516-PSE</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Classification</td>
+                            <td class="px-8 py-2">Simulated / Training Environment</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Analyst</td>
+                            <td class="px-8 py-2">F. Nanos</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Platform / Tool</td>
+                            <td class="px-8 py-2">TryHackMe · Splunk (Sysmon)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Severity</td>
+                            <td class="px-8 py-2">Critical</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Status</td>
+                            <td class="px-8 py-2">Closed (Investigation Complete)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Impact</td>
+                            <td class="px-8 py-2" colspan="3">Confirmed file encryption (availability impact)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-8 py-8 space-y-8">
+
+                    <div class="bg-amber-50 border border-amber-300 rounded p-3 text-xs text-amber-900">
+                        This report documents a simulated ransomware incident from a training environment (TryHackMe, "PS
+                        Eclipse"). User and artifact values are generalized for public publication; the analytical
+                        structure, Sysmon query logic, and findings reflect the actual investigation performed. No
+                        production, client, or employer data is included.
+                    </div>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">1. Executive Summary</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            A workstation was compromised and encrypted by BlackSun ransomware. The attack began with a
+                            single obfuscated PowerShell command that disabled real-time antivirus monitoring, downloaded
+                            a dropper through a public tunneling service, and scheduled it to run with SYSTEM privileges.
+                            The dropper then contacted an external command-and-control endpoint, retrieved the ransomware
+                            payload, encrypted the user's files, and replaced the desktop wallpaper with a ransom
+                            message. The full chain was reconstructed from Sysmon telemetry in Splunk. This was a
+                            successful detonation with real availability impact; recovery depends on clean offline
+                            backups.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">2. Scope &amp; Methodology</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            The investigation was conducted against Sysmon endpoint telemetry in Splunk. The initiating
+                            action was a Base64-encoded PowerShell command; because PowerShell encodes such commands in
+                            UTF-16LE, the decode path was Base64 followed by UTF-16LE text decoding, which revealed the
+                            full malicious sequence. Process-creation, file-creation, and DNS-query event types were then
+                            correlated to trace delivery, C2, and encryption.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">3. Attack Chain</h2>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.1 &nbsp; Obfuscated PowerShell &amp; Defender Disable</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">The decoded command first turned off Windows Defender real-time monitoring, removing the endpoint's primary protection before any payload touched disk.</p>
+                            <pre><code>Set-MpPreference -DisableRealtimeMonitoring $true</code></pre>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.2 &nbsp; Dropper Delivery via Tunneling Service</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">The command downloaded a dropper executable into a system temporary directory through a public tunneling service. Fronting the real infrastructure with a legitimate-looking tunnel domain defeats IP and domain reputation controls.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.3 &nbsp; SYSTEM-Level Scheduled Task</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">A scheduled task was created to execute the dropper as SYSTEM. This grants the highest privilege on the host without any credential theft, and simultaneously provides execution persistence.</p>
+                            <pre><code>SCHTASKS /Create /TN [dropper] /RU SYSTEM ...</code></pre>
+                        </div>
+
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.4 &nbsp; C2 &amp; Ransomware Deployment</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">The dropper contacted a second tunnel endpoint and retrieved the BlackSun ransomware as a PowerShell script. The payload encrypted the user's files, dropped a ransom note into the user's Downloads directory, and set a ransom-themed image as the desktop wallpaper, the visible confirmation of a successful event.</p>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">4. Detection Queries</h2>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-3">Each query below was used during the investigation to surface a specific stage of the chain.</p>
+                        <pre><code># 1 - Encoded PowerShell parent command lines (exposes the -enc launcher)
+index=main EventCode=1
+| stats count by ParentCommandLine
+
+# 2 - Dropped files (locates the dropper in the temp directory)
+index=main EventCode=11
+| stats count by TargetFilename, Image
+
+# 3 - C2 via DNS (tunnel traffic is invisible to IP reputation; DNS is the tell)
+index=main EventCode=22 [dropper]
+| table QueryName, Image
+
+# 4 - Ransomware artifacts (confirms family and encryption event)
+index=main EventCode=11 TargetFilename="*BlackSun*"
+| table TargetFilename, Image</code></pre>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">5. MITRE ATT&amp;CK Mapping</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique ID</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Tactic</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 report-mono text-xs">T1059.001</td><td class="p-2.5">PowerShell</td><td class="p-2.5 text-gray-500">Execution</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1027.010</td><td class="p-2.5">Command Obfuscation (Base64)</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1562.001</td><td class="p-2.5">Impair Defenses: Disable or Modify Tools</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1105</td><td class="p-2.5">Ingress Tool Transfer</td><td class="p-2.5 text-gray-500">Command and Control</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1071</td><td class="p-2.5">Application Layer Protocol (tunnel)</td><td class="p-2.5 text-gray-500">Command and Control</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1053.005</td><td class="p-2.5">Scheduled Task (SYSTEM)</td><td class="p-2.5 text-gray-500">Persistence</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1486</td><td class="p-2.5">Data Encrypted for Impact</td><td class="p-2.5 text-gray-500">Impact</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">6. Recommendations</h2>
+                        <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-700">
+                            <li>Isolate and rebuild the affected host; restore encrypted data from offline backups. Do not consider payment.</li>
+                            <li>Enable Windows Defender Tamper Protection so real-time monitoring cannot be disabled from a script.</li>
+                            <li>Enforce PowerShell Constrained Language Mode and Script Block Logging.</li>
+                            <li>Restrict or monitor outbound access to public tunneling services at the egress.</li>
+                            <li>Alert on encoded PowerShell command lines, on the Defender real-time-disable command, and on DNS queries to known tunneling domains.</li>
+                            <li>Alert on scheduled tasks created with SYSTEM run-level that point to binaries in temporary directories.</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">7. Investigator's Notes</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            Two points proved most instructive. First, the tunneling-based C2 was effectively invisible
+                            to IP-reputation controls, so DNS-query telemetry, not network-reputation blocking, was the
+                            dependable detection. Second, benign PowerShell policy-test artifacts appeared alongside the
+                            malicious activity and had to be recognized as legitimate noise rather than pursued as
+                            indicators. The standing lesson is that a full ransomware chain can hinge on a single decoded
+                            command, and that decoding obfuscated PowerShell early is often the fastest route to the
+                            entire kill chain.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div class="bg-gray-50 border-t border-gray-200 px-8 py-4 text-xs text-gray-400 report-mono">
+                    END OF REPORT : INC2022-0516-PSE
+                </div>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+                Full technical detail, exact artifact values, and challenge-identifying information intentionally
+                generalized for public publication. Happy to walk through the complete investigation in more depth in
+                conversation: <a href="../index.html#contact" class="text-[#1E3A5F] hover:underline">get in touch</a>.
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

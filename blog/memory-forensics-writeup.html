@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Security Incident Report: SIR-2026-03 | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        pre { background: #1e293b; color: #e2e8f0; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; font-size: 0.82rem; }
+        code { font-family: 'Courier New', monospace; }
+        .report-mono { font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-10 px-4">
+        <div class="container mx-auto max-w-4xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to Writeups</a>
+
+            <div class="bg-white shadow-lg mt-4 border border-gray-300">
+
+                <div class="bg-[#1E3A5F] text-white px-8 py-6">
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-blue-200 mb-1">Security Incident Report</div>
+                            <h1 class="text-2xl font-bold">Gateway Server Memory Analysis: Process Injection &amp; Lateral Pivot</h1>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">TLP:CLEAR</span>
+                    </div>
+                </div>
+
+                <table class="w-full text-sm report-mono border-b border-gray-200">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Report ID</td>
+                            <td class="px-8 py-2">SIR-2026-06-23-02</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold w-1/4">Classification</td>
+                            <td class="px-8 py-2">Simulated / Training Environment</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Analyst</td>
+                            <td class="px-8 py-2">F. Nanos</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Date of Report</td>
+                            <td class="px-8 py-2">2026-06-23</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Severity</td>
+                            <td class="px-8 py-2">Critical</td>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Status</td>
+                            <td class="px-8 py-2">Closed (Contained)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-8 py-2 bg-gray-50 font-semibold">Affected Asset</td>
+                            <td class="px-8 py-2" colspan="3">1x DMZ gateway server (memory capture)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-8 py-8 space-y-8">
+
+                    <div class="bg-amber-50 border border-amber-300 rounded p-3 text-xs text-amber-900">
+                        This report documents a simulated incident from a training environment (TryHackMe, Honeynet
+                        Collapse series). Specific artifact values, timestamps, and file paths are generalized or
+                        redacted for public publication; the analytical structure and findings reflect the actual
+                        investigation performed.
+                    </div>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">1. Executive Summary</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            A memory capture from a DMZ gateway server was analyzed to reconstruct a full attack chain
+                            following lateral movement onto the host. The investigation traced execution from remote-service
+                            arrival through a disguised loader and dropper, into process injection against a legitimate
+                            system utility, and identified an active outbound RDP connection at time of capture indicating
+                            further lateral movement toward a second host. The engagement demonstrates that a single memory
+                            snapshot can resolve both "what happened on this host" and "where the threat actor went next"
+                            without requiring log data or a second host's evidence.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">2. Scope &amp; Methodology</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm mb-3">
+                            Analysis was performed against pre-generated Volatility 3 plugin output derived from a full
+                            memory capture, prioritizing prefetched results over re-running plugins directly against the
+                            raw image given its size. Investigation followed a fixed sequence: process tree reconstruction,
+                            command-line recovery, code-injection detection, then network-connection review, a sequence
+                            chosen to move from "how did this start" through "what is the payload" to "where did it go."
+                        </p>
+                        <pre><code># Volatility 3 plugin output review (prefetched)
+cut -f1-3,11-13 pstree.txt
+grep -A1 "&lt;PID&gt;" cmdline.txt
+grep -A5 "^&lt;PID&gt;\s" malfind.txt
+grep "&lt;port&gt;" netscan.txt
+
+# Equivalent live commands, if run directly against the capture:
+vol -f &lt;capture&gt; windows.pstree
+vol -f &lt;capture&gt; windows.cmdline
+vol -f &lt;capture&gt; windows.malfind
+vol -f &lt;capture&gt; windows.netscan</code></pre>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">3. Technical Findings</h2>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.1 &nbsp; Arrival &amp; Execution Chain</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Process tree reconstruction confirmed arrival via a remote service-execution mechanism, consistent with lateral movement tooling identified at an earlier stage of the wider campaign. The chain descended through a command shell into a signed Windows utility invoked with attacker-controlled arguments pointing at a disguised DLL dropped into a plausible system path, then a further renamed dropper delivered into a user's Downloads directory.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.2 &nbsp; Living-off-the-Land Execution</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Command-line recovery confirmed the initial attacker-controlled file was executed via a signed-binary-proxy pattern (a trusted system utility invoked against an attacker DLL with an exported function name), a widely used technique for evading application allow-listing based on the executing process's identity rather than its actual behavior.</p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.3 &nbsp; Process Injection</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">The delivery chain terminated at injection into a legitimate, unremarkable system application selected specifically for its innocuous, expected-to-be-running nature. Memory-region analysis identified a writable-and-executable memory region within that process not backed by any file mapped from disk, the defining signature of injected code. A second, smaller candidate region present in the same process was assessed as a loader stub based on its substantially smaller committed size, with the larger region identified as the actual payload.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm mb-1">3.4 &nbsp; Lateral Pivot in Progress</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">Network-connection state captured at the time of acquisition showed an established outbound RDP connection originating from the same process tree as the injected payload, directed at a second internal host. This is assessed as an active lateral-movement pivot in progress at the moment of capture, identifying the likely next-affected asset without requiring evidence from that host directly.</p>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">4. Indicators of Compromise</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Type</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Indicator</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Context</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 report-mono text-xs">
+                                    <tr><td class="p-2.5">Disguised DLL</td><td class="p-2.5 text-gray-400">[redacted, masquerading as Windows Update component]</td><td class="p-2.5 font-sans">Initial loader, dropped in system path</td></tr>
+                                    <tr><td class="p-2.5">Renamed dropper</td><td class="p-2.5 text-gray-400">[redacted, masquerading as update/security tool]</td><td class="p-2.5 font-sans">Delivered to user Downloads directory</td></tr>
+                                    <tr><td class="p-2.5">Injection target</td><td class="p-2.5 text-gray-400">Legitimate system utility (notepad-class process)</td><td class="p-2.5 font-sans">Injection host process</td></tr>
+                                    <tr><td class="p-2.5">Shellcode signature</td><td class="p-2.5 text-gray-400">0xFC opening byte (position-independent code marker)</td><td class="p-2.5 font-sans">Consistent with common post-exploitation frameworks</td></tr>
+                                    <tr><td class="p-2.5">Pivot destination</td><td class="p-2.5 text-gray-400">[redacted internal IP]:3389</td><td class="p-2.5 font-sans">Active RDP connection at capture time</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">5. MITRE ATT&amp;CK Mapping</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique ID</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Technique</th>
+                                        <th class="text-left p-2.5 font-semibold text-gray-600 border-b border-gray-200">Tactic</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr><td class="p-2.5 report-mono text-xs">T1021.002 / T1570</td><td class="p-2.5">Remote Services / Lateral Tool Transfer</td><td class="p-2.5 text-gray-500">Lateral Movement</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1218.011</td><td class="p-2.5">Signed Binary Proxy Execution (Rundll32)</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1036.005</td><td class="p-2.5">Masquerading</td><td class="p-2.5 text-gray-500">Defense Evasion</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1055</td><td class="p-2.5">Process Injection</td><td class="p-2.5 text-gray-500">Defense Evasion, Privilege Escalation</td></tr>
+                                    <tr><td class="p-2.5 report-mono text-xs">T1021.001</td><td class="p-2.5">Remote Services (RDP)</td><td class="p-2.5 text-gray-500">Lateral Movement</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">6. Recommendations</h2>
+                        <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-700">
+                            <li>Deploy endpoint detection for signed-binary-proxy execution patterns, particularly command-line invocations combining a trusted system utility with attacker-supplied DLL and function-name arguments.</li>
+                            <li>Alert on writable-and-executable memory regions in common target processes not backed by a mapped file on disk, a reliable signature of code injection.</li>
+                            <li>Restrict and monitor outbound RDP from servers that should not require it in normal operation, given its use here as a lateral-movement channel.</li>
+                            <li>Retain memory-capture capability as a standing incident-response readiness measure. This investigation would not have been possible from disk or log artifacts alone.</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <h2 class="text-base font-bold text-[#1E3A5F] uppercase tracking-wide border-b border-gray-200 pb-2 mb-3">7. Investigator's Notes</h2>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            Determining the correct endpoint of the delivery chain required care: the deepest process in
+                            the process tree was not the correct answer, since child processes spawned from the injected
+                            process represent the threat actor operating from an established foothold, a conceptually
+                            distinct phase from how that foothold was established. The delivery chain is assessed to
+                            terminate at the injection target itself. This distinction, between the mechanism that
+                            delivers a payload and the activity conducted afterward from within it, is now treated as a
+                            standing consideration whenever chain-of-execution findings are documented.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div class="bg-gray-50 border-t border-gray-200 px-8 py-4 text-xs text-gray-400 report-mono">
+                    END OF REPORT : SIR-2026-06-23-02
+                </div>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+                Full technical detail, exact artifact values, and challenge-identifying information intentionally
+                generalized for public publication. Happy to walk through the complete investigation in more depth in
+                conversation: <a href="../index.html#contact" class="text-[#1E3A5F] hover:underline">get in touch</a>.
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earlier Writeups | Fotios Nanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="../index.html#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="../index.html#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="../index.html#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="../index.html#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-16 px-6">
+        <div class="container mx-auto max-w-5xl">
+
+            <a href="../index.html#writeups" class="text-sm text-[#1E3A5F] hover:underline">-&gt; Back to main writeups</a>
+
+            <div class="mt-4 mb-10">
+                <h1 class="text-2xl font-bold text-gray-900 mb-1">Earlier Writeups</h1>
+                <p class="text-gray-500 text-sm">Additional TryHackMe writeups from earlier in the SOC Level 1 path.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                <a href="./wgel-ctf-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <img src="../assets/images/blog/Wgel.png" alt="Wgel CTF Analysis" class="rounded-lg mb-3 object-cover h-36 w-full">
+                    <h2 class="text-base font-bold text-gray-800 mb-1">Wgel CTF: Systematic Penetration Testing</h2>
+                    <p class="text-xs text-gray-500 mb-2">12 min read</p>
+                    <p class="text-sm text-gray-600 mb-3">Easy-level Linux machine demonstrating systematic enumeration methodology and creative privilege escalation.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="tag-accent text-xs px-2 py-0.5 rounded">Web Enumeration</span>
+                        <span class="tag-primary text-xs px-2 py-0.5 rounded">Privilege Escalation</span>
+                    </div>
+                </a>
+
+                <a href="./boogeyman-3-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <img src="../assets/images/blog/boogeyman-3-analysis.jpg" alt="Boogeyman 3 Analysis" class="rounded-lg mb-3 object-cover h-36 w-full">
+                    <h2 class="text-base font-bold text-gray-800 mb-1">Boogeyman 3: Advanced Windows Log Analysis</h2>
+                    <p class="text-xs text-gray-500 mb-2">25 min read</p>
+                    <p class="text-sm text-gray-600 mb-3">Multi-stage attack investigation using Windows Event Logs and Sysmon, from HTA delivery through domain compromise.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="tag-accent text-xs px-2 py-0.5 rounded">Event Logs</span>
+                        <span class="tag-primary text-xs px-2 py-0.5 rounded">Attack Chain Analysis</span>
+                    </div>
+                </a>
+
+                <a href="./boogeyman-2-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <img src="../assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 2 Analysis" class="rounded-lg mb-3 object-cover h-36 w-full">
+                    <h2 class="text-base font-bold text-gray-800 mb-1">Boogeyman 2: Spear Phishing & Memory Forensics</h2>
+                    <p class="text-xs text-gray-500 mb-2">20 min read</p>
+                    <p class="text-sm text-gray-600 mb-3">Memory forensics and spear phishing investigation using Volatility 3 for multi-stage payload tracing.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="tag-accent text-xs px-2 py-0.5 rounded">Memory Forensics</span>
+                        <span class="tag-primary text-xs px-2 py-0.5 rounded">Process Investigation</span>
+                    </div>
+                </a>
+
+                <a href="./boogeyman-1-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <img src="../assets/images/blog/boogeyman-1-analysis.jpg" alt="Boogeyman 1 Analysis" class="rounded-lg mb-3 object-cover h-36 w-full">
+                    <h2 class="text-base font-bold text-gray-800 mb-1">Boogeyman 1: Complete Incident Analysis</h2>
+                    <p class="text-xs text-gray-500 mb-2">15 min read</p>
+                    <p class="text-sm text-gray-600 mb-3">End-to-end incident response walkthrough: email analysis, malware investigation, and DNS exfiltration recovery.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="tag-accent text-xs px-2 py-0.5 rounded">Incident Response</span>
+                        <span class="tag-primary text-xs px-2 py-0.5 rounded">Network Forensics</span>
+                    </div>
+                </a>
+
+                <a href="./insights.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                    <img src="../assets/images/blog/MusicSec.png" alt="Music and Security Methodology" class="rounded-lg mb-3 object-cover h-36 w-full">
+                    <h2 class="text-base font-bold text-gray-800 mb-1">The Analyst as a Musician</h2>
+                    <p class="text-xs text-gray-500 mb-2">8 min read</p>
+                    <p class="text-sm text-gray-600 mb-3">How classical music training informs cybersecurity methodology and analytical discipline.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="tag-accent text-xs px-2 py-0.5 rounded">Methodology</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm mt-12">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>

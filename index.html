@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotios Nanos - Cybersecurity Analyst</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .mobile-menu-transition { transition: max-height 0.3s ease-out; max-height: 0; overflow: hidden; }
+        .mobile-menu-transition.open { max-height: 500px; }
+        .profile-image-fix { display: flex !important; justify-content: center !important; align-items: center !important; }
+        .profile-image-fix img { display: block !important; margin: 0 auto !important; }
+        .tag-primary { background-color: #1E3A5F; color: #ffffff; }
+        .tag-accent  { background-color: #D6E4F0; color: #1E3A5F; }
+        .tag-neutral { background-color: #F1F5F9; color: #475569; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="./" class="text-xl font-bold text-[#1E3A5F]">Fotios Nanos</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#home" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Home</a>
+                <a href="#writeups" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Writeups</a>
+                <a href="#projects" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Projects</a>
+                <a href="#contact" class="text-gray-700 hover:text-[#1E3A5F] transition duration-200">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden bg-white px-6 mobile-menu-transition border-t border-gray-100">
+            <a href="#home" class="block py-3 text-gray-700 border-b border-gray-100">Home</a>
+            <a href="#writeups" class="block py-3 text-gray-700 border-b border-gray-100">Writeups</a>
+            <a href="#projects" class="block py-3 text-gray-700 border-b border-gray-100">Projects</a>
+            <a href="#contact" class="block py-3 text-gray-700">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO -->
+        <section id="home" class="py-16 px-6">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex flex-col md:flex-row gap-10 items-center md:items-start">
+                    <div class="profile-image-fix flex-shrink-0">
+                        <img class="w-40 h-40 rounded-full shadow-md object-cover" src="./Fotios.jpg" alt="Fotios Nanos">
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h1 class="text-3xl font-bold text-gray-900 mb-1">Fotios Nanos</h1>
+                        <p class="text-lg text-[#1E3A5F] font-semibold mb-3">SOC Analyst · Threat Detection & Investigation</p>
+                        <p class="text-gray-600 italic mb-4 max-w-xl mx-auto md:mx-0">"Transferring 15 years of musical discipline into cybersecurity operations."</p>
+
+                        <p class="text-gray-700 max-w-xl mx-auto md:mx-0 mb-5">
+                            SOC Analyst with active experience in alert triage, threat detection, and investigation workflows,
+                            escalating findings into incident response processes. Formally assessed as a Cybersecurity Specialist
+                            by BEST Institut Vienna. Completed the Certified Defensive Security Analyst (CDSA) exam at Hack The Box,
+                            a hands-on forensic and incident-handling assessment, with results pending.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center md:justify-start gap-2 mb-5 text-sm">
+                            <span class="tag-accent px-3 py-1 rounded-full">EU Citizen</span>
+                            <span class="tag-primary px-3 py-1 rounded-full">SOC Level 1 Complete</span>
+                            <span class="tag-neutral px-3 py-1 rounded-full">CDSA Exam Completed</span>
+                        </div>
+
+                        <div class="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-sm text-gray-500 mb-6">
+                            <a href="https://tryhackme.com/p/StygianR00t" target="_blank" class="hover:text-[#1E3A5F] underline">TryHackMe: Top 1% · 46 badges · 315+ rooms</a>
+                            <span>·</span>
+                            <a href="https://profile.hackthebox.com/profile/019ccf42-8b9a-71b2-8e0f-3adf654fd646" target="_blank" class="hover:text-[#1E3A5F] underline">Hack The Box profile</a>
+                        </div>
+
+                        <div class="flex flex-wrap justify-center md:justify-start items-center gap-4">
+                            <a href="#writeups" class="bg-[#1E3A5F] text-white py-2.5 px-6 rounded-lg font-semibold hover:bg-[#16304F] transition duration-300 text-sm">View Technical Writeups</a>
+                            <a href="mailto:fotis.nanos.sec@gmail.com" class="text-gray-500 hover:text-[#1E3A5F]" title="Email">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            </a>
+                            <a href="https://www.linkedin.com/in/fotisnanos" target="_blank" class="text-gray-500 hover:text-[#1E3A5F]" title="LinkedIn">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-5 13h2v-4.6c0-2.2-.9-3.7-3.1-3.7-1.3 0-2.1.8-2.5 1.5h-.1v-1.3H9.4v8.1h2V13c0-1 .4-1.7 1.3-1.7.9 0 1.3.6 1.3 1.7v3h2v-4.6zM8 8a1 1 0 001-1.1A1 1 0 008 6a1 1 0 00-1 1.1 1 1 0 001 1zm-1 9h2v-8h-2v8z"/></svg>
+                            </a>
+                            <a href="https://github.com/fotisnanossec" target="_blank" class="text-gray-500 hover:text-[#1E3A5F]" title="GitHub">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                            </a>
+                        </div>
+
+                        <p class="text-xs text-gray-400 mt-4">Greek native · English fluent · German conversational · <a href="https://fotisnanos.eu" target="_blank" rel="noopener" class="underline hover:text-gray-600">15+ years as a classical guitarist -&gt;</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CERTS & SKILLS -->
+        <section class="py-14 px-6 bg-white border-t border-gray-100">
+            <div class="container mx-auto max-w-5xl grid md:grid-cols-2 gap-10">
+                <div>
+                    <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-4">Certifications & Assessments</h2>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-800 font-medium">SOC Level 1 Path</span>
+                            <span class="text-gray-500">TryHackMe, 100% complete</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-800 font-medium">Cybersecurity Specialist Assessment</span>
+                            <span class="text-gray-500">BEST Institut Vienna</span>
+                        </li>
+                        <li class="border-b border-gray-100 pb-2">
+                            <div class="flex justify-between">
+                                <span class="text-gray-800 font-medium">CDSA (Certified Defensive Security Analyst)</span>
+                                <span class="text-[#1E3A5F] font-medium">Exam completed, result pending</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">7-day practical exam requiring investigation, log and network analysis, and incident handling reasoning across two simulated network compromises, ending with a commercial-grade written incident report. Report contents are confidential under HTB exam-integrity rules.</p>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-800 font-medium">SAL1 Exam Eligible</span>
+                            <span class="text-gray-500">TryHackMe SOC Path</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-800 font-medium">Additional learning paths</span>
+                            <span class="text-gray-500 text-right">Cyber Security 101, Pre Security, PenTest+ Prep</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-4">Technical Skills</h2>
+                    <div class="mb-5">
+                        <div class="text-xs font-semibold text-gray-500 mb-2">Daily operations</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag-primary text-xs px-3 py-1 rounded-full">Microsoft Sentinel</span>
+                            <span class="tag-primary text-xs px-3 py-1 rounded-full">Defender XDR</span>
+                            <span class="tag-primary text-xs px-3 py-1 rounded-full">CrowdStrike Falcon</span>
+                            <span class="tag-primary text-xs px-3 py-1 rounded-full">ArcSight</span>
+                            <span class="tag-primary text-xs px-3 py-1 rounded-full">KQL</span>
+                            <span class="tag-primary text-xs px-3 py-1 rounded-full">Incident Triage & Reporting</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-gray-500 mb-2">Forensics & detection engineering</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag-accent text-xs px-3 py-1 rounded-full">Volatility 3</span>
+                            <span class="tag-accent text-xs px-3 py-1 rounded-full">KAPE</span>
+                            <span class="tag-accent text-xs px-3 py-1 rounded-full">Autopsy</span>
+                            <span class="tag-accent text-xs px-3 py-1 rounded-full">Wireshark / tshark</span>
+                            <span class="tag-accent text-xs px-3 py-1 rounded-full">MITRE ATT&CK</span>
+                            <span class="tag-accent text-xs px-3 py-1 rounded-full">Suricata / Zeek</span>
+                            <span class="tag-accent text-xs px-3 py-1 rounded-full">Python</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WRITEUPS -->
+        <section id="writeups" class="py-16 px-6 bg-gray-50">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-2xl font-bold text-gray-900 mb-1">Technical Writeups</h2>
+                <p class="text-gray-500 text-sm mb-6">Selected investigations across disk, memory, network, and cross-platform forensics.</p>
+
+                <a href="./blog/honeynet-collapse-master-report.html" class="block bg-[#1E3A5F] text-white p-6 rounded-lg mb-8 hover:shadow-lg transition-shadow duration-200">
+                    <div class="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                            <div class="text-xs font-semibold text-blue-200 uppercase tracking-wide mb-1">Full Campaign Reconstruction · Honeynet Collapse, Stages 1-6</div>
+                            <h3 class="text-lg font-bold mb-2">Full Kill Chain: Public Web Application to Domain-Wide Compromise</h3>
+                            <p class="text-sm text-blue-100 max-w-2xl">Consolidated report tying all six Honeynet Collapse investigations into a single campaign: cross-stage credential reuse, an escalating anti-forensics pattern across three hosts, a consolidated MITRE ATT&CK kill chain, and root-cause analysis spanning five compromised systems.</p>
+                        </div>
+                        <span class="tag-accent text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap">Read the full report -&gt;</span>
+                    </div>
+                </a>
+
+                <div class="grid md:grid-cols-2 gap-5">
+                    <a href="./blog/devhub-mcp-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">HTB Season 11 · DevHub</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">Attack & Detection: AI Tooling Exploitation</h3>
+                        <p class="text-sm text-gray-600 mb-3">Full offense-to-defense engagement: MCP/AI-tooling SSRF and RCE, Jupyter credential harvesting, and WebSocket exploitation, paired with detection content written for Sentinel (KQL), Suricata, and Zeek, mapped to MITRE ATT&CK.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">SSRF / RCE</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Detection Engineering</span>
+                            <span class="tag-primary text-xs px-2 py-0.5 rounded">Offense + Defense</span>
+                        </div>
+                    </a>
+
+                    <a href="./blog/macos-forensics-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">Honeynet Collapse · Stage 6</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">macOS Forensics: TCC & Infostealer Persistence</h3>
+                        <p class="text-sm text-gray-600 mb-3">APFS disk image analysis of a compromised macOS workstation: trojanized installer, TCC permission abuse, disguised LaunchAgent persistence, and credential-harvesting exfiltration.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">macOS Forensics</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Persistence Analysis</span>
+                        </div>
+                    </a>
+
+                    <a href="./blog/ransomware-attribution-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">Honeynet Collapse · Stage 5</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">Ransomware: MFT Analysis & OSINT Attribution</h3>
+                        <p class="text-sm text-gray-600 mb-3">Metadata-only forensic image reconstruction of a ransomware incident via $MFT and $UsnJrnl, with threat-group attribution resolved through sandbox-based OSINT rather than IOC pattern matching alone.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Ransomware</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Threat Attribution</span>
+                        </div>
+                    </a>
+
+                    <a href="./blog/disk-forensics-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">Honeynet Collapse · Stage 4</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">Disk Forensics: Anti-Forensics & Data Exfiltration</h3>
+                        <p class="text-sm text-gray-600 mb-3">E01 disk image investigation reconstructing a full exfiltration incident, including attacker log-service tampering and pivoting to registry and PowerShell-history artifacts that survive it.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Disk Forensics</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Anti-Forensics</span>
+                        </div>
+                    </a>
+
+                    <a href="./blog/memory-forensics-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">Honeynet Collapse · Stage 3</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">Memory Forensics: Process Injection Chain</h3>
+                        <p class="text-sm text-gray-600 mb-3">Volatility 3 analysis of a memory dump reconstructing a full attack chain from lateral tool arrival through process injection, shellcode identification, and live network pivoting.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Memory Forensics</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Process Injection</span>
+                        </div>
+                    </a>
+
+                    <a href="./blog/lateral-movement-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">Honeynet Collapse · Stages 1-2</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">Initial Access to Lateral Movement</h3>
+                        <p class="text-sm text-gray-600 mb-3">WordPress webshell delivery through SSH-key theft to root, followed by Windows lateral movement via scheduled-task hijack, LSASS dumping, and Shimcache recovery after log clearing.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Web Exploitation</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Lateral Movement</span>
+                        </div>
+                    </a>
+                </div>
+
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wide mt-10 mb-4">SIEM &amp; SOC Investigations</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                    <a href="./blog/volt-typhoon-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">SIEM Investigation · State Actor</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">Volt Typhoon: Intrusion &amp; Domain Compromise</h3>
+                        <p class="text-sm text-gray-600 mb-3">Six-day living-off-the-land intrusion reconstructed from SIEM telemetry after the attacker cleared all event logs: identity-portal abuse, full domain credential extraction, web-shell persistence, and netsh relay cleanup.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Living off the Land</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Timeline Reconstruction</span>
+                        </div>
+                    </a>
+
+                    <a href="./blog/blacksun-ransomware-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">Splunk / Sysmon · Ransomware</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">BlackSun: PowerShell Kill Chain to Encryption</h3>
+                        <p class="text-sm text-gray-600 mb-3">Full ransomware chain in Splunk from a single obfuscated PowerShell command: Defender disable, tunnel-based dropper delivery, SYSTEM scheduled task, and DNS-based C2 detection.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Ransomware</span>
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">PowerShell Deobfuscation</span>
+                        </div>
+                    </a>
+
+                    <a href="./blog/widget-finance-intrusion-writeup.html" class="block bg-white p-5 rounded-lg border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                        <div class="text-xs font-semibold text-[#1E3A5F] mb-1">Splunk / Sysmon · Endpoint</div>
+                        <h3 class="text-base font-bold text-gray-800 mb-2">Finance Workstation: Credential Theft to Persistence</h3>
+                        <p class="text-sm text-gray-600 mb-3">Sysmon investigation of a finance endpoint: repeated browser-credential harvesting, HTTP C2, targeted Defender signature suppression via WMI, and vendor-masquerading scheduled-task persistence.</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag-accent text-xs px-2 py-0.5 rounded">Endpoint Forensics</span>
+                            <span class="tag-accent text-xs py-0.5 rounded">Defender Tampering</span>
+                        </div>
+                    </a>
+
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="./blog/index.html" class="text-[#1E3A5F] font-semibold text-sm hover:underline">View earlier writeups (Boogeyman series, Wgel CTF) -&gt;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="py-16 px-6 bg-white border-t border-gray-100">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-2xl font-bold text-gray-900 mb-1">Projects</h2>
+                <p class="text-gray-500 text-sm mb-8">Small Python security tools, AI-assisted, built to automate recurring analysis tasks.</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+                        <div>
+                            <div class="font-semibold text-gray-800 text-sm">Domain Analyzer</div>
+                            <div class="text-xs text-gray-500">OSINT reconnaissance + LLM-generated reporting</div>
+                        </div>
+                        <a href="https://github.com/fotisnanossec/domain-analyzer" target="_blank" class="text-[#1E3A5F] text-xs font-semibold hover:underline">GitHub -&gt;</a>
+                    </div>
+                    <div class="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+                        <div>
+                            <div class="font-semibold text-gray-800 text-sm">Vuln-Report-AI</div>
+                            <div class="text-xs text-gray-500">Nmap/Nikto/SQLMap output -&gt; structured reports</div>
+                        </div>
+                        <a href="https://github.com/fotisnanossec/Vuln-Report-AI" target="_blank" class="text-[#1E3A5F] text-xs font-semibold hover:underline">GitHub -&gt;</a>
+                    </div>
+                    <div class="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+                        <div>
+                            <div class="font-semibold text-gray-800 text-sm">PCAP Analysis Projects</div>
+                            <div class="text-xs text-gray-500">Structured network traffic forensics</div>
+                        </div>
+                        <a href="https://github.com/fotisnanossec/pcap-analysis-projects" target="_blank" class="text-[#1E3A5F] text-xs font-semibold hover:underline">GitHub -&gt;</a>
+                    </div>
+                    <div class="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+                        <div>
+                            <div class="font-semibold text-gray-800 text-sm">Brute-Force Detector</div>
+                            <div class="text-xs text-gray-500">Real-time login-attempt monitoring & alerting</div>
+                        </div>
+                        <a href="https://github.com/fotisnanossec/brute-force-detector" target="_blank" class="text-[#1E3A5F] text-xs font-semibold hover:underline">GitHub -&gt;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="py-16 px-6 bg-gray-50 border-t border-gray-100">
+            <div class="container mx-auto max-w-2xl text-center">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Let's Connect</h2>
+                <p class="text-gray-600 mb-8">Feel free to reach out for professional inquiries or technical discussion.</p>
+                <div class="flex justify-center gap-8 text-sm">
+                    <a href="mailto:fotis.nanos.sec@gmail.com" class="text-gray-700 hover:text-[#1E3A5F] font-medium">Email</a>
+                    <a href="https://www.linkedin.com/in/fotisnanos" target="_blank" class="text-gray-700 hover:text-[#1E3A5F] font-medium">LinkedIn</a>
+                    <a href="https://tryhackme.com/p/StygianR00t" target="_blank" class="text-gray-700 hover:text-[#1E3A5F] font-medium">TryHackMe</a>
+                    <a href="https://profile.hackthebox.com/profile/019ccf42-8b9a-71b2-8e0f-3adf654fd646" target="_blank" class="text-gray-700 hover:text-[#1E3A5F] font-medium">HTB</a>
+                    <a href="https://github.com/fotisnanossec" target="_blank" class="text-gray-700 hover:text-[#1E3A5F] font-medium">GitHub</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#1E3A5F] text-gray-300 py-6 text-center text-sm">
+        <div class="container mx-auto px-6">&copy; 2026 Fotios Nanos. All rights reserved.</div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button').onclick = function() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        };
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            });
+        });
+    </script>
+</body>
+</html>
